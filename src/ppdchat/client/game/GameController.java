@@ -67,7 +67,7 @@ public class GameController{
     @FXML
     private Label LABEL_AMBIENTE;
     @FXML
-    private Label LABEL_Y;
+    private Label LABEL_Y; 
     @FXML
     private Label LABEL_X;
     @FXML
