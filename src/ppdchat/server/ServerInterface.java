@@ -5,7 +5,10 @@
  */
 package ppdchat.server;
 import ppdchat.client.ClientInterface;
-
+import java.io.FileInputStream;
+import java.io.ObjectInputStream;
+import java.rmi.*;
+import java.rmi.registry.*;
 import java.rmi.Remote;
 import java.rmi.RemoteException;
 /**
@@ -16,6 +19,7 @@ public interface ServerInterface extends Remote{
     void registerClient(ClientInterface client) throws RemoteException;
     void registerClientName(ClientInterface client, String nomeClient) throws RemoteException;
     void receberAtualizarListaDispositivos(ClientInterface client, String nomeClient) throws RemoteException;
+    void receberArquivo(byte[] mydata, String filename,int length) throws RemoteException;
     /*
     void broadcastTexto(ClientInterface client, String texto) throws RemoteException;
     void broadcastStatus(ClientInterface client, String id, String status) throws RemoteException;

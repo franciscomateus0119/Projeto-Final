@@ -11,6 +11,7 @@ import java.rmi.registry.Registry;
 import ppdchat.client.game.MainGameController;
 import ppdchat.client.game.MenuController;
 import ppdchat.server.ServerInterface;
+import ppdchat.client.ClientFile;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.ArrayList;
@@ -20,12 +21,21 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.application.Platform;
 import javax.naming.NamingException;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.Serializable;
+import java.net.MalformedURLException;
+import java.rmi.NotBoundException;
 
 /**
  *
  * @author Matheus
  */
-public class Client extends UnicastRemoteObject implements ClientInterface{
+public class Client extends UnicastRemoteObject implements ClientInterface, Serializable{
     private ServerInterface server;
     private MainGameController mainController;
     private MenuController menuController;
@@ -40,6 +50,9 @@ public class Client extends UnicastRemoteObject implements ClientInterface{
     private int nameCounter = 0;
     
     Registry serverRegistry;
+    String filename = "teste.txt";
+    String filepath = "C:/Users/Matheus/Desktop/Joguinhos/4chat/teste/" +filename;
+    String storagepath = "C:/Users/Matheus/Desktop/Joguinhos/4chat/ServerStorage/";
     
     public Client(ServerInterface server, String ip, String servername, int port, Registry registro, String nome, float x, float y) throws RemoteException{
         super();
@@ -112,6 +125,16 @@ public class Client extends UnicastRemoteObject implements ClientInterface{
         }
             
         
+    }
+    
+    public void enviarArquivo() throws FileNotFoundException, IOException{
+        File clientpathfile = new File(filepath);
+        byte [] mydata=new byte[(int) clientpathfile.length()];
+        FileInputStream in=new FileInputStream(clientpathfile);	
+        System.out.println("Uploading to server...");
+        in.read(mydata, 0, mydata.length);
+        //Send file to Server
+        server.receberArquivo(mydata,filename,(int) clientpathfile.length());
     }
     
     //<editor-fold defaultstate="collapsed" desc="OldProject">

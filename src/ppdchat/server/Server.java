@@ -13,11 +13,21 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.Serializable;
+import java.net.MalformedURLException;
+import java.rmi.NotBoundException;
+
 /**
  *
  * @author Matheus
  */
-public class Server implements ServerInterface{
+public class Server implements ServerInterface, Serializable{
     private int clientesConectados = 0;
     protected ArrayList<ClientInterface> clients;
     public Map<String, ClientInterface> clientsByName = new HashMap<>();
@@ -58,19 +68,21 @@ public class Server implements ServerInterface{
         try {
             client.receberListaAtualizada(todosOsNomes);
         } catch (Exception e) {e.printStackTrace();}
-        /*
-        ArrayList<String> listaDispositivos = new ArrayList<>();
-        int tamanhoListaNomes = todosOsNomes.size();
-        for (int i =0;i<tamanhoListaNomes;i++){
-            listaDispositivos.add(todosOsNomes.get(i));
-        }
-        
-        try {
-            client.receberListaAtualizada(listaDispositivos);
-        } catch (Exception e) {e.printStackTrace();}
-        */
-        
-        
+
+   
+    }
+    
+    @Override
+    public void receberArquivo(byte[] mydata,String filename, int length) throws RemoteException{
+        try{
+            File serverpathfile = new File("C:/Users/Matheus/Desktop/Joguinhos/4chat/ServerStorage/"+filename);
+            FileOutputStream out = new FileOutputStream(serverpathfile);
+            byte[] data = mydata;
+
+            out.write(data);
+            out.flush();
+            out.close();
+        }catch(Exception e){e.printStackTrace();}
     }
     
     //<editor-fold defaultstate="collapsed" desc="OldProject">

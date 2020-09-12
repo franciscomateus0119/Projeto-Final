@@ -86,6 +86,7 @@ public class GameController{
     @FXML Label LABEL_DISPOSITIVOS_ENCONTRADOS;
     
     @FXML Button BUTTON_MOSTRAR_DISPOSITIVOS;
+    @FXML Button BUTTON_ENVIAR_ARQUIVO;
     @FXML
     private HBox HBOX_DISPOSITIVOS;
     
@@ -136,6 +137,14 @@ public class GameController{
             }
   
         } 
+    }
+    
+    @FXML
+    public void enviarArquivo(MouseEvent event){
+        try{
+            main.getClient().enviarArquivo();
+        }catch(Exception e){e.printStackTrace();}
+        
     }
     
     public void updateInfo(){
