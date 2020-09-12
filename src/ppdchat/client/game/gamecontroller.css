@@ -1,0 +1,18 @@
+/*
+ * Empty Stylesheet file.
+ */
+
+.mainFxmlClass {
+
+}
+   
+.sendButton {
+    /*
+    -fx-graphic: url(images/log2.png);
+    -fx-graphic-size:16px 16px;
+    */
+    -fx-background-image: url(conteudo/SendIcon.png);
+    -fx-background-size: 30px 30px;
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: center;
+}    

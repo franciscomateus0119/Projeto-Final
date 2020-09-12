@@ -1,0 +1,13 @@
+/*
+ * Empty Stylesheet file.
+ */
+
+.mainFxmlClass {
+
+}
+
+.bodybg{
+    -fx-background-image: url("conteudo/NiceWP.jpg");
+    -fx-background-size: 200 280;   
+    
+}

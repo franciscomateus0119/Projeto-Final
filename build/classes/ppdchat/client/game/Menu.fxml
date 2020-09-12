@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.image.*?>
+<?import java.lang.*?>
+<?import java.net.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane id="AnchorPane" prefHeight="280.0" prefWidth="200.0" styleClass="bodybg" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ppdchat.client.game.MenuController">
+    <stylesheets>
+        <URL value="@menucontroller.css" />
+    </stylesheets>
+   <children>
+      <Button fx:id="buttonConnect" layoutX="49.0" layoutY="164.0" mnemonicParsing="false" onAction="#connect" prefHeight="26.0" prefWidth="103.0" />
+      <ImageView fitHeight="100.0" fitWidth="150.0" layoutX="25.0" layoutY="26.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@conteudo/4chat.png" />
+         </image>
+      </ImageView>
+      <TextField fx:id="TF_NOME" alignment="CENTER" layoutX="26.0" layoutY="115.0" promptText="Digite seu Nome" />
+   </children>
+</AnchorPane>

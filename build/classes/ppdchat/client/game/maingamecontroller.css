@@ -1,0 +1,14 @@
+/*
+ * Empty Stylesheet file.
+ */
+
+.mainFxmlClass {
+
+}
+
+.bodybg{
+    -fx-background-image: url("conteudo/GrayBG.png");
+    -fx-background-size: 1920 1200;   
+    
+    
+}

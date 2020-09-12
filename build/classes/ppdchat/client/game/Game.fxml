@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.effect.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.scene.shape.*?>
+<?import javafx.scene.image.*?>
+<?import java.lang.*?>
+<?import java.net.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane id="AnchorPane" prefHeight="413.0" prefWidth="414.0" styleClass="mainFxmlClass" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ppdchat.client.game.GameController">
+    <stylesheets>
+        <URL value="@gamecontroller.css" />
+    </stylesheets>
+   <children>
+      <Label fx:id="LABEL_NOME" layoutX="23.0" layoutY="14.0" prefHeight="17.0" prefWidth="153.0" text="--------------------" />
+      <Label fx:id="LABEL_AMBIENTE" layoutX="23.0" layoutY="42.0" prefHeight="17.0" prefWidth="153.0" text="--------------------" />
+      <Label fx:id="LABEL_X" layoutX="23.0" layoutY="68.0" prefHeight="17.0" prefWidth="153.0" text="--------------------" />
+      <Label fx:id="LABEL_Y" layoutX="23.0" layoutY="96.0" prefHeight="17.0" prefWidth="153.0" text="--------------------" />
+      <HBox fx:id="HBOX_DISPOSITIVOS" layoutX="14.0" layoutY="141.0" prefHeight="223.0" prefWidth="200.0" />
+   </children>
+</AnchorPane>
