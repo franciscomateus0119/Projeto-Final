@@ -90,6 +90,16 @@ public class MenuController {
             System.out.println("Server Registry: "+registry);
             valorX = Float.parseFloat(TF_X.getText());
             valorY = Float.parseFloat(TF_Y.getText());
+            if(TF_FOLDER.getText()==null || TF_FOLDER.getText().equals("")){
+                if(TF_NOME.getText()!=null && !TF_NOME.getText().equals("")){
+                    File storageDir = new File("C:/" + TF_NOME.getText()+"Storage");
+                    if (!storageDir.isDirectory()) {
+                        storageDir.mkdir();
+                        System.out.println("Storage Folder: " + "C:/" + TF_NOME.getText()+"Storage/");
+                    }
+                    TF_FOLDER.setText("C:/" + TF_NOME.getText()+"Storage/");
+                }
+            }
             client = new Client(server,TF_IP_SERVER.getText(),TF_NAME_SERVER.getText(),Integer.parseInt(TF_PORT_SERVER.getText()),
                     registry,TF_NOME.getText(), valorX, valorY,TF_FOLDER.getText());
             client.setMenuController(this);

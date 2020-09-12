@@ -17,6 +17,7 @@ import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.application.Platform;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -84,6 +85,7 @@ public class GameController{
     private Label LABEL_X;
     @FXML
     private Label LABEL_NOME;
+    @FXML Label LABEL_DISPOSITIVO_SELECIONADO;
     
     @FXML Label LABEL_DISPOSITIVOS_ENCONTRADOS;
     @FXML Button BUTTON_SELECIONAR_ARQUIVO;
@@ -91,6 +93,8 @@ public class GameController{
     @FXML Button BUTTON_ENVIAR_ARQUIVO;
     
     @FXML TextField TF_SELECIONAR_ARQUIVO;
+    
+    @FXML TextField TF_NOME_DISPOSITIVO;
     
     @FXML
     private HBox HBOX_DISPOSITIVOS;
@@ -109,7 +113,7 @@ public class GameController{
         listviewDispositivos.toFront();
         HBOX_DISPOSITIVOS.getChildren().addAll(listviewDispositivos);
         dispositivos = FXCollections.observableArrayList();
-        
+        listViewDispositivosListener();
         //aceitarEnter();
         stage = PPDChat.getStage();   
 
@@ -154,17 +158,33 @@ public class GameController{
     }
     @FXML
     public void enviarArquivo(MouseEvent event){
-        if(TF_SELECIONAR_ARQUIVO.getText()!=null && !TF_SELECIONAR_ARQUIVO.getText().equals("")){
-            File fileDir = new File(TF_SELECIONAR_ARQUIVO.getText());
-            if(fileDir.isFile()){
-                try{
-                    main.getClient().enviarArquivo(TF_SELECIONAR_ARQUIVO.getText(), fileDir.getName());
-                }catch(Exception e){e.printStackTrace();}
-                TF_SELECIONAR_ARQUIVO.clear();
-                TF_SELECIONAR_ARQUIVO.setPromptText("Diretório do Arquivo");
+        //Se um dispositivo tiver sido selecionado
+        if(TF_NOME_DISPOSITIVO.getText()!=null && !TF_NOME_DISPOSITIVO.getText().equals("")){
+            //Se um arquivo tiver sido selecionado
+            if(TF_SELECIONAR_ARQUIVO.getText()!=null && !TF_SELECIONAR_ARQUIVO.getText().equals("") ){
+                File fileDir = new File(TF_SELECIONAR_ARQUIVO.getText());
+                if(fileDir.isFile()){
+                    try{
+                        main.getClient().enviarArquivo(TF_SELECIONAR_ARQUIVO.getText(), fileDir.getName(), TF_NOME_DISPOSITIVO.getText());
+                    }catch(Exception e){e.printStackTrace();}
+                    TF_SELECIONAR_ARQUIVO.clear();
+                    TF_SELECIONAR_ARQUIVO.setPromptText("Diretório do Arquivo");
+                    TF_NOME_DISPOSITIVO.clear();
+                    TF_NOME_DISPOSITIVO.setPromptText("Selecione um Dispositivo");
+                }
+
             }
-            
+            else{
+                TF_SELECIONAR_ARQUIVO.clear();
+                TF_SELECIONAR_ARQUIVO.setPromptText("SELECIONE UM ARQUIVO!");
+            }
         }
+        //Se um dispositivo não tiver sido selecionado
+        else{
+            TF_NOME_DISPOSITIVO.clear();
+            TF_NOME_DISPOSITIVO.setPromptText("SELECIONE UM DISPOSITIVO");
+        }
+        
     }
     
     public void updateInfo(){
@@ -210,6 +230,16 @@ public class GameController{
         });     
     }
 */
+    
+    public void listViewDispositivosListener() {
+        listviewDispositivos.getSelectionModel().selectedItemProperty().addListener((ObservableValue<? extends String> ov, String old_val, String new_val) -> {
+            String selectedItem = listviewDispositivos.getSelectionModel().getSelectedItem();
+            int index = listviewDispositivos.getSelectionModel().getSelectedIndex();    
+            LABEL_DISPOSITIVO_SELECIONADO.setText("Dispositivo Selecionado: " + selectedItem + " - Index : " + index);
+            TF_NOME_DISPOSITIVO.setText(selectedItem);
+            System.out.println("Dispositivo selecionado: " + selectedItem);
+        });
+    }
 
     public String getMeuNome() {
         return meuNome;

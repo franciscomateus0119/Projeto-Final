@@ -74,7 +74,8 @@ public class Server implements ServerInterface, Serializable{
     }
     
     @Override
-    public void receberArquivo(byte[] mydata, String filename, int length) throws RemoteException{
+    public void receberArquivo(byte[] mydata, String filename, int length, String dispositivoAlvo) throws RemoteException{
+        /*
         try{
             File serverpathfile = new File(storagepath+filename);
             FileOutputStream out = new FileOutputStream(serverpathfile);
@@ -84,6 +85,14 @@ public class Server implements ServerInterface, Serializable{
             out.flush();
             out.close();
         }catch(Exception e){e.printStackTrace();}
+        */
+        enviarArquivo(mydata, filename, length, dispositivoAlvo);
+    }
+    
+    @Override
+    public void enviarArquivo(byte[] mydata, String filename,int length,String dispositivoAlvo) throws RemoteException{
+        ClientInterface client = clientsByName.get(dispositivoAlvo);
+        client.receberArquivo(mydata, filename, length);
     }
     
     //<editor-fold defaultstate="collapsed" desc="OldProject">

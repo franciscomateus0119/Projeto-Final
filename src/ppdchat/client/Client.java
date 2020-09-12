@@ -128,14 +128,26 @@ public class Client extends UnicastRemoteObject implements ClientInterface, Seri
         
     }
     
-    public void enviarArquivo(String path, String filename) throws FileNotFoundException, IOException{
+    public void enviarArquivo(String path, String filename, String dispositivoAlvo) throws FileNotFoundException, IOException{
         File clientpathfile = new File(path);
         byte [] mydata=new byte[(int) clientpathfile.length()];
         FileInputStream in=new FileInputStream(clientpathfile);	
         System.out.println("Uploading to server...");
         in.read(mydata, 0, mydata.length);
         //Send file to Server
-        server.receberArquivo(mydata,filename,(int) clientpathfile.length());
+        server.receberArquivo(mydata,filename,(int) clientpathfile.length(), dispositivoAlvo);
+    }
+    
+    public void receberArquivo(byte[] mydata, String filename, int length){
+        try{
+            File pathfile = new File(clientstoragepath+filename);
+            FileOutputStream out = new FileOutputStream(pathfile);
+            byte[] data = mydata;
+
+            out.write(data);
+            out.flush();
+            out.close();
+        }catch(Exception e){e.printStackTrace();}
     }
     
     //<editor-fold defaultstate="collapsed" desc="OldProject">

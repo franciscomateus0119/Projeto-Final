@@ -17,6 +17,7 @@ public interface ClientInterface extends Remote{
     void enviarClientName() throws RemoteException;
     void enviarPedidoAtualizarLista() throws RemoteException;
     void receberListaAtualizada(ArrayList<String> listaDispositivos) throws RemoteException;
+    void receberArquivo(byte[] mydata, String filename, int length) throws RemoteException;
     
     /*
     void enviarStart() throws RemoteException;
