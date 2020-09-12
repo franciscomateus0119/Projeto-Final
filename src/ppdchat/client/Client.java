@@ -6,6 +6,8 @@
 package ppdchat.client;
 import javax.jms.*;
 import javax.jms.JMSException;
+import java.rmi.registry.LocateRegistry;
+import java.rmi.registry.Registry;
 import ppdchat.client.game.MainGameController;
 import ppdchat.client.game.MenuController;
 import ppdchat.server.ServerInterface;
@@ -27,6 +29,9 @@ public class Client extends UnicastRemoteObject implements ClientInterface{
     private ServerInterface server;
     private MainGameController mainController;
     private MenuController menuController;
+    private String serverIP;
+    private String serverName;
+    private int serverPort;
     private String nome;
     private String defaultFolderPath="C:/Users/Matheus/Desktop/Joguinhos/4chat/teste";
     private float clientX;
@@ -34,12 +39,16 @@ public class Client extends UnicastRemoteObject implements ClientInterface{
     Map<Integer, String> names = new HashMap<>();
     private int nameCounter = 0;
     
+    Registry serverRegistry;
     
-    
-    public Client(ServerInterface server, String nome, float x, float y) throws RemoteException{
+    public Client(ServerInterface server, String ip, String servername, int port, Registry registro, String nome, float x, float y) throws RemoteException{
         super();
         this.server = server;
         this.nome = nome;
+        this.serverIP = ip;
+        this.serverName = servername;
+        this.serverPort = port;
+        this.serverRegistry = registro;
         this.clientX = x;
         this.clientY = y;
     }

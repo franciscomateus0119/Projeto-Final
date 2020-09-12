@@ -52,6 +52,9 @@ public class MenuController {
     @FXML TextField TF_NOME;
     @FXML TextField TF_X;
     @FXML TextField TF_Y;
+    @FXML TextField TF_NAME_SERVER;
+    @FXML TextField TF_IP_SERVER;
+    @FXML TextField TF_PORT_SERVER;
     
     @FXML
     private Button buttonConnect;
@@ -66,12 +69,15 @@ public class MenuController {
     @FXML
     public void connect(ActionEvent event){
         try{
-            Registry registry = LocateRegistry.getRegistry();
-            ServerInterface server = (ServerInterface) registry.lookup("RMIServer");
+            
+            Registry registry = LocateRegistry.getRegistry(TF_IP_SERVER.getText(), Integer.parseInt(TF_PORT_SERVER.getText()));
+            ServerInterface server = (ServerInterface) registry.lookup(TF_NAME_SERVER.getText());
             System.out.println("Server: " + server);
+            System.out.println("Server Registry: "+registry);
             valorX = Float.parseFloat(TF_X.getText());
             valorY = Float.parseFloat(TF_Y.getText());
-            client = new Client(server,TF_NOME.getText(), valorX, valorY);
+            client = new Client(server,TF_IP_SERVER.getText(),TF_NAME_SERVER.getText(),Integer.parseInt(TF_PORT_SERVER.getText()),
+                    registry,TF_NOME.getText(), valorX, valorY);
             client.setMenuController(this);
             server.registerClient(client);
         }
