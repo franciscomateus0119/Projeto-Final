@@ -28,30 +28,50 @@ public class Client extends UnicastRemoteObject implements ClientInterface{
     private MainGameController mainController;
     private MenuController menuController;
     private String nome;
+    private float clientX;
+    private float clientY;
     Map<Integer, String> names = new HashMap<>();
     private int nameCounter = 0;
     
     
     
-    public Client(ServerInterface server, String nome) throws RemoteException{
+    public Client(ServerInterface server, String nome, float x, float y) throws RemoteException{
         super();
         this.server = server;
-        this.nome = nome;        
+        this.nome = nome;
+        this.clientX = x;
+        this.clientY = y;
     }
 
     public void setMenuController(MenuController menucontroller){
         menuController = menucontroller;
+        Platform.runLater(() -> this.menuController.gameStartReady());
+        
     }
 
     public void setGameController(MainGameController mainController) throws RemoteException {
         this.mainController = mainController;
-        enviarStart();
+        setInfo();
+        
     }
 
     public String getNome() {
         return nome;
     }
     
+    public void setInfo(){
+        Platform.runLater(() -> {
+            mainController.getGameController().setMeuNome(nome);
+            mainController.getGameController().setMeuX(clientX);
+            mainController.getGameController().setMeuY(clientY);
+            mainController.getGameController().setAmbienteAtual("None");
+            mainController.getGameController().updateInfo();
+        });
+    }
+
+    
+    //<editor-fold defaultstate="collapsed" desc="OldProject">
+    /*
     @Override
     public void enviarStart() throws RemoteException{
         server.receberStart();
@@ -76,7 +96,7 @@ public class Client extends UnicastRemoteObject implements ClientInterface{
         //Platform.runLater(() -> (mainController.getChatToolbarController().mostrarTexto(texto)));
     }
     
-
+    
     
     @Override
     public void enviarStatus(String id, String status) throws RemoteException{
@@ -88,7 +108,7 @@ public class Client extends UnicastRemoteObject implements ClientInterface{
         //Platform.runLater(() -> mainController.getGameController().statusPessoa(id, status));
     }
     
-
+    
     @Override
     public void receberChat(String chatmsg){
         //Platform.runLater(() -> mainController.getChatToolbarController().selectChatBox(chatmsg));
@@ -112,20 +132,20 @@ public class Client extends UnicastRemoteObject implements ClientInterface{
                     e.printStackTrace();
                 }
             });
-
+            
         }
         //Setando os próximos 3 contatos
         else if(names.size()!= 4){
             this.names.put(names.size(), nick);
             Platform.runLater(() -> {
                 try {
-
+                    
                     //mainController.getChatToolbarController().setContato(nick);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
             });
-                
+            
         }
         
     }
@@ -144,7 +164,7 @@ public class Client extends UnicastRemoteObject implements ClientInterface{
             Platform.runLater(() -> {
                 //mainController.getGameController().setPessoa("B");
             });
-
+            
             System.out.println("(B)Meu nome é: " + this.nome);
             enviarNick(this.nome);
         } else if (tipo.matches("C")) {
@@ -152,17 +172,18 @@ public class Client extends UnicastRemoteObject implements ClientInterface{
             Platform.runLater(() -> {
                 //mainController.getGameController().setPessoa("C");
             });
-
+            
             enviarNick(this.nome);
         } else if (tipo.matches("D")) {
             System.out.println("(D)Meu nome é: " + this.nome);
             Platform.runLater(() -> {
                 //mainController.getGameController().setPessoa("D");
             });
-
+            
             enviarNick(this.nome);
         }
         
     }
-    
+    */
+//</editor-fold>
 }

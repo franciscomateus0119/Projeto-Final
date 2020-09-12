@@ -82,6 +82,15 @@ public class GameController{
         stage = PPDChat.getStage();   
 
     }
+    
+    public void updateInfo(){
+        Platform.runLater(() -> {
+            LABEL_NOME.setText(meuNome);
+            LABEL_AMBIENTE.setText(ambienteAtual);
+            LABEL_X.setText(Float.toString(meuX));
+            LABEL_Y.setText(Float.toString(meuY));
+        });
+    }
 
     /*
     public void aceitarEnter() {

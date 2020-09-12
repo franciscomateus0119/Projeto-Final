@@ -13,6 +13,8 @@ import java.rmi.RemoteException;
  * @author Matheus
  */
 public interface ClientInterface extends Remote{
+    
+    /*
     void enviarStart() throws RemoteException;
     void receberStart() throws RemoteException;
     void enviarTexto(String texto) throws RemoteException;
@@ -23,4 +25,5 @@ public interface ClientInterface extends Remote{
     void enviarNick(String nick) throws RemoteException;
     void receberNick(String nick) throws RemoteException;
     void receberConfig(String tipo) throws RemoteException;
+    */
 }

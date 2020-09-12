@@ -13,12 +13,14 @@
         <URL value="@menucontroller.css" />
     </stylesheets>
    <children>
-      <Button fx:id="buttonConnect" layoutX="49.0" layoutY="164.0" mnemonicParsing="false" onAction="#connect" prefHeight="26.0" prefWidth="103.0" />
+      <Button fx:id="buttonConnect" layoutX="49.0" layoutY="240.0" mnemonicParsing="false" onAction="#connect" prefHeight="26.0" prefWidth="103.0" />
       <ImageView fitHeight="100.0" fitWidth="150.0" layoutX="25.0" layoutY="26.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@conteudo/4chat.png" />
          </image>
       </ImageView>
       <TextField fx:id="TF_NOME" alignment="CENTER" layoutX="26.0" layoutY="115.0" promptText="Digite seu Nome" />
+      <TextField fx:id="TF_X" alignment="CENTER" layoutX="26.0" layoutY="146.0" promptText="Digite sua localização X" />
+      <TextField fx:id="TF_Y" alignment="CENTER" layoutX="26.0" layoutY="178.0" promptText="Digite sua localização Y" />
    </children>
 </AnchorPane>

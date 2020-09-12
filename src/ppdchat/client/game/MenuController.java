@@ -47,10 +47,11 @@ public class MenuController {
     BackgroundImage startimg = new BackgroundImage( new Image( getClass().getResource("conteudo/start.png").toExternalForm()), BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, BackgroundSize.DEFAULT);
     Background startbg = new Background(startimg);
     String nome;
-    
+    float valorX;
+    float valorY;
     @FXML TextField TF_NOME;
-    
-    
+    @FXML TextField TF_X;
+    @FXML TextField TF_Y;
     
     @FXML
     private Button buttonConnect;
@@ -67,7 +68,10 @@ public class MenuController {
         try{
             Registry registry = LocateRegistry.getRegistry();
             ServerInterface server = (ServerInterface) registry.lookup("RMIServer");
-            client = new Client(server,TF_NOME.getText());
+            
+            valorX = Float.parseFloat(TF_X.getText());
+            valorY = Float.parseFloat(TF_Y.getText());
+            client = new Client(server,TF_NOME.getText(), valorX, valorY);
             client.setMenuController(this);
             server.registerClient(client);
         }
