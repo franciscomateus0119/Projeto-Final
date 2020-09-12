@@ -50,11 +50,11 @@ public class Client extends UnicastRemoteObject implements ClientInterface, Seri
     private int nameCounter = 0;
     
     Registry serverRegistry;
-    String filename = "teste.txt";
-    String filepath = "C:/Users/Matheus/Desktop/Joguinhos/4chat/teste/" +filename;
-    String storagepath = "C:/Users/Matheus/Desktop/Joguinhos/4chat/ServerStorage/";
+    //String filename = "1.png";
+    //String filepath = "C:/Users/Matheus/Desktop/Joguinhos/4chat/teste/" +filename;
+    String clientstoragepath;
     
-    public Client(ServerInterface server, String ip, String servername, int port, Registry registro, String nome, float x, float y) throws RemoteException{
+    public Client(ServerInterface server, String ip, String servername, int port, Registry registro, String nome, float x, float y, String storagepath) throws RemoteException{
         super();
         this.server = server;
         this.nome = nome;
@@ -64,6 +64,7 @@ public class Client extends UnicastRemoteObject implements ClientInterface, Seri
         this.serverRegistry = registro;
         this.clientX = x;
         this.clientY = y;
+        this.clientstoragepath = storagepath;
     }
 
     public void setMenuController(MenuController menucontroller){
@@ -127,8 +128,8 @@ public class Client extends UnicastRemoteObject implements ClientInterface, Seri
         
     }
     
-    public void enviarArquivo() throws FileNotFoundException, IOException{
-        File clientpathfile = new File(filepath);
+    public void enviarArquivo(String path, String filename) throws FileNotFoundException, IOException{
+        File clientpathfile = new File(path);
         byte [] mydata=new byte[(int) clientpathfile.length()];
         FileInputStream in=new FileInputStream(clientpathfile);	
         System.out.println("Uploading to server...");

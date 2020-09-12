@@ -5,6 +5,7 @@
  */
 package ppdchat.client.game;
 
+import java.io.File;
 import ppdchat.server.ServerInterface;
 import ppdchat.client.Client;
 import ppdchat.PPDChat;
@@ -33,7 +34,7 @@ import javafx.scene.layout.BackgroundPosition;
 import javafx.scene.layout.BackgroundRepeat;
 import javafx.scene.layout.BackgroundSize;
 import javafx.stage.Stage;
-
+import javafx.stage.DirectoryChooser;
 
 
 /**
@@ -49,12 +50,16 @@ public class MenuController {
     String nome;
     float valorX;
     float valorY;
+    
+    
     @FXML TextField TF_NOME;
     @FXML TextField TF_X;
     @FXML TextField TF_Y;
     @FXML TextField TF_NAME_SERVER;
     @FXML TextField TF_IP_SERVER;
     @FXML TextField TF_PORT_SERVER;
+    @FXML TextField TF_FOLDER;
+    @FXML Button BUTTON_FOLDER;
     
     @FXML
     private Button buttonConnect;
@@ -67,6 +72,15 @@ public class MenuController {
     }
 
     @FXML
+    public void escolherPasta(MouseEvent event){
+        DirectoryChooser directoryChooser = new DirectoryChooser();
+        File selectedDirectory = directoryChooser.showDialog(null);
+        if(selectedDirectory != null){
+            TF_FOLDER.setText(selectedDirectory.getAbsolutePath());
+        }
+    }
+    
+    @FXML
     public void connect(ActionEvent event){
         try{
             
@@ -77,7 +91,7 @@ public class MenuController {
             valorX = Float.parseFloat(TF_X.getText());
             valorY = Float.parseFloat(TF_Y.getText());
             client = new Client(server,TF_IP_SERVER.getText(),TF_NAME_SERVER.getText(),Integer.parseInt(TF_PORT_SERVER.getText()),
-                    registry,TF_NOME.getText(), valorX, valorY);
+                    registry,TF_NOME.getText(), valorX, valorY,TF_FOLDER.getText());
             client.setMenuController(this);
             server.registerClient(client);
         }

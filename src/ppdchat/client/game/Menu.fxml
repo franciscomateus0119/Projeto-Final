@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.text.*?>
 <?import javafx.scene.image.*?>
 <?import java.lang.*?>
 <?import java.net.*?>
@@ -8,13 +9,13 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane id="AnchorPane" prefHeight="415.0" prefWidth="200.0" styleClass="bodybg" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ppdchat.client.game.MenuController">
+<AnchorPane id="AnchorPane" prefHeight="340.0" prefWidth="393.0" styleClass="bodybg" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ppdchat.client.game.MenuController">
     <stylesheets>
         <URL value="@menucontroller.css" />
     </stylesheets>
    <children>
-      <Button fx:id="buttonConnect" layoutX="49.0" layoutY="375.0" mnemonicParsing="false" onAction="#connect" prefHeight="26.0" prefWidth="103.0" />
-      <ImageView fitHeight="100.0" fitWidth="150.0" layoutX="25.0" layoutY="26.0" pickOnBounds="true" preserveRatio="true">
+      <Button fx:id="buttonConnect" layoutX="145.0" layoutY="302.0" mnemonicParsing="false" onAction="#connect" prefHeight="26.0" prefWidth="103.0" />
+      <ImageView fitHeight="100.0" fitWidth="150.0" layoutX="122.0" layoutY="24.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@conteudo/4chat.png" />
          </image>
@@ -22,8 +23,18 @@
       <TextField fx:id="TF_NOME" alignment="CENTER" layoutX="26.0" layoutY="96.0" promptText="Digite seu Nome" />
       <TextField fx:id="TF_X" alignment="CENTER" layoutX="26.0" layoutY="127.0" promptText="Digite sua localização X" />
       <TextField fx:id="TF_Y" alignment="CENTER" layoutX="26.0" layoutY="159.0" promptText="Digite sua localização Y" />
-      <TextField fx:id="TF_IP_SERVER" alignment="CENTER" layoutX="26.0" layoutY="223.0" promptText="Digite o IP do Servidor" text="localhost" />
-      <TextField fx:id="TF_NAME_SERVER" alignment="CENTER" layoutX="26.0" layoutY="295.0" promptText="Digite o Nome do Servidor" text="RMIServer" />
-      <TextField fx:id="TF_PORT_SERVER" alignment="CENTER" layoutX="26.0" layoutY="256.0" promptText="Digite a porta do IP Destino" text="1099" />
+      <TextField fx:id="TF_IP_SERVER" alignment="CENTER" layoutX="216.0" layoutY="96.0" promptText="Digite o IP do Servidor" text="localhost" />
+      <TextField fx:id="TF_NAME_SERVER" alignment="CENTER" layoutX="216.0" layoutY="159.0" promptText="Digite o Nome do Servidor" text="RMIServer" />
+      <TextField fx:id="TF_PORT_SERVER" alignment="CENTER" layoutX="216.0" layoutY="127.0" promptText="Digite a porta do IP Destino" text="1099" />
+      <TextField fx:id="TF_FOLDER" alignment="CENTER" layoutX="175.0" layoutY="233.0" prefHeight="25.0" prefWidth="209.0" promptText="Diretorio onde os arquivos serão salvos">
+         <font>
+            <Font size="11.0" />
+         </font>
+      </TextField>
+      <Button fx:id="BUTTON_FOLDER" layoutX="28.0" layoutY="233.0" mnemonicParsing="false" onMouseClicked="#escolherPasta" prefHeight="25.0" prefWidth="136.0" text="Pasta para Salvar Arquivos">
+         <font>
+            <Font size="10.0" />
+         </font>
+      </Button>
    </children>
 </AnchorPane>

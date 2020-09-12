@@ -15,7 +15,7 @@ import ppdchat.server.Server;
 import ppdchat.server.ServerInterface;
 import javafx.application.Application;
 import javafx.stage.Stage;
-
+import java.io.File;
 /**
  *
  * @author Matheus
@@ -25,12 +25,18 @@ public class InitServer extends Application{
     public void start(Stage primaryStage) throws Exception {}
     public static void main(String args[]){
         System.out.println("Starting...");
+        File storageDir = new File("C:/ServerStorage");
+        if(!storageDir.isDirectory()){
+            storageDir.mkdir();
+        }
         try{
             ServerInterface server = new Server();
             ServerInterface serverinterface = (ServerInterface) UnicastRemoteObject.exportObject((ServerInterface) server, 0);
             Registry registry = LocateRegistry.createRegistry(1099);
             registry.bind("RMIServer", serverinterface);
             System.out.println("Server Started Sucessfully!");
+            
+            
         }
         catch(RemoteException e){
             System.out.println("Failed Server Initialization!");

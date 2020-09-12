@@ -34,6 +34,7 @@ public class Server implements ServerInterface, Serializable{
     public Map<ClientInterface, String> namesByClient = new HashMap<>();
     public ArrayList<String> todosOsNomes = new ArrayList<>();
     public Map<Integer, String> names = new HashMap<>();
+    String storagepath = "C:/ServerStorage/";
     
     public Server() throws RemoteException{
         super();
@@ -73,9 +74,9 @@ public class Server implements ServerInterface, Serializable{
     }
     
     @Override
-    public void receberArquivo(byte[] mydata,String filename, int length) throws RemoteException{
+    public void receberArquivo(byte[] mydata, String filename, int length) throws RemoteException{
         try{
-            File serverpathfile = new File("C:/Users/Matheus/Desktop/Joguinhos/4chat/ServerStorage/"+filename);
+            File serverpathfile = new File(storagepath+filename);
             FileOutputStream out = new FileOutputStream(serverpathfile);
             byte[] data = mydata;
 

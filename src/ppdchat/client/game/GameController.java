@@ -5,6 +5,7 @@
  */
 package ppdchat.client.game;
 
+import java.io.File;
 import ppdchat.PPDChat;
 import java.net.URL;
 import java.rmi.RemoteException;
@@ -41,6 +42,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javax.jms.JMSException;
 import javax.jms.TextMessage;
@@ -84,9 +86,12 @@ public class GameController{
     private Label LABEL_NOME;
     
     @FXML Label LABEL_DISPOSITIVOS_ENCONTRADOS;
-    
+    @FXML Button BUTTON_SELECIONAR_ARQUIVO;
     @FXML Button BUTTON_MOSTRAR_DISPOSITIVOS;
     @FXML Button BUTTON_ENVIAR_ARQUIVO;
+    
+    @FXML TextField TF_SELECIONAR_ARQUIVO;
+    
     @FXML
     private HBox HBOX_DISPOSITIVOS;
     
@@ -140,11 +145,26 @@ public class GameController{
     }
     
     @FXML
+    public void selecionarArquivo(MouseEvent event){
+        FileChooser fc = new FileChooser();
+        File selectedFile = fc.showOpenDialog(null);
+        if(selectedFile!=null){
+            TF_SELECIONAR_ARQUIVO.setText(selectedFile.getAbsolutePath());
+        }
+    }
+    @FXML
     public void enviarArquivo(MouseEvent event){
-        try{
-            main.getClient().enviarArquivo();
-        }catch(Exception e){e.printStackTrace();}
-        
+        if(TF_SELECIONAR_ARQUIVO.getText()!=null && !TF_SELECIONAR_ARQUIVO.getText().equals("")){
+            File fileDir = new File(TF_SELECIONAR_ARQUIVO.getText());
+            if(fileDir.isFile()){
+                try{
+                    main.getClient().enviarArquivo(TF_SELECIONAR_ARQUIVO.getText(), fileDir.getName());
+                }catch(Exception e){e.printStackTrace();}
+                TF_SELECIONAR_ARQUIVO.clear();
+                TF_SELECIONAR_ARQUIVO.setPromptText("Diretório do Arquivo");
+            }
+            
+        }
     }
     
     public void updateInfo(){
