@@ -75,17 +75,7 @@ public class Server implements ServerInterface, Serializable{
     
     @Override
     public void receberArquivo(byte[] mydata, String filename, int length, String dispositivoAlvo) throws RemoteException{
-        /*
-        try{
-            File serverpathfile = new File(storagepath+filename);
-            FileOutputStream out = new FileOutputStream(serverpathfile);
-            byte[] data = mydata;
 
-            out.write(data);
-            out.flush();
-            out.close();
-        }catch(Exception e){e.printStackTrace();}
-        */
         enviarArquivo(mydata, filename, length, dispositivoAlvo);
     }
     
