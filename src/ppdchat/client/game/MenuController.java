@@ -68,7 +68,7 @@ public class MenuController {
         try{
             Registry registry = LocateRegistry.getRegistry();
             ServerInterface server = (ServerInterface) registry.lookup("RMIServer");
-            
+            System.out.println("Server: " + server);
             valorX = Float.parseFloat(TF_X.getText());
             valorY = Float.parseFloat(TF_Y.getText());
             client = new Client(server,TF_NOME.getText(), valorX, valorY);

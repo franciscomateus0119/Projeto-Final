@@ -21,6 +21,8 @@ public class Server implements ServerInterface{
     private int clientesConectados = 0;
     protected ArrayList<ClientInterface> clients;
     public Map<String, ClientInterface> clientsByName = new HashMap<>();
+    public Map<ClientInterface, String> namesByClient = new HashMap<>();
+    public ArrayList<String> todosOsNomes = new ArrayList<>();
     public Map<Integer, String> names = new HashMap<>();
     
     public Server() throws RemoteException{
@@ -43,6 +45,32 @@ public class Server implements ServerInterface{
     @Override
     public void registerClientName(ClientInterface client, String nome){
         clientsByName.put(nome, client);
+        namesByClient.put(client, nome);
+        todosOsNomes.add(nome);
+        System.out.println("Cliente " + client + " de nome "+nome+" adicionado ao HashMap clientsByName");
+        System.out.println("ClientsByName size: " + clientsByName.size());
+        System.out.println("TodosOsNomes size: " + todosOsNomes.size());
+    }
+    
+    @Override
+    public void receberAtualizarListaDispositivos(ClientInterface client, String nome){
+        System.out.println("Pedido de atualização de lista de dispostivos recebido por " + nome);
+        try {
+            client.receberListaAtualizada(todosOsNomes);
+        } catch (Exception e) {e.printStackTrace();}
+        /*
+        ArrayList<String> listaDispositivos = new ArrayList<>();
+        int tamanhoListaNomes = todosOsNomes.size();
+        for (int i =0;i<tamanhoListaNomes;i++){
+            listaDispositivos.add(todosOsNomes.get(i));
+        }
+        
+        try {
+            client.receberListaAtualizada(listaDispositivos);
+        } catch (Exception e) {e.printStackTrace();}
+        */
+        
+        
     }
     
     //<editor-fold defaultstate="collapsed" desc="OldProject">

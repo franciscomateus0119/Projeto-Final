@@ -7,12 +7,16 @@ package ppdchat.client;
 
 import java.rmi.Remote;
 import java.rmi.RemoteException;
+import java.util.ArrayList;
 
 /**
  *
  * @author Matheus
  */
 public interface ClientInterface extends Remote{
+    void enviarClientName() throws RemoteException;
+    void enviarPedidoAtualizarLista() throws RemoteException;
+    void receberListaAtualizada(ArrayList<String> listaDispositivos) throws RemoteException;
     
     /*
     void enviarStart() throws RemoteException;

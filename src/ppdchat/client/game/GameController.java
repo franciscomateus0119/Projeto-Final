@@ -16,6 +16,8 @@ import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.application.Platform;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -23,6 +25,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.Group;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -62,7 +65,14 @@ public class GameController{
     float meuY;
     
     String lastSelected;
+    
+    ArrayList<String> nomesDosDispositivos = new ArrayList<>();
+    
     Map<String, String> contatos = new HashMap<>();
+    
+    ListView<String> listviewDispositivos;
+    
+    ObservableList<String> dispositivos;
     
     @FXML
     private Label LABEL_AMBIENTE;
@@ -72,15 +82,60 @@ public class GameController{
     private Label LABEL_X;
     @FXML
     private Label LABEL_NOME;
+    
+    @FXML Label LABEL_DISPOSITIVOS_ENCONTRADOS;
+    
+    @FXML Button BUTTON_MOSTRAR_DISPOSITIVOS;
     @FXML
     private HBox HBOX_DISPOSITIVOS;
+    
 
     
     public void init(MainGameController mainGameController){
-        main = mainGameController;    
+        main = mainGameController;
+        
+        listviewDispositivos = new ListView<>();
+        listviewDispositivos.setPrefWidth(200);
+        listviewDispositivos.setPrefHeight(200);
+        listviewDispositivos.setLayoutX(376);
+        listviewDispositivos.setLayoutY(192);
+        listviewDispositivos.setVisible(true);
+        listviewDispositivos.toFront();
+        HBOX_DISPOSITIVOS.getChildren().addAll(listviewDispositivos);
+        dispositivos = FXCollections.observableArrayList();
+        
         //aceitarEnter();
         stage = PPDChat.getStage();   
 
+    }
+    
+    @FXML
+    
+    public void pedirAtualizarLista(MouseEvent event){
+        try {
+            main.getClient().enviarPedidoAtualizarLista();
+        } catch (Exception e) {e.printStackTrace();}
+    }
+    
+    public void atualizarListaDispositivos(ArrayList<String> listaDeDispositivos) {
+        //Limpa a ListaView de Dispositivos
+        listviewDispositivos.getItems().clear();
+        //Limpa a Lista dos Nomes dos Dispositivos no Ambiente (ArralistList)
+        nomesDosDispositivos.clear();
+        int tamanho = listaDeDispositivos.size();
+        for(int f = 0;f<tamanho;f++){
+            //Se a Lista de Nomes não contém o nome do index atual da listaDeDispositivos recebida do servidor
+            if(!nomesDosDispositivos.contains(listaDeDispositivos.get(f))){
+                //Adicione o nome do dispositivo à lista de dispositivos no ambiente
+                nomesDosDispositivos.add(listaDeDispositivos.get(f));
+                //Adicione o nome do dispositivo na lista observável de dispositivos
+                dispositivos.add(listaDeDispositivos.get(f));
+                //Coloque a lista observável no ListViews
+                listviewDispositivos.setItems(dispositivos);
+                System.out.println("Novo usuario disponível: " + listaDeDispositivos.get(f));
+            }
+  
+        } 
     }
     
     public void updateInfo(){
@@ -158,4 +213,14 @@ public class GameController{
     public void setMeuY(float meuY) {
         this.meuY = meuY;
     }
+
+    public Label getLABEL_DISPOSITIVOS_ENCONTRADOS() {
+        return LABEL_DISPOSITIVOS_ENCONTRADOS;
+    }
+
+    public void setLABEL_DISPOSITIVOS_ENCONTRADOS(Label LABEL_DISPOSITIVOS_ENCONTRADOS) {
+        this.LABEL_DISPOSITIVOS_ENCONTRADOS = LABEL_DISPOSITIVOS_ENCONTRADOS;
+    }
+    
+    
 }

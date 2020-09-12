@@ -21,5 +21,7 @@
       <Label fx:id="LABEL_X" layoutX="23.0" layoutY="68.0" prefHeight="17.0" prefWidth="153.0" text="--------------------" />
       <Label fx:id="LABEL_Y" layoutX="23.0" layoutY="96.0" prefHeight="17.0" prefWidth="153.0" text="--------------------" />
       <HBox fx:id="HBOX_DISPOSITIVOS" layoutX="14.0" layoutY="141.0" prefHeight="223.0" prefWidth="200.0" />
+      <Button fx:id="BUTTON_MOSTRAR_DISPOSITIVOS" layoutX="30.0" layoutY="374.0" mnemonicParsing="false" onMouseClicked="#pedirAtualizarLista" text="AtualizarDispositivos" />
+      <Label fx:id="LABEL_DISPOSITIVOS_ENCONTRADOS" layoutX="38.0" layoutY="124.0" prefHeight="17.0" prefWidth="153.0" />
    </children>
 </AnchorPane>

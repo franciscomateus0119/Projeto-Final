@@ -28,6 +28,7 @@ public class Client extends UnicastRemoteObject implements ClientInterface{
     private MainGameController mainController;
     private MenuController menuController;
     private String nome;
+    private String defaultFolderPath="C:/Users/Matheus/Desktop/Joguinhos/4chat/teste";
     private float clientX;
     private float clientY;
     Map<Integer, String> names = new HashMap<>();
@@ -67,8 +68,42 @@ public class Client extends UnicastRemoteObject implements ClientInterface{
             mainController.getGameController().setAmbienteAtual("None");
             mainController.getGameController().updateInfo();
         });
+        try{
+            enviarClientName();
+        }catch(Exception e){e.printStackTrace();}
     }
 
+    @Override
+    public void enviarClientName() throws RemoteException{
+        server.registerClientName(this, nome);
+    }
+    
+    @Override
+    public void enviarPedidoAtualizarLista() throws RemoteException{
+        System.out.println("Enviando pedido de AtualizarLista!");
+        server.receberAtualizarListaDispositivos(this, nome);
+    }
+    
+    @Override
+    public void receberListaAtualizada(ArrayList<String> listaDispositivos) throws RemoteException{
+        listaDispositivos.remove(nome);
+        System.out.println("Lista de Dispositivos Recebidas! Tamanho: " + listaDispositivos.size());
+        if(listaDispositivos.size() > 0){
+            Platform.runLater(() -> {
+                mainController.getGameController().atualizarListaDispositivos(listaDispositivos);
+                mainController.getGameController().getLABEL_DISPOSITIVOS_ENCONTRADOS().setText("Dispositivo(s) Encontrado(s)!");
+            });
+            
+        }
+        else{
+            Platform.runLater(() -> {
+                mainController.getGameController().getLABEL_DISPOSITIVOS_ENCONTRADOS().setText("Nenhum Dispositivo Encontrado!");
+            });
+            
+        }
+            
+        
+    }
     
     //<editor-fold defaultstate="collapsed" desc="OldProject">
     /*
