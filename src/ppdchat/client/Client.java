@@ -43,7 +43,7 @@ public class Client extends UnicastRemoteObject implements ClientInterface, Seri
     private String serverName;
     private int serverPort;
     private String nome;
-    private String defaultFolderPath="C:/Users/Matheus/Desktop/Joguinhos/4chat/teste";
+    private String clientEndereco;
     private float clientX;
     private float clientY;
     Map<Integer, String> names = new HashMap<>();
@@ -54,7 +54,7 @@ public class Client extends UnicastRemoteObject implements ClientInterface, Seri
     //String filepath = "C:/Users/Matheus/Desktop/Joguinhos/4chat/teste/" +filename;
     String clientstoragepath;
     
-    public Client(ServerInterface server, String ip, String servername, int port, Registry registro, String nome, float x, float y, String storagepath) throws RemoteException{
+    public Client(ServerInterface server, String ip, String servername, int port, Registry registro, String nome, float x, float y, String endereco, String storagepath) throws RemoteException{
         super();
         this.server = server;
         this.nome = nome;
@@ -64,6 +64,7 @@ public class Client extends UnicastRemoteObject implements ClientInterface, Seri
         this.serverRegistry = registro;
         this.clientX = x;
         this.clientY = y;
+        this.clientEndereco = endereco;
         this.clientstoragepath = storagepath;
     }
 
