@@ -16,11 +16,13 @@ import java.rmi.RemoteException;
  * @author Matheus
  */
 public interface ServerInterface extends Remote{
-    void registerClient(ClientInterface client) throws RemoteException;
+    void registerClient(ClientInterface client, String nome, String endereco, float x, float y) throws RemoteException;
     void registerClientName(ClientInterface client, String nomeClient) throws RemoteException;
     void receberAtualizarListaDispositivos(ClientInterface client, String nomeClient) throws RemoteException;
     void receberArquivo(byte[] mydata, String filename,int length, String dispositivoAlvo) throws RemoteException;
     void enviarArquivo(byte[] mydata, String filename,int length, String dispositivoAlvo) throws RemoteException;
+    void encontrarEspaco() throws RemoteException;
+    void procurarAmbiente(String nome, String endereco, float x, float y) throws RemoteException;
     /*
     void broadcastTexto(ClientInterface client, String texto) throws RemoteException;
     void broadcastStatus(ClientInterface client, String id, String status) throws RemoteException;

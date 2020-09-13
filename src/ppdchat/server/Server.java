@@ -23,6 +23,13 @@ import java.io.Serializable;
 import java.net.MalformedURLException;
 import java.rmi.NotBoundException;
 
+import net.jini.core.lease.Lease;
+import net.jini.core.transaction.TransactionException;
+import net.jini.space.JavaSpace;
+import ppdchat.server.Lookup;
+import ppdchat.utils.*;
+
+
 /**
  *
  * @author Matheus
@@ -34,6 +41,10 @@ public class Server implements ServerInterface, Serializable{
     public Map<ClientInterface, String> namesByClient = new HashMap<>();
     public ArrayList<String> todosOsNomes = new ArrayList<>();
     public Map<Integer, String> names = new HashMap<>();
+    
+    Lookup finder;
+    JavaSpace space;
+    
     String storagepath = "C:/ServerStorage/";
     
     public Server() throws RemoteException{
@@ -42,15 +53,14 @@ public class Server implements ServerInterface, Serializable{
     }
     
     @Override
-    public void registerClient(ClientInterface client) throws RemoteException{
-        System.out.println(clients.size());
-        if(clients.size()<=4){
-            System.out.println("Novo Cliente!");
-            clients.add(client);
-            System.out.println("Nº de clientes: " + clients.size());
-            System.out.println("Jogador " + clients.size() + " se conectou! Preparando sua Janela de Chat!");
-            //iniciarJogo();
-        }
+    public void registerClient(ClientInterface client, String nome, String endereco, float x, float y) throws RemoteException{
+        //System.out.println(clients.size());
+        System.out.println("Novo Dispositivo!");
+        clients.add(client);
+        System.out.println("Nº de dispositivos: " + clients.size());
+        System.out.println("Encontrando um ambiente para o dispositivo... ");
+        //iniciarJogo();
+        
     }
     
     @Override
@@ -83,6 +93,60 @@ public class Server implements ServerInterface, Serializable{
     public void enviarArquivo(byte[] mydata, String filename,int length,String dispositivoAlvo) throws RemoteException{
         ClientInterface client = clientsByName.get(dispositivoAlvo);
         client.receberArquivo(mydata, filename, length);
+    }
+    
+    //Funções do Espaço de Tuplas
+    
+    @Override
+    public void procurarAmbiente(String nome, String endereco, float x, float y) throws RemoteException{
+        ListaDeAmbientes template = new ListaDeAmbientes();
+        if (template == null) {
+            System.out.println("Template nulo!");
+        }
+        try{
+            ListaDeAmbientes listadeambientes = (ListaDeAmbientes) space.take(template, null, 5 * 1000);
+            //Se não existir lista de ambientes, crie um novo ambiente e uma nova lista de ambientes
+            if (listadeambientes == null) {
+                //Cria um novo Ambiente, com sua localização sendo a do dispositivo (pois ele é o primeiro a entrar)
+                //Envia Ambiente para o Servidor de Ambientes (Espaço de Tuplas)
+                //Coloca o novo Ambiente na lista de Ambientes
+                //Envia a Lista de Ambientes para o Servidor de Ambientes
+            }
+            //Se já existir uma lista de ambientes
+            else{
+                //procura a lista de ambientes
+                //para cada ambiente na lista de ambientes, verifica se já existe um dispositivo com o mesmo nome
+                
+                //-> Caso Normal <-
+                //Se o nome do dispositivo for único, compara a distância do ambiente com o dispositivo
+                //Se a distância for permitida, coloca o dispositivo na lista de dispositivos do ambiente
+                //Com o ambiente atualizado, envie o ambiente para o Servidor de Ambientes
+                
+                //-> Caso nome não único <-
+                //Se o nome do dispositivo não for único e não existir ambiente possível par inseri-lo, crie um novo ambiente, verifique a distancia e o envie para o servidor
+
+                //-> Caso nome único<-
+                //Se o nome do dispositivo for único, verifique a distância, adicione ao ambiente e envie o ambiente para o servidor
+                
+                //-> Distância não bate<-
+                //Crie um novo ambiente para o dispositivo e envie o ambiente para o servidor
+                    
+                
+                
+            }
+        }catch(Exception e){e.printStackTrace();}
+        
+    }
+    
+    @Override
+    public void encontrarEspaco() throws RemoteException{
+        this.finder = new Lookup(JavaSpace.class);
+        this.space = (JavaSpace) finder.getService();
+        if (space == null) {
+            System.out.println("Não foi possível encontrar o JavaSpace!");
+        } else {
+            System.out.println("JavaSpace encontrado: " + space);
+        }
     }
     
     //<editor-fold defaultstate="collapsed" desc="OldProject">

@@ -104,7 +104,7 @@ public class MenuController {
             client = new Client(server,TF_IP_SERVER.getText(),TF_NAME_SERVER.getText(),Integer.parseInt(TF_PORT_SERVER.getText()),
                     registry,TF_NOME.getText(), valorX, valorY, TF_ENDERECO.getText(), TF_FOLDER.getText());
             client.setMenuController(this);
-            server.registerClient(client);
+            server.registerClient(client,TF_NOME.getText(),TF_ENDERECO.getText(),valorX,valorY);
         }
         catch(Exception e){
             e.printStackTrace();

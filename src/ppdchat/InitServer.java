@@ -34,7 +34,12 @@ public class InitServer extends Application{
             ServerInterface serverinterface = (ServerInterface) UnicastRemoteObject.exportObject((ServerInterface) server, 0);
             Registry registry = LocateRegistry.createRegistry(1099);
             registry.bind("RMIServer", serverinterface);
-            System.out.println("Server Started Sucessfully!");
+            System.out.println("RMI Server iniciado com sucesso!!");
+            System.out.println("Procurando Espaço de Tuplas...");
+            try{
+                server.encontrarEspaco();
+            }catch(Exception e){e.printStackTrace();}
+            
             
             
         }
