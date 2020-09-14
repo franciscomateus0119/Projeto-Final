@@ -28,5 +28,8 @@
       <Button fx:id="BUTTON_SELECIONAR_ARQUIVO" layoutX="165.0" layoutY="19.0" mnemonicParsing="false" onMouseClicked="#selecionarArquivo" text="Selecionar" />
       <TextField fx:id="TF_NOME_DISPOSITIVO" layoutX="202.0" layoutY="64.0" promptText="Selecione um Dispositivo" />
       <Label fx:id="LABEL_DISPOSITIVO_SELECIONADO" layoutX="263.0" layoutY="380.0" text="Label" />
+      <TextField fx:id="TF_X" alignment="CENTER" layoutX="14.0" layoutY="153.0" promptText="Nova Localização X" />
+      <TextField fx:id="TF_Y" alignment="CENTER" layoutX="14.0" layoutY="191.0" promptText="Nova Localização Y" />
+      <Button fx:id="BUTTON_LOCALIZACAO" layoutX="31.0" layoutY="232.0" mnemonicParsing="false" onMouseClicked="#mudarLocalizacao" text="Mudar Localização" />
    </children>
 </AnchorPane>

@@ -240,6 +240,158 @@ public class Server implements ServerInterface, Serializable{
     }
     
     @Override
+    public void receberPedidoNovaLocalizacao(ClientInterface client, String x, String y,String nome, String ambienteDoDispositivo) throws RemoteException{
+        //Recebe pedido do cliente para mudar localização
+        //Procura pela lista de ambientes
+        ListaDeAmbientes template = new ListaDeAmbientes();
+        boolean dispositivoAdicionado = false;
+        if (template == null) {
+            System.out.println("Template nulo!");
+        }
+        try{
+            ListaDeAmbientes listadeambientes = (ListaDeAmbientes) space.take(template, null, 10 * 1000);
+            //Se a lista de ambientes for encontrada
+            if(listadeambientes!=null){
+                System.out.println("Lista de Ambientes FOI encontrada!");
+                int tamanho = listadeambientes.listaDeAmbientes.size();
+                //Procura o ambiente Verifica se a nova distância condiz com o Ambiente Atual
+                Ambiente templateAmbienteAtual = new Ambiente();
+                templateAmbienteAtual.nomeAmbiente = ambienteDoDispositivo;
+                Ambiente ambienteAtual = (Ambiente) space.take(templateAmbienteAtual, null, 5 * 1000);
+                //Se o ambiente atual do dispositivo for encontrado!
+                if(ambienteAtual!=null){
+                    //Verifica se a nova distância condiz com o Ambiente Atual
+                    float xDispositivo = Float.parseFloat(x);
+                    float yDispositivo = Float.parseFloat(y);
+                    float xAmbiente = Float.parseFloat(ambienteAtual.xAmbiente);
+                    float yAmbiente = Float.parseFloat(ambienteAtual.yAmbiente);
+                    //Se a distância com a nova localização ainda for MENOR que 10 metros
+                    if (verificarLocalizacao(xDispositivo, yDispositivo, xAmbiente, yAmbiente) < 10) {
+                        //Atualiza a localização do Dispositivo
+                        client.atualizarLocalizacao(x, y);
+                        //Devolve o Ambiente e a Lista de Ambientes para o Servidor de Ambientes
+                        space.write(ambienteAtual, null, Lease.FOREVER);
+                        space.write(listadeambientes, null, Lease.FOREVER);
+                        
+                    } //Se a distância com a nova localização for MAIOR que 10 metros
+                    else {
+                        
+                        //para cada ambiente na lista de ambientes
+                        for (int i = 0; i < tamanho; i++) {
+                            //Se não for o ambiente atual do Dispositivo
+                            if (!listadeambientes.listaDeAmbientes.get(i).equals(ambienteDoDispositivo)) {
+                                Ambiente templateAmbiente = new Ambiente();
+                                templateAmbiente.nomeAmbiente = listadeambientes.listaDeAmbientes.get(i);
+                                Ambiente ambiente = (Ambiente) space.take(templateAmbiente, null, 5 * 1000);
+                                //Se o ambiente encontrado não for nulo
+                                if (ambiente != null) {
+                                    //Verifica se o nome é único no ambiente
+                                    //Se o nome for único
+                                    if(!ambiente.dispositivosNoAmbiente.contains(nome)){
+                                        System.out.println("(Localizacao) O nome do dispositivo é único no ambiente " + ambiente.nomeAmbiente);
+                                        
+                                        //Verifica se a distância é condizente com o Ambiente
+                                        Float ambienteX = Float.parseFloat(ambiente.xAmbiente);
+                                        Float ambienteY = Float.parseFloat(ambiente.yAmbiente);
+                                        //Se a distância com a nova localização ainda for MENOR que 10 metros
+                                        if (verificarLocalizacao(xDispositivo, yDispositivo, ambienteX, ambienteY) < 10) {
+                                            
+                                            ArrayList<String> novaListaDispositivosAmbienteAtual = new ArrayList<>();
+                                            ArrayList<String> novaListaDispositivosNovoAmbiente = new ArrayList<>();
+                                            String nomeDoAmbiente = ambiente.nomeAmbiente;
+                                            
+                                            //Remove o Dispositivo de seu Ambiente Atual
+                                            novaListaDispositivosAmbienteAtual = ambienteAtual.dispositivosNoAmbiente;
+                                            novaListaDispositivosAmbienteAtual.remove(nome);
+                                            ambienteAtual.dispositivosNoAmbiente = novaListaDispositivosAmbienteAtual;
+                                            
+                                            //Adiciona o Dispositivo de seu novo Ambiente
+                                            novaListaDispositivosNovoAmbiente = ambiente.dispositivosNoAmbiente;
+                                            novaListaDispositivosNovoAmbiente.add(nome);
+                                            ambiente.dispositivosNoAmbiente = novaListaDispositivosNovoAmbiente;
+                                            
+                                            //Devolve o AmbienteAtual, NovoAmbiente e Lista de Ambientes para o Servidor de Ambientes
+                                            space.write(ambienteAtual, null, Lease.FOREVER);
+                                            space.write(ambiente, null, Lease.FOREVER);
+                                            space.write(listadeambientes, null, Lease.FOREVER);
+                                            //Informe a nova localização para o Dispositivo
+                                            client.atualizarLocalizacao(x, y);
+                                            
+                                            System.out.println("(Localização) Dispositivo" + nome + " Adicionado em" + ambiente.nomeAmbiente + " !");
+                                            //Informa o dispositivo em qual ambiente ele está inserido
+                                            enviarAmbiente(client, nomeDoAmbiente);
+                                            
+                                            dispositivoAdicionado = true;
+                                            i = tamanho;
+                                            
+                                        }
+                                        //Se a distância for maior que 10 metros, não adicione o dispositivo e devolva o ambiente
+                                        else{
+                                            System.out.println("(Localizacao) Distância é maior que 10 metros no ambiente " + ambiente.nomeAmbiente);
+                                            space.write(ambiente, null, Lease.FOREVER);
+                                        }
+                                        
+                                    }
+                                    //Se o nome não for único no ambiente, não adicione o dispositivo e devolva o ambiente
+                                    else {
+                                        System.out.println("O nome não é único no ambiente " + ambiente.nomeAmbiente);
+                                        space.write(ambiente, null, Lease.FOREVER);
+                                    }
+                                   
+
+                                }
+                            }
+
+                        }
+                        //Se O dispositivo não encontrou um ambiente condizente com sua nova localização ou com seu nome
+                        if (!dispositivoAdicionado) {
+                            System.out.println("(Localização) Nenhum ambiente favorável foi encontrado! Criando novo ambiente...");
+                            ArrayList<String> listaDeDispositivos = new ArrayList<>();
+                            ArrayList<String> arrayListaDeAmbientes = new ArrayList<>();
+                            ArrayList<String> novaListaDispositivosAmbienteAtual = new ArrayList<>();
+                            arrayListaDeAmbientes = listadeambientes.listaDeAmbientes;
+                            
+                            //Remove o Dispositivo de seu Ambiente Atual
+                            novaListaDispositivosAmbienteAtual = ambienteAtual.dispositivosNoAmbiente;
+                            novaListaDispositivosAmbienteAtual.remove(nome);
+                            ambienteAtual.dispositivosNoAmbiente = novaListaDispositivosAmbienteAtual;
+
+                            //Crie um ambiente para este dispositivo
+                            Ambiente newAmbiente = new Ambiente();
+                            newAmbiente.nomeAmbiente = "Ambiente_" + (tamanho + 1);
+                            newAmbiente.xAmbiente = x;
+                            newAmbiente.yAmbiente = y;
+                            listaDeDispositivos.add(nome);
+                            newAmbiente.dispositivosNoAmbiente = listaDeDispositivos;
+                            
+                            String nomedoAmbiente = newAmbiente.nomeAmbiente;
+                            System.out.println("(Localização) Dispositivo " + nome + " foi alocado no ambiente " + newAmbiente.nomeAmbiente + " !");
+                            //Adicione o ambiente na lista de ambientes
+
+                            arrayListaDeAmbientes.add(newAmbiente.nomeAmbiente);
+                            listadeambientes.listaDeAmbientes = arrayListaDeAmbientes;
+
+                            //Insira o Novo Ambiente e devolva a Lista de Ambientes e o Ambiente Atual para o Servidor de Ambientes
+                            space.write(ambienteAtual, null, Lease.FOREVER);
+                            space.write(newAmbiente, null, Lease.FOREVER);
+                            space.write(listadeambientes, null, Lease.FOREVER);
+                            
+                            //Informe a nova localização para o Dispositivo
+                            client.atualizarLocalizacao(x, y);
+                            
+                            //Informa o dispositivo em qual ambiente ele está inserido
+                            enviarAmbiente(client, nomedoAmbiente);
+                        }
+                    }
+                }
+
+            }
+        }catch(Exception e){e.printStackTrace();}
+        
+        
+    }
+    
+    @Override
     public void encontrarEspaco() throws RemoteException{
         this.finder = new Lookup(JavaSpace.class);
         this.space = (JavaSpace) finder.getService();

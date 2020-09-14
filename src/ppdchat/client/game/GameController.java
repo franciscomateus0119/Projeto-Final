@@ -91,10 +91,14 @@ public class GameController{
     @FXML Button BUTTON_SELECIONAR_ARQUIVO;
     @FXML Button BUTTON_MOSTRAR_DISPOSITIVOS;
     @FXML Button BUTTON_ENVIAR_ARQUIVO;
+    @FXML Button BUTTON_LOCALIZACAO;
     
     @FXML TextField TF_SELECIONAR_ARQUIVO;
     
     @FXML TextField TF_NOME_DISPOSITIVO;
+    
+    @FXML TextField TF_X;
+    @FXML TextField TF_Y;
     
     @FXML
     private HBox HBOX_DISPOSITIVOS;
@@ -185,6 +189,32 @@ public class GameController{
             TF_NOME_DISPOSITIVO.setPromptText("SELECIONE UM DISPOSITIVO");
         }
         
+    }
+    
+    @FXML
+    public void mudarLocalizacao(MouseEvent event){
+        String x;
+        String y;
+        if(TF_X.getText()!= null && !TF_X.getText().equals("")){
+            if(TF_Y.getText()!= null && !TF_Y.getText().equals("")){
+                x = TF_X.getText();
+                y = TF_Y.getText();
+                TF_X.clear();
+                TF_X.setPromptText("Nova Localização X");
+                TF_Y.clear();
+                TF_Y.setPromptText("Nova Localização Y");
+                try{
+                    main.getClient().enviarNovaLocalizacao(x, y, meuNome, ambienteAtual);
+                }catch(Exception e){e.printStackTrace();}
+                
+            }
+            else{
+                TF_Y.setPromptText("DIGITE UM Y");
+            }
+        }
+        else{
+            TF_X.setPromptText("DIGITE UM X");
+        }
     }
     
     public void updateInfo(){

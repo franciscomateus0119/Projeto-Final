@@ -110,6 +110,23 @@ public class Client extends UnicastRemoteObject implements ClientInterface, Seri
     }
     
     @Override
+    public void enviarNovaLocalizacao(String x, String y, String nome, String ambiente) throws RemoteException{
+        server.receberPedidoNovaLocalizacao(this, x, y, nome, ambiente);
+    }
+    
+    @Override
+    public void atualizarLocalizacao(String x, String y) throws RemoteException{
+        System.out.println("Atualizando localização de ("+clientX+","+clientY+") para(" + x +"," + y+").");
+        Platform.runLater(() -> {
+            this.clientX = x;
+            this.clientY = y;
+            mainController.getGameController().setMeuX(x);
+            mainController.getGameController().setMeuY(y);
+            mainController.getGameController().updateInfo();
+        });
+    }
+    
+    @Override
     public void receberListaAtualizada(ArrayList<String> listaDispositivos) throws RemoteException{
         listaDispositivos.remove(nome);
         System.out.println("Lista de Dispositivos Recebidas! Tamanho: " + listaDispositivos.size());
