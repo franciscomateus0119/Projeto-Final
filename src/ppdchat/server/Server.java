@@ -37,10 +37,11 @@ import ppdchat.utils.*;
 public class Server implements ServerInterface, Serializable{
     private int clientesConectados = 0;
     protected ArrayList<ClientInterface> clients;
-    public Map<String, ClientInterface> clientsByName = new HashMap<>();
+    protected ArrayList<String> names;
+    //public Map<String, ClientInterface> clientsByName = new HashMap<>();
     public Map<ClientInterface, String> namesByClient = new HashMap<>();
     public ArrayList<String> todosOsNomes = new ArrayList<>();
-    public Map<Integer, String> names = new HashMap<>();
+    //public Map<Integer, String> names = new HashMap<>();
     
     Lookup finder;
     JavaSpace space;
@@ -66,11 +67,11 @@ public class Server implements ServerInterface, Serializable{
     
     @Override
     public void registerClientName(ClientInterface client, String nome){
-        clientsByName.put(nome, client);
+        names.add(nome);
         namesByClient.put(client, nome);
         todosOsNomes.add(nome);
         System.out.println("Cliente " + client + " de nome "+nome+" adicionado ao HashMap clientsByName");
-        System.out.println("ClientsByName size: " + clientsByName.size());
+        System.out.println("Names size: " + names.size());
         System.out.println("TodosOsNomes size: " + todosOsNomes.size());
     }
     
@@ -96,13 +97,19 @@ public class Server implements ServerInterface, Serializable{
     
     @Override
     public void receberArquivo(byte[] mydata, String filename, int length, String dispositivoAlvo, String ambiente) throws RemoteException {
-        for (String key : clientsByName.keySet()) {
+        int tamanhoNames = names.size();
+        //Para cada nome na lista de nomes
+        for (int i = 0; i< tamanhoNames; i++) {
             for (Map.Entry<ClientInterface, String> entry : namesByClient.entrySet()) {
                 ClientInterface dispositivo = entry.getKey();
-                String name = entry.getValue();             
-                if(key.equals(name) && key.equals(dispositivoAlvo)){
+                String name = entry.getValue();  
+                //Se o nome desta iteração for igual ao nome do dispositivo alvo
+                if(names.get(i).equals(name) && names.get(i).equals(dispositivoAlvo)){
+                    //Verifica se o ambiente deste dispositivo é o mesmo de quem está enviando o arquivo
                     String ambienteGet = dispositivo.enviarAmbienteAtual();
-                    if(ambienteGet.endsWith(ambiente)){
+                    //Se forem os mesmos ambientes
+                    if(ambienteGet.equals(ambiente)){
+                        //Enviar arquivo
                         enviarArquivo(mydata, filename, length, dispositivo);
                     }
                 }
