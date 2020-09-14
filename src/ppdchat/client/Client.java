@@ -106,7 +106,7 @@ public class Client extends UnicastRemoteObject implements ClientInterface, Seri
     @Override
     public void enviarPedidoAtualizarLista() throws RemoteException{
         System.out.println("Enviando pedido de AtualizarLista!");
-        server.receberAtualizarListaDispositivos(this, nome);
+        server.receberAtualizarListaDispositivos(this, nome, ambienteAtual);
     }
     
     @Override

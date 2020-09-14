@@ -75,10 +75,20 @@ public class Server implements ServerInterface, Serializable{
     }
     
     @Override
-    public void receberAtualizarListaDispositivos(ClientInterface client, String nome){
+    public void receberAtualizarListaDispositivos(ClientInterface client, String nome, String nomeAmbiente){
         System.out.println("Pedido de atualização de lista de dispostivos recebido por " + nome);
+        //Procurar ambiente no Servidor de ambientes
+        Ambiente templateAmbiente = new Ambiente();
+        templateAmbiente.nomeAmbiente = nomeAmbiente;
         try {
-            client.receberListaAtualizada(todosOsNomes);
+            Ambiente ambiente = (Ambiente) space.read(templateAmbiente, null, 5 * 1000);
+            //Se o ambiente for encontrado!
+            if(ambiente!=null){
+                ArrayList<String> listaDeDispositivos = new ArrayList<>();
+                listaDeDispositivos = ambiente.dispositivosNoAmbiente;
+                client.receberListaAtualizada(listaDeDispositivos);
+            }
+            
         } catch (Exception e) {e.printStackTrace();}
 
    

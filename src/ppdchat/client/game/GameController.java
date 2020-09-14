@@ -173,8 +173,8 @@ public class GameController{
                     }catch(Exception e){e.printStackTrace();}
                     TF_SELECIONAR_ARQUIVO.clear();
                     TF_SELECIONAR_ARQUIVO.setPromptText("Diretório do Arquivo");
-                    TF_NOME_DISPOSITIVO.clear();
-                    TF_NOME_DISPOSITIVO.setPromptText("Selecione um Dispositivo");
+                    //TF_NOME_DISPOSITIVO.clear();
+                    //TF_NOME_DISPOSITIVO.setPromptText("Selecione um Dispositivo");
                 }
 
             }
