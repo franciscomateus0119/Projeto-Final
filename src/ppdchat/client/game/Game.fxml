@@ -11,7 +11,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane id="AnchorPane" prefHeight="463.0" prefWidth="414.0" styleClass="mainFxmlClass" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ppdchat.client.game.GameController">
+<AnchorPane id="AnchorPane" prefHeight="463.0" prefWidth="601.0" styleClass="mainFxmlClass" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ppdchat.client.game.GameController">
     <stylesheets>
         <URL value="@gamecontroller.css" />
     </stylesheets>
@@ -20,16 +20,19 @@
       <Label fx:id="LABEL_AMBIENTE" layoutX="23.0" layoutY="42.0" prefHeight="17.0" prefWidth="153.0" text="--------------------" />
       <Label fx:id="LABEL_X" layoutX="23.0" layoutY="68.0" prefHeight="17.0" prefWidth="153.0" text="--------------------" />
       <Label fx:id="LABEL_Y" layoutX="23.0" layoutY="96.0" prefHeight="17.0" prefWidth="153.0" text="--------------------" />
-      <HBox fx:id="HBOX_DISPOSITIVOS" layoutX="177.0" layoutY="104.0" prefHeight="223.0" prefWidth="200.0" />
-      <Button fx:id="BUTTON_MOSTRAR_DISPOSITIVOS" layoutX="214.0" layoutY="335.0" mnemonicParsing="false" onMouseClicked="#pedirAtualizarLista" text="AtualizarDispositivos" />
-      <Button fx:id="BUTTON_ENVIAR_ARQUIVO" layoutX="231.0" layoutY="416.0" mnemonicParsing="false" onMouseClicked="#enviarArquivo" text="Enviar Arquivo" />
-      <TextField fx:id="TF_SELECIONAR_ARQUIVO" alignment="CENTER" layoutX="243.0" layoutY="19.0" promptText="Diretório do Arquivo" />
-      <Button fx:id="BUTTON_SELECIONAR_ARQUIVO" layoutX="165.0" layoutY="19.0" mnemonicParsing="false" onMouseClicked="#selecionarArquivo" text="Selecionar" />
-      <TextField fx:id="TF_NOME_DISPOSITIVO" layoutX="202.0" layoutY="64.0" promptText="Selecione um Dispositivo" />
-      <Label fx:id="LABEL_DISPOSITIVO_SELECIONADO" layoutX="177.0" layoutY="380.0" prefHeight="17.0" prefWidth="212.0" />
+      <HBox fx:id="HBOX_DISPOSITIVOS" layoutX="179.0" layoutY="13.0" prefHeight="223.0" prefWidth="200.0" />
+      <Button fx:id="BUTTON_MOSTRAR_DISPOSITIVOS" layoutX="26.0" layoutY="265.0" mnemonicParsing="false" onMouseClicked="#pedirAtualizarLista" text="AtualizarDispositivos" />
+      <Button fx:id="BUTTON_ENVIAR_ARQUIVO" layoutX="476.0" layoutY="290.0" mnemonicParsing="false" onMouseClicked="#enviarArquivo" text="Enviar Arquivo" />
+      <TextField fx:id="TF_SELECIONAR_ARQUIVO" alignment="CENTER" layoutX="401.0" layoutY="253.0" promptText="Diretório do Arquivo" />
+      <Button fx:id="BUTTON_SELECIONAR_ARQUIVO" layoutX="385.0" layoutY="290.0" mnemonicParsing="false" onMouseClicked="#selecionarArquivo" text="Selecionar" />
+      <TextField fx:id="TF_NOME_DISPOSITIVO" layoutX="205.0" layoutY="253.0" promptText="Selecione um Dispositivo" />
+      <Label fx:id="LABEL_DISPOSITIVO_SELECIONADO" layoutX="173.0" layoutY="417.0" prefHeight="17.0" prefWidth="212.0" />
       <TextField fx:id="TF_X" alignment="CENTER" layoutX="14.0" layoutY="153.0" promptText="Nova Localização X" />
       <TextField fx:id="TF_Y" alignment="CENTER" layoutX="14.0" layoutY="191.0" promptText="Nova Localização Y" />
-      <Button fx:id="BUTTON_LOCALIZACAO" layoutX="31.0" layoutY="232.0" mnemonicParsing="false" onMouseClicked="#mudarLocalizacao" text="Mudar Localização" />
+      <Button fx:id="BUTTON_LOCALIZACAO" layoutX="25.0" layoutY="232.0" mnemonicParsing="false" onMouseClicked="#mudarLocalizacao" prefHeight="25.0" prefWidth="128.0" text="Mudar Localização" />
       <Label fx:id="LABEL_ENDERECO" layoutX="23.0" layoutY="124.0" prefHeight="17.0" prefWidth="153.0" text="--------------------" />
+      <HBox fx:id="HBOX_ARQUIVOS_SELECIONADOS" layoutX="385.0" layoutY="13.0" prefHeight="223.0" prefWidth="200.0" />
+      <Button fx:id="BUTTON_ENVIAR_MULTIPLOS" layoutX="410.0" layoutY="366.0" mnemonicParsing="false" onMouseClicked="#enviarArquivos" text="Enviar Multiplos Arquivos" />
+      <Button fx:id="BUTTON_SELECIONAR_MULTIPLOS" layoutX="398.0" layoutY="332.0" mnemonicParsing="false" onMouseClicked="#selecionarArquivos" text="Selecionar Multiplos Arquivos" />
    </children>
 </AnchorPane>

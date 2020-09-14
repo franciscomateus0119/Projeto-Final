@@ -119,9 +119,36 @@ public class Server implements ServerInterface, Serializable{
     }
     
     @Override
+    public void receberArquivos(ArrayList<byte []> mydata, ArrayList<String> filenames, String dispositivoAlvo, String ambiente) throws RemoteException{
+        int tamanhoNames = names.size();
+        //Para cada nome na lista de nomes
+        for (int i = 0; i< tamanhoNames; i++) {
+            for (Map.Entry<ClientInterface, String> entry : namesByClient.entrySet()) {
+                ClientInterface dispositivo = entry.getKey();
+                String name = entry.getValue();  
+                //Se o nome desta iteração for igual ao nome do dispositivo alvo
+                if(names.get(i).equals(name) && names.get(i).equals(dispositivoAlvo)){
+                    //Verifica se o ambiente deste dispositivo é o mesmo de quem está enviando o arquivo
+                    String ambienteGet = dispositivo.enviarAmbienteAtual();
+                    //Se forem os mesmos ambientes
+                    if(ambienteGet.equals(ambiente)){
+                        //Enviar arquivo
+                        enviarArquivos(mydata, filenames,  dispositivo);
+                    }
+                }
+            }
+        }
+    }
+    
+    @Override
     public void enviarArquivo(byte[] mydata, String filename,int length, ClientInterface client) throws RemoteException{
         //ClientInterface client = clientsByName.get(dispositivoAlvo);
         client.receberArquivo(mydata, filename, length);
+    }
+    
+    @Override
+    public void enviarArquivos(ArrayList<byte []> mydata, ArrayList<String> filenames, ClientInterface client) throws RemoteException{
+        client.receberArquivos(mydata, filenames);
     }
     
     //Funções do Espaço de Tuplas

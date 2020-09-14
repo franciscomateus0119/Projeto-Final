@@ -163,6 +163,47 @@ public class Client extends UnicastRemoteObject implements ClientInterface, Seri
         server.receberArquivo(mydata,filename,(int) clientpathfile.length(), dispositivoAlvo, ambienteAtual);
     }
     
+    public void enviarArquivos(ArrayList<String> paths, ArrayList<String> filenames, String dispositivoAlvo) throws FileNotFoundException, IOException{
+        ArrayList<File> clientpathfiles = new ArrayList<>();
+        ArrayList<byte []> mydata = new ArrayList<>();
+        ArrayList<FileInputStream> in = new ArrayList();
+        for(int i=0;i<paths.size();i++){
+            
+            clientpathfiles.add(new File(paths.get(i)));
+            
+        }
+        for(int i=0;i<clientpathfiles.size();i++){
+            //byte [] data=new byte[(int) clientpathfiles.get(i).length()];
+            mydata.add(new byte[(int) clientpathfiles.get(i).length()]);
+            
+        }
+        
+        for(int i=0;i<clientpathfiles.size();i++){
+            in.add(new FileInputStream(clientpathfiles.get(i)));
+        }
+        for(int i=0;i<in.size();i++){
+            in.get(i).read(mydata.get(i),0,mydata.get(i).length);
+        }
+        server.receberArquivos(mydata, filenames, dispositivoAlvo, ambienteAtual);
+        
+        
+    }
+    
+    @Override
+    public void receberArquivos(ArrayList<byte []> mydata, ArrayList<String> filenames) throws RemoteException{
+        try{
+            for(int i = 0;i<filenames.size();i++){
+                File pathfile = new File(clientstoragepath+filenames.get(i));
+                //System.out.println("Enviando arquivo para: "+pathfile);
+                FileOutputStream out = new FileOutputStream(pathfile);
+                byte[] data = mydata.get(i);
+                out.write(data);
+                out.flush();
+                out.close();
+            }
+        }catch(Exception e){e.printStackTrace();}
+    }
+    @Override
     public void receberArquivo(byte[] mydata, String filename, int length){
         try{
             File pathfile = new File(clientstoragepath+filename);

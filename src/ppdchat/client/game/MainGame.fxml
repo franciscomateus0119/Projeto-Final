@@ -12,7 +12,12 @@
         <URL value="@maingamecontroller.css" />
     </stylesheets>
     <children>
+         <VBox layoutX="300.0" layoutY="20.0" prefHeight="375.0" prefWidth="360.0">
+              <children>
+                  <fx:include fx:id="chatToolbar" source="ChatToolbar.fxml" />
+              </children>
 
+        </VBox>
         <VBox layoutX="14.0" layoutY="15.0" prefHeight="415.0" prefWidth="200.0"> 
           <children>
               <fx:include fx:id="game" source="Game.fxml" />

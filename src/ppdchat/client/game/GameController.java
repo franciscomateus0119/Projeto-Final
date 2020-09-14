@@ -6,6 +6,7 @@
 package ppdchat.client.game;
 
 import java.io.File;
+import java.io.IOException;
 import ppdchat.PPDChat;
 import java.net.URL;
 import java.rmi.RemoteException;
@@ -75,9 +76,10 @@ public class GameController{
     Map<String, String> contatos = new HashMap<>();
     
     ListView<String> listviewDispositivos;
-    
+    ListView<String> listviewArquivos;
     ObservableList<String> dispositivos;
-    
+    ObservableList<String> arquivos;
+    List<File> arquivosSelecionados;
     @FXML
     private Label LABEL_AMBIENTE;
     @FXML
@@ -93,6 +95,8 @@ public class GameController{
     @FXML Button BUTTON_MOSTRAR_DISPOSITIVOS;
     @FXML Button BUTTON_ENVIAR_ARQUIVO;
     @FXML Button BUTTON_LOCALIZACAO;
+    @FXML Button BUTTON_SELECIONAR_MULTIPLOS;
+    @FXML Button BUTTON_ENVIAR_MULTIPLOS;
     
     @FXML TextField TF_SELECIONAR_ARQUIVO;
     
@@ -103,7 +107,8 @@ public class GameController{
     
     @FXML
     private HBox HBOX_DISPOSITIVOS;
-    
+    @FXML
+    private HBox HBOX_ARQUIVOS_SELECIONADOS;
 
     
     public void init(MainGameController mainGameController){
@@ -118,6 +123,17 @@ public class GameController{
         listviewDispositivos.toFront();
         HBOX_DISPOSITIVOS.getChildren().addAll(listviewDispositivos);
         dispositivos = FXCollections.observableArrayList();
+        
+        listviewArquivos = new ListView<>();
+        listviewArquivos.setPrefWidth(200);
+        listviewArquivos.setPrefHeight(200);
+        listviewArquivos.setLayoutX(376);
+        listviewArquivos.setLayoutY(192);
+        listviewArquivos.setVisible(true);
+        listviewArquivos.toFront();
+        HBOX_ARQUIVOS_SELECIONADOS.getChildren().addAll(listviewArquivos);
+        arquivos = FXCollections.observableArrayList();
+        
         listViewDispositivosListener();
         //aceitarEnter();
         stage = PPDChat.getStage();   
@@ -158,9 +174,50 @@ public class GameController{
         FileChooser fc = new FileChooser();
         File selectedFile = fc.showOpenDialog(null);
         if(selectedFile!=null){
-            TF_SELECIONAR_ARQUIVO.setText(selectedFile.getAbsolutePath());
+            listviewArquivos.getItems().clear();
+            listviewArquivos.getItems().add(selectedFile.getAbsolutePath());
         }
     }
+    
+    @FXML
+    public void selecionarArquivos(MouseEvent event){
+        FileChooser fc = new FileChooser();
+        if(arquivosSelecionados!=null){
+            arquivosSelecionados.clear();
+        }
+        
+        arquivosSelecionados = fc.showOpenMultipleDialog(null);
+        if(arquivosSelecionados!=null){
+            listviewArquivos.getItems().clear();
+            for(int i = 0; i < arquivosSelecionados.size();i++){
+                //listviewArquivos.getItems().add(arquivosSelecionados.get(i).getAbsolutePath());
+                listviewArquivos.getItems().add(arquivosSelecionados.get(i).getName());
+            }
+            
+        }
+        
+    }
+    @FXML
+    public void enviarArquivos(MouseEvent event) throws IOException{
+        if(TF_NOME_DISPOSITIVO.getText()!=null && !TF_NOME_DISPOSITIVO.getText().equals("")){
+            if(arquivosSelecionados!=null){
+                ArrayList<String> paths = new ArrayList<>();
+                ArrayList<String> filenames = new ArrayList<>();
+                for(int i = 0;i<arquivosSelecionados.size();i++){
+                    paths.add(arquivosSelecionados.get(i).getAbsolutePath());
+                    filenames.add(arquivosSelecionados.get(i).getName());
+                    listviewArquivos.getItems().clear();
+                    main.getClient().enviarArquivos(paths, filenames, TF_NOME_DISPOSITIVO.getText());
+                }
+            }
+        }
+        //Se um dispositivo não tiver sido selecionado
+        else{
+            TF_NOME_DISPOSITIVO.clear();
+            TF_NOME_DISPOSITIVO.setPromptText("SELECIONE UM DISPOSITIVO");
+        }
+    }
+    
     @FXML
     public void enviarArquivo(MouseEvent event){
         //Se um dispositivo tiver sido selecionado
