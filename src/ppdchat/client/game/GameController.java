@@ -96,10 +96,11 @@ public class GameController{
     @FXML Button BUTTON_LOCALIZACAO;
     @FXML Button BUTTON_SELECIONAR_MULTIPLOS;
     @FXML Button BUTTON_ENVIAR_MULTIPLOS;
+    @FXML Button BUTTON_MUDAR_ENDERECO;
 
     
     @FXML TextField TF_NOME_DISPOSITIVO;
-    
+    @FXML TextField TF_ENDERECO;
     @FXML TextField TF_X;
     @FXML TextField TF_Y;
     
@@ -233,6 +234,15 @@ public class GameController{
         }
         else{
             TF_X.setPromptText("DIGITE UM X");
+        }
+    }
+    
+    @FXML
+    public void mudarEndereco(MouseEvent event){
+        if(TF_ENDERECO.getText()!= null && !TF_ENDERECO.getText().equals("")){
+            LABEL_ENDERECO.setText(TF_ENDERECO.getText());
+            TF_ENDERECO.clear();
+            TF_ENDERECO.setPromptText("Digite seu Endereço");
         }
     }
     

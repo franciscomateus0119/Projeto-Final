@@ -5,10 +5,10 @@
         <group name="Group 20180329-03:17:14">
             <file>file:/C:/Users/Matheus/Desktop/Joguinhos/ProjetoFinalPPD/PPDChat/src/ppdchat/server/ServerInterface.java</file>
             <file>file:/C:/Users/Matheus/Desktop/Joguinhos/ProjetoFinalPPD/PPDChat/src/ppdchat/client/game/GameController.java</file>
+            <file>file:/C:/Users/Matheus/Desktop/Joguinhos/ProjetoFinalPPD/PPDChat/src/ppdchat/client/game/MainGame.fxml</file>
             <file>file:/C:/Users/Matheus/Desktop/Joguinhos/ProjetoFinalPPD/PPDChat/src/ppdchat/client/ClientInterface.java</file>
+            <file>file:/C:/Users/Matheus/Desktop/Joguinhos/ProjetoFinalPPD/PPDChat/src/ppdchat/client/game/MainGameController.java</file>
             <file>file:/C:/Users/Matheus/Desktop/Joguinhos/ProjetoFinalPPD/PPDChat/src/ppdchat/server/Server.java</file>
-            <file>file:/C:/Users/Matheus/Desktop/Joguinhos/ProjetoFinalPPD/PPDChat/src/ppdchat/InitServer.java</file>
-            <file>file:/C:/Users/Matheus/Desktop/Joguinhos/ProjetoFinalPPD/PPDChat/src/ppdchat/client/game/MenuController.java</file>
             <file>file:/C:/Users/Matheus/Desktop/Joguinhos/ProjetoFinalPPD/PPDChat/src/ppdchat/client/Client.java</file>
         </group>
     </open-files>
