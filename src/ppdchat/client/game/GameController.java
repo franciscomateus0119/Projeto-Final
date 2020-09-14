@@ -64,8 +64,8 @@ public class GameController{
     
     String meuNome = "X";
     String ambienteAtual = "Nenhum";
-    float meuX;
-    float meuY;
+    String meuX;
+    String meuY;
     
     String lastSelected;
     
@@ -188,11 +188,12 @@ public class GameController{
     }
     
     public void updateInfo(){
+        System.out.println("Meu Nome: " + meuNome + " - Ambiente Atual: " + ambienteAtual +" - X: " + meuX + " - Y: " + meuY);
         Platform.runLater(() -> {
             LABEL_NOME.setText("Nome: " + meuNome);
             LABEL_AMBIENTE.setText("Ambiente: " + ambienteAtual);
-            LABEL_X.setText("X: " + Float.toString(meuX));
-            LABEL_Y.setText("Y: " + Float.toString(meuY));
+            LABEL_X.setText("X: " + (meuX));
+            LABEL_Y.setText("Y: " + (meuY));
         });
     }
 
@@ -257,19 +258,19 @@ public class GameController{
         this.ambienteAtual = ambienteAtual;
     }
 
-    public float getMeuX() {
+    public String getMeuX() {
         return meuX;
     }
 
-    public void setMeuX(float meuX) {
+    public void setMeuX(String meuX) {
         this.meuX = meuX;
     }
 
-    public float getMeuY() {
+    public String getMeuY() {
         return meuY;
     }
 
-    public void setMeuY(float meuY) {
+    public void setMeuY(String meuY) {
         this.meuY = meuY;
     }
 

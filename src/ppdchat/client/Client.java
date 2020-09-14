@@ -44,8 +44,9 @@ public class Client extends UnicastRemoteObject implements ClientInterface, Seri
     private int serverPort;
     private String nome;
     private String clientEndereco;
-    private float clientX;
-    private float clientY;
+    private String clientX;
+    private String clientY;
+    private String ambienteAtual = "";
     Map<Integer, String> names = new HashMap<>();
     private int nameCounter = 0;
     
@@ -54,7 +55,7 @@ public class Client extends UnicastRemoteObject implements ClientInterface, Seri
     //String filepath = "C:/Users/Matheus/Desktop/Joguinhos/4chat/teste/" +filename;
     String clientstoragepath;
     
-    public Client(ServerInterface server, String ip, String servername, int port, Registry registro, String nome, float x, float y, String endereco, String storagepath) throws RemoteException{
+    public Client(ServerInterface server, String ip, String servername, int port, Registry registro, String nome, String x, String y, String endereco, String storagepath) throws RemoteException{
         super();
         this.server = server;
         this.nome = nome;
@@ -89,7 +90,7 @@ public class Client extends UnicastRemoteObject implements ClientInterface, Seri
             mainController.getGameController().setMeuNome(nome);
             mainController.getGameController().setMeuX(clientX);
             mainController.getGameController().setMeuY(clientY);
-            mainController.getGameController().setAmbienteAtual("--");
+            mainController.getGameController().setAmbienteAtual(ambienteAtual);
             mainController.getGameController().updateInfo();
         });
         try{
@@ -153,6 +154,8 @@ public class Client extends UnicastRemoteObject implements ClientInterface, Seri
     
     @Override
     public void receberAmbiente(String nomeAmbiente) throws RemoteException{
+        System.out.println("Novo Ambiente de nome " + nomeAmbiente);
+        this.ambienteAtual = nomeAmbiente;
         Platform.runLater(() -> {
             mainController.getGameController().setAmbienteAtual(nomeAmbiente);
             mainController.getGameController().updateInfo();

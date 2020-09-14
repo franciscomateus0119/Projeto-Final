@@ -53,7 +53,7 @@ public class Server implements ServerInterface, Serializable{
     }
     
     @Override
-    public void registerClient(ClientInterface client, String nome, String endereco, float x, float y) throws RemoteException{
+    public void registerClient(ClientInterface client, String nome, String endereco, String x, String y) throws RemoteException{
         //System.out.println(clients.size());
         System.out.println("Novo Dispositivo!");
         clients.add(client);
@@ -99,7 +99,7 @@ public class Server implements ServerInterface, Serializable{
     //Funções do Espaço de Tuplas
     
     @Override
-    public void procurarAmbiente(ClientInterface client, String nome, String endereco, float x, float y) throws RemoteException{
+    public void procurarAmbiente(ClientInterface client, String nome, String endereco, String x, String y) throws RemoteException{
         ListaDeAmbientes template = new ListaDeAmbientes();
         boolean dispositivoAdicionado = false;
         if (template == null) {
@@ -154,7 +154,9 @@ public class Server implements ServerInterface, Serializable{
                              System.out.println("O nome do dispositivo é único no ambiente " + ambiente.nomeAmbiente);
                              //compara a distância do dispositivo com a distância do ambiente
                              //Se a distância entre o ambiente e o dispositivo for menor que 10
-                             if(verificarLocalizacao(x,y,ambiente.xAmbiente,ambiente.yAmbiente)<10){
+                             Float ambienteX = Float.parseFloat(ambiente.xAmbiente);
+                             Float ambienteY = Float.parseFloat(ambiente.yAmbiente);
+                             if(verificarLocalizacao(Float.parseFloat(x),Float.parseFloat(y),ambienteX,ambienteY)<10){
                                  ArrayList<String> listaDeDispositivos = new ArrayList<>();
                                  listaDeDispositivos = ambiente.dispositivosNoAmbiente;
                                  String nomeDoAmbiente = ambiente.nomeAmbiente;
@@ -174,11 +176,13 @@ public class Server implements ServerInterface, Serializable{
                              }
                              //Se a distância for maior que 10 metros, não adicione o dispositivo e devolva o ambiente
                              else{
+                                System.out.println("Distância é maior que 10 metros no ambiente " + ambiente.nomeAmbiente);
                                 space.write(ambiente, null, Lease.FOREVER);
                              }
                          }
                          //Se o nome não for único no ambiente, não adicione o dispositivo e devolva o ambiente
                          else{
+                             System.out.println("O nome não é único no ambiente " + ambiente.nomeAmbiente);
                              space.write(ambiente, null, Lease.FOREVER);
                          }
                      }
@@ -248,6 +252,7 @@ public class Server implements ServerInterface, Serializable{
     
     @Override
     public void enviarAmbiente(ClientInterface client, String nomeAmbiente) throws RemoteException{
+        System.out.println("Informando ao Dispositivo o Ambiente em que fora inserido!");
         client.receberAmbiente(nomeAmbiente);
     }
     

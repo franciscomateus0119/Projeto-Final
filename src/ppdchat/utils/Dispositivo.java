@@ -1,11 +1,11 @@
 package ppdchat.utils;
 import net.jini.core.entry.Entry;
 public class Dispositivo implements Entry{
-    String nomeDispositivo;
-    String endereco;
-    String ambienteAtual;
-    float xDispositivo;
-    float yDispositivo;
+    public String nomeDispositivo;
+    public String endereco;
+    public String ambienteAtual;
+    public String xDispositivo;
+    public String yDispositivo;
     
     public Dispositivo(){}
 

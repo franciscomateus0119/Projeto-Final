@@ -48,8 +48,8 @@ public class MenuController {
     BackgroundImage startimg = new BackgroundImage( new Image( getClass().getResource("conteudo/start.png").toExternalForm()), BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, BackgroundSize.DEFAULT);
     Background startbg = new Background(startimg);
     String nome;
-    float valorX;
-    float valorY;
+    String valorX;
+    String valorY;
     
     
     @FXML TextField TF_NOME;
@@ -89,8 +89,10 @@ public class MenuController {
             ServerInterface server = (ServerInterface) registry.lookup(TF_NAME_SERVER.getText());
             System.out.println("Server: " + server);
             System.out.println("Server Registry: "+registry);
-            valorX = Float.parseFloat(TF_X.getText());
-            valorY = Float.parseFloat(TF_Y.getText());
+            //valorX = Float.parseFloat(TF_X.getText());
+            //valorY = Float.parseFloat(TF_Y.getText());
+            valorX = TF_X.getText();
+            valorY = TF_Y.getText();
             if(TF_FOLDER.getText()==null || TF_FOLDER.getText().equals("")){
                 if(TF_NOME.getText()!=null && !TF_NOME.getText().equals("")){
                     File storageDir = new File("C:/" + TF_NOME.getText()+"Storage");
