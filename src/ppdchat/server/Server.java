@@ -95,14 +95,25 @@ public class Server implements ServerInterface, Serializable{
     }
     
     @Override
-    public void receberArquivo(byte[] mydata, String filename, int length, String dispositivoAlvo) throws RemoteException{
-
-        enviarArquivo(mydata, filename, length, dispositivoAlvo);
+    public void receberArquivo(byte[] mydata, String filename, int length, String dispositivoAlvo, String ambiente) throws RemoteException {
+        for (String key : clientsByName.keySet()) {
+            for (Map.Entry<ClientInterface, String> entry : namesByClient.entrySet()) {
+                ClientInterface dispositivo = entry.getKey();
+                String name = entry.getValue();             
+                if(key.equals(name) && key.equals(dispositivoAlvo)){
+                    String ambienteGet = dispositivo.enviarAmbienteAtual();
+                    if(ambienteGet.endsWith(ambiente)){
+                        enviarArquivo(mydata, filename, length, dispositivo);
+                    }
+                }
+            }
+        }
+        
     }
     
     @Override
-    public void enviarArquivo(byte[] mydata, String filename,int length,String dispositivoAlvo) throws RemoteException{
-        ClientInterface client = clientsByName.get(dispositivoAlvo);
+    public void enviarArquivo(byte[] mydata, String filename,int length, ClientInterface client) throws RemoteException{
+        //ClientInterface client = clientsByName.get(dispositivoAlvo);
         client.receberArquivo(mydata, filename, length);
     }
     

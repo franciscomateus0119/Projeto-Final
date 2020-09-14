@@ -99,8 +99,19 @@ public class MenuController {
                     if (!storageDir.isDirectory()) {
                         storageDir.mkdir();
                         System.out.println("Storage Folder: " + "C:/" + TF_NOME.getText()+"Storage/");
+                        TF_FOLDER.setText("C:/" + TF_NOME.getText()+"Storage/");
                     }
-                    TF_FOLDER.setText("C:/" + TF_NOME.getText()+"Storage/");
+                    else{
+                        int i = 0;
+                        while(storageDir.isDirectory()){
+                            i++; 
+                            storageDir = new File("C:/" + TF_NOME.getText()+"Storage_" + i);                              
+                        }
+                        storageDir.mkdir();
+                        System.out.println("Storage Folder: " + "C:/" + TF_NOME.getText()+"Storage_"+ i+"/");
+                        TF_FOLDER.setText("C:/" + TF_NOME.getText()+"Storage_"+ i+"/");
+                    }
+                    
                 }
             }
             client = new Client(server,TF_IP_SERVER.getText(),TF_NAME_SERVER.getText(),Integer.parseInt(TF_PORT_SERVER.getText()),

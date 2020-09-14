@@ -102,7 +102,10 @@ public class Client extends UnicastRemoteObject implements ClientInterface, Seri
     public void enviarClientName() throws RemoteException{
         server.registerClientName(this, nome);
     }
-    
+    @Override
+    public String enviarAmbienteAtual() throws RemoteException{
+        return ambienteAtual;
+    }
     @Override
     public void enviarPedidoAtualizarLista() throws RemoteException{
         System.out.println("Enviando pedido de AtualizarLista!");
@@ -154,12 +157,13 @@ public class Client extends UnicastRemoteObject implements ClientInterface, Seri
         System.out.println("Uploading to server...");
         in.read(mydata, 0, mydata.length);
         //Send file to Server
-        server.receberArquivo(mydata,filename,(int) clientpathfile.length(), dispositivoAlvo);
+        server.receberArquivo(mydata,filename,(int) clientpathfile.length(), dispositivoAlvo, ambienteAtual);
     }
     
     public void receberArquivo(byte[] mydata, String filename, int length){
         try{
             File pathfile = new File(clientstoragepath+filename);
+            System.out.println("Enviando arquivo para: "+pathfile);
             FileOutputStream out = new FileOutputStream(pathfile);
             byte[] data = mydata;
 
