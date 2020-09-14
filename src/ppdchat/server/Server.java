@@ -59,6 +59,7 @@ public class Server implements ServerInterface, Serializable{
         clients.add(client);
         System.out.println("Nº de dispositivos: " + clients.size());
         System.out.println("Encontrando um ambiente para o dispositivo... ");
+        procurarAmbiente(client, nome, endereco, x, y);
         //iniciarJogo();
         
     }
@@ -98,25 +99,121 @@ public class Server implements ServerInterface, Serializable{
     //Funções do Espaço de Tuplas
     
     @Override
-    public void procurarAmbiente(String nome, String endereco, float x, float y) throws RemoteException{
+    public void procurarAmbiente(ClientInterface client, String nome, String endereco, float x, float y) throws RemoteException{
         ListaDeAmbientes template = new ListaDeAmbientes();
+        boolean dispositivoAdicionado = false;
         if (template == null) {
             System.out.println("Template nulo!");
         }
-        try{
-            ListaDeAmbientes listadeambientes = (ListaDeAmbientes) space.take(template, null, 5 * 1000);
+        try{//procura a lista de ambientes
+            ListaDeAmbientes listadeambientes = (ListaDeAmbientes) space.take(template, null, 10 * 1000);
             //Se não existir lista de ambientes, crie um novo ambiente e uma nova lista de ambientes
             if (listadeambientes == null) {
+                System.out.println("Lista de Ambientes NÃO FOI encontrada! Criando Ambiente...");
+                ArrayList<String> listaDeDispositivos = new ArrayList<>();
+                ArrayList<String> arrayListaDeAmbientes = new ArrayList<>();
+                
                 //Cria um novo Ambiente, com sua localização sendo a do dispositivo (pois ele é o primeiro a entrar)
-                //Envia Ambiente para o Servidor de Ambientes (Espaço de Tuplas)
-                //Coloca o novo Ambiente na lista de Ambientes
-                //Envia a Lista de Ambientes para o Servidor de Ambientes
+                Ambiente novoAmbiente = new Ambiente();
+                novoAmbiente.nomeAmbiente = "Ambiente_1";
+                novoAmbiente.xAmbiente = x;
+                novoAmbiente.yAmbiente = y;
+                listaDeDispositivos.add(nome);
+                novoAmbiente.dispositivosNoAmbiente = listaDeDispositivos;
+                
+                //Coloca o novo Ambiente em uma nova lista de Ambientes
+                System.out.println("Adicionando " + novoAmbiente.nomeAmbiente + "na lista de ambientes...");
+                arrayListaDeAmbientes.add("Ambiente_1");
+                ListaDeAmbientes novaListaDeAmbientes = new ListaDeAmbientes();
+                novaListaDeAmbientes.listaDeAmbientes = arrayListaDeAmbientes;
+                
+                //Envia o Ambiente e a Lista de Ambientes para o Servidor de Ambientes (Espaço de Tuplas)
+                space.write(novoAmbiente, null, Lease.FOREVER);
+                space.write(novaListaDeAmbientes, null, Lease.FOREVER);
+                
+                System.out.println("Ambiente e Lista de Ambientes inseridos no Servidor de Ambientes!");
+                //Informa o dispositivo em qual ambiente ele está inserido
+                enviarAmbiente(client, "Ambiente_1");
             }
+            
             //Se já existir uma lista de ambientes
             else{
-                //procura a lista de ambientes
-                //para cada ambiente na lista de ambientes, verifica se já existe um dispositivo com o mesmo nome
-                
+                System.out.println("Lista de Ambientes FOI encontrada!");
+                int tamanho = listadeambientes.listaDeAmbientes.size();
+                //para cada ambiente na lista de ambientes
+                 for(int i=0;i<tamanho;i++){
+                     Ambiente templateAmbiente = new Ambiente();
+                     templateAmbiente.nomeAmbiente = listadeambientes.listaDeAmbientes.get(i);
+                     Ambiente ambiente = (Ambiente) space.take(templateAmbiente, null, 5 * 1000);
+                     
+                     //Se o ambiente encontrado não for nulo
+                     if(ambiente!=null){
+                         //Verifica se na lista de dispositivos do ambiente encontrado existe um dispositivo com o nome do novo dispositivo
+                         //Se não existe um dispositivo com o nome do novo dispositivo no ambiente (o Nome é único)
+                         if(!ambiente.dispositivosNoAmbiente.contains(nome)){
+                             System.out.println("O nome do dispositivo é único no ambiente " + ambiente.nomeAmbiente);
+                             //compara a distância do dispositivo com a distância do ambiente
+                             //Se a distância entre o ambiente e o dispositivo for menor que 10
+                             if(verificarLocalizacao(x,y,ambiente.xAmbiente,ambiente.yAmbiente)<10){
+                                 ArrayList<String> listaDeDispositivos = new ArrayList<>();
+                                 listaDeDispositivos = ambiente.dispositivosNoAmbiente;
+                                 String nomeDoAmbiente = ambiente.nomeAmbiente;
+                                 System.out.println("A distância é menor que 10 metros!");
+                                 //Adiciona o Dispositivo ao ambiente
+                                 listaDeDispositivos.add(nome);
+                                 ambiente.dispositivosNoAmbiente = listaDeDispositivos;
+                                 dispositivoAdicionado = true;
+                                 //Devolve o Ambiente e a Lista de Ambientes ao Servidor de Ambientes (Espaço de Tuplas)
+                                 space.write(ambiente, null, Lease.FOREVER);
+                                 space.write(listadeambientes, null, Lease.FOREVER);
+                                 i = tamanho;
+                                 System.out.println("Dispositivo" + nome + " Adicionado em" + ambiente.nomeAmbiente+ " !");
+                                 //Informa o dispositivo em qual ambiente ele está inserido
+                                 enviarAmbiente(client, nomeDoAmbiente);
+                                 
+                             }
+                             //Se a distância for maior que 10 metros, não adicione o dispositivo e devolva o ambiente
+                             else{
+                                space.write(ambiente, null, Lease.FOREVER);
+                             }
+                         }
+                         //Se o nome não for único no ambiente, não adicione o dispositivo e devolva o ambiente
+                         else{
+                             space.write(ambiente, null, Lease.FOREVER);
+                         }
+                     }
+                }
+                //Se o dispositivo não foi adicionado a nenhum ambiente, devido a Distância/Nome incompatíveis
+                if(!dispositivoAdicionado){
+                    System.out.println("Nenhum ambiente favorável foi encontrado! Criando novo ambiente...");
+                    ArrayList<String> listaDeDispositivos = new ArrayList<>();
+                    ArrayList<String> arrayListaDeAmbientes = new ArrayList<>();
+                    arrayListaDeAmbientes = listadeambientes.listaDeAmbientes;
+                    
+                    //Crie um ambiente para este dispositivo
+                    Ambiente newAmbiente = new Ambiente();
+                    newAmbiente.nomeAmbiente = "Ambiente_" + (tamanho+1);
+                    newAmbiente.xAmbiente = x;
+                    newAmbiente.yAmbiente = y;
+                    listaDeDispositivos.add(nome);
+                    newAmbiente.dispositivosNoAmbiente = listaDeDispositivos;
+                    String nomedoAmbiente = newAmbiente.nomeAmbiente;
+                    System.out.println("Dispositivo " + nome + " foi alocado no ambiente " + newAmbiente.nomeAmbiente +" !");
+                    //Adicione o ambiente na lista de ambientes
+                    
+                    arrayListaDeAmbientes.add(newAmbiente.nomeAmbiente);
+                    listadeambientes.listaDeAmbientes = arrayListaDeAmbientes;
+                    
+                    //Insira o novo Ambiente e devolva a Lista de Ambientes para o Servidor de Ambientes
+                    space.write(newAmbiente, null, Lease.FOREVER);
+                    space.write(listadeambientes, null, Lease.FOREVER);
+                    
+                    //Informa o dispositivo em qual ambiente ele está inserido
+                    enviarAmbiente(client, nomedoAmbiente);
+                    
+                    
+                } 
+                 
                 //-> Caso Normal <-
                 //Se o nome do dispositivo for único, compara a distância do ambiente com o dispositivo
                 //Se a distância for permitida, coloca o dispositivo na lista de dispositivos do ambiente
@@ -147,6 +244,17 @@ public class Server implements ServerInterface, Serializable{
         } else {
             System.out.println("JavaSpace encontrado: " + space);
         }
+    }
+    
+    @Override
+    public void enviarAmbiente(ClientInterface client, String nomeAmbiente) throws RemoteException{
+        client.receberAmbiente(nomeAmbiente);
+    }
+    
+    public float verificarLocalizacao(float x1,float y1, float x2,float y2) {
+        float x = Math.abs(x2 - x1);
+        float y = Math.abs(y2 - y1);
+        return (float) Math.hypot(x, y);
     }
     
     //<editor-fold defaultstate="collapsed" desc="OldProject">

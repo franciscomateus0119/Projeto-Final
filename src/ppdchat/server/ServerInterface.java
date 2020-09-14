@@ -22,7 +22,8 @@ public interface ServerInterface extends Remote{
     void receberArquivo(byte[] mydata, String filename,int length, String dispositivoAlvo) throws RemoteException;
     void enviarArquivo(byte[] mydata, String filename,int length, String dispositivoAlvo) throws RemoteException;
     void encontrarEspaco() throws RemoteException;
-    void procurarAmbiente(String nome, String endereco, float x, float y) throws RemoteException;
+    void procurarAmbiente(ClientInterface client, String nome, String endereco, float x, float y) throws RemoteException;
+    void enviarAmbiente(ClientInterface client, String nomeAmbiente) throws RemoteException;
     /*
     void broadcastTexto(ClientInterface client, String texto) throws RemoteException;
     void broadcastStatus(ClientInterface client, String id, String status) throws RemoteException;

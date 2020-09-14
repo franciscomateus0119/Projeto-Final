@@ -89,7 +89,7 @@ public class Client extends UnicastRemoteObject implements ClientInterface, Seri
             mainController.getGameController().setMeuNome(nome);
             mainController.getGameController().setMeuX(clientX);
             mainController.getGameController().setMeuY(clientY);
-            mainController.getGameController().setAmbienteAtual("None");
+            mainController.getGameController().setAmbienteAtual("--");
             mainController.getGameController().updateInfo();
         });
         try{
@@ -149,6 +149,14 @@ public class Client extends UnicastRemoteObject implements ClientInterface, Seri
             out.flush();
             out.close();
         }catch(Exception e){e.printStackTrace();}
+    }
+    
+    @Override
+    public void receberAmbiente(String nomeAmbiente) throws RemoteException{
+        Platform.runLater(() -> {
+            mainController.getGameController().setAmbienteAtual(nomeAmbiente);
+            mainController.getGameController().updateInfo();
+        });
     }
     
     //<editor-fold defaultstate="collapsed" desc="OldProject">

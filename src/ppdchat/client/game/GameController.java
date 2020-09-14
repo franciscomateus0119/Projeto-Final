@@ -189,10 +189,10 @@ public class GameController{
     
     public void updateInfo(){
         Platform.runLater(() -> {
-            LABEL_NOME.setText(meuNome);
-            LABEL_AMBIENTE.setText(ambienteAtual);
-            LABEL_X.setText(Float.toString(meuX));
-            LABEL_Y.setText(Float.toString(meuY));
+            LABEL_NOME.setText("Nome: " + meuNome);
+            LABEL_AMBIENTE.setText("Ambiente: " + ambienteAtual);
+            LABEL_X.setText("X: " + Float.toString(meuX));
+            LABEL_Y.setText("Y: " + Float.toString(meuY));
         });
     }
 
