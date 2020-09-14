@@ -62,8 +62,9 @@ public class GameController{
     private MainGameController main; 
     Stage stage;
     
-    String meuNome = "X";
-    String ambienteAtual = "Nenhum";
+    String meuNome;
+    String ambienteAtual;
+    String endereco;
     String meuX;
     String meuY;
     
@@ -85,9 +86,9 @@ public class GameController{
     private Label LABEL_X;
     @FXML
     private Label LABEL_NOME;
+    @FXML Label LABEL_ENDERECO;
     @FXML Label LABEL_DISPOSITIVO_SELECIONADO;
-    
-    @FXML Label LABEL_DISPOSITIVOS_ENCONTRADOS;
+    //@FXML Label LABEL_DISPOSITIVOS_ENCONTRADOS;
     @FXML Button BUTTON_SELECIONAR_ARQUIVO;
     @FXML Button BUTTON_MOSTRAR_DISPOSITIVOS;
     @FXML Button BUTTON_ENVIAR_ARQUIVO;
@@ -222,6 +223,7 @@ public class GameController{
         Platform.runLater(() -> {
             LABEL_NOME.setText("Nome: " + meuNome);
             LABEL_AMBIENTE.setText("Ambiente: " + ambienteAtual);
+            LABEL_ENDERECO.setText("Endereço: "+endereco);
             LABEL_X.setText("X: " + (meuX));
             LABEL_Y.setText("Y: " + (meuY));
         });
@@ -304,6 +306,16 @@ public class GameController{
         this.meuY = meuY;
     }
 
+    public String getEndereço() {
+        return endereco;
+    }
+
+    public void setEndereço(String endereço) {
+        this.endereco = endereço;
+    }
+
+    
+    /*
     public Label getLABEL_DISPOSITIVOS_ENCONTRADOS() {
         return LABEL_DISPOSITIVOS_ENCONTRADOS;
     }
@@ -311,6 +323,6 @@ public class GameController{
     public void setLABEL_DISPOSITIVOS_ENCONTRADOS(Label LABEL_DISPOSITIVOS_ENCONTRADOS) {
         this.LABEL_DISPOSITIVOS_ENCONTRADOS = LABEL_DISPOSITIVOS_ENCONTRADOS;
     }
-    
+    */
     
 }

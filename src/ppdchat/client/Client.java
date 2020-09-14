@@ -91,6 +91,7 @@ public class Client extends UnicastRemoteObject implements ClientInterface, Seri
             mainController.getGameController().setMeuX(clientX);
             mainController.getGameController().setMeuY(clientY);
             mainController.getGameController().setAmbienteAtual(ambienteAtual);
+            mainController.getGameController().setEndereço(clientEndereco);
             mainController.getGameController().updateInfo();
         });
         try{
@@ -136,16 +137,18 @@ public class Client extends UnicastRemoteObject implements ClientInterface, Seri
         if(listaDispositivos.size() > 0){
             Platform.runLater(() -> {
                 mainController.getGameController().atualizarListaDispositivos(listaDispositivos);
-                mainController.getGameController().getLABEL_DISPOSITIVOS_ENCONTRADOS().setText("Dispositivo(s) Encontrado(s)!");
+                //mainController.getGameController().getLABEL_DISPOSITIVOS_ENCONTRADOS().setText("Dispositivo(s) Encontrado(s)!");
             });
             
         }
+        /*
         else{
             Platform.runLater(() -> {
                 mainController.getGameController().getLABEL_DISPOSITIVOS_ENCONTRADOS().setText("Nenhum Dispositivo Encontrado!");
             });
             
         }
+        */
             
         
     }

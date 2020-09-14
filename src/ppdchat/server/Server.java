@@ -37,7 +37,7 @@ import ppdchat.utils.*;
 public class Server implements ServerInterface, Serializable{
     private int clientesConectados = 0;
     protected ArrayList<ClientInterface> clients;
-    protected ArrayList<String> names;
+    protected ArrayList<String> names = new ArrayList<>();
     //public Map<String, ClientInterface> clientsByName = new HashMap<>();
     public Map<ClientInterface, String> namesByClient = new HashMap<>();
     public ArrayList<String> todosOsNomes = new ArrayList<>();
