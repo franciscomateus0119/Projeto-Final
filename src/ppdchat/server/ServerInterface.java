@@ -20,9 +20,7 @@ public interface ServerInterface extends Remote{
     void registerClient(ClientInterface client, String nome, String endereco, String x, String y) throws RemoteException;
     void registerClientName(ClientInterface client, String nomeClient) throws RemoteException;
     void receberAtualizarListaDispositivos(ClientInterface client, String nomeClient, String nomeAmbiente) throws RemoteException;
-    void receberArquivo(byte[] mydata, String filename,int length, String dispositivoAlvo, String ambiente) throws RemoteException;
     void receberArquivos(ArrayList<byte []> mydata, ArrayList<String> filenames, String dispositivoAlvo, String ambiente) throws RemoteException;
-    void enviarArquivo(byte[] mydata, String filename,int length, ClientInterface client) throws RemoteException;
     void enviarArquivos(ArrayList<byte []> mydata, ArrayList<String> filenames, ClientInterface client) throws RemoteException;
     void encontrarEspaco() throws RemoteException;
     void procurarAmbiente(ClientInterface client, String nome, String endereco, String x, String y) throws RemoteException;

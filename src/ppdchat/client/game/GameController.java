@@ -93,12 +93,10 @@ public class GameController{
     //@FXML Label LABEL_DISPOSITIVOS_ENCONTRADOS;
     @FXML Button BUTTON_SELECIONAR_ARQUIVO;
     @FXML Button BUTTON_MOSTRAR_DISPOSITIVOS;
-    @FXML Button BUTTON_ENVIAR_ARQUIVO;
     @FXML Button BUTTON_LOCALIZACAO;
     @FXML Button BUTTON_SELECIONAR_MULTIPLOS;
     @FXML Button BUTTON_ENVIAR_MULTIPLOS;
-    
-    @FXML TextField TF_SELECIONAR_ARQUIVO;
+
     
     @FXML TextField TF_NOME_DISPOSITIVO;
     
@@ -169,15 +167,7 @@ public class GameController{
         } 
     }
     
-    @FXML
-    public void selecionarArquivo(MouseEvent event){
-        FileChooser fc = new FileChooser();
-        File selectedFile = fc.showOpenDialog(null);
-        if(selectedFile!=null){
-            listviewArquivos.getItems().clear();
-            listviewArquivos.getItems().add(selectedFile.getAbsolutePath());
-        }
-    }
+
     
     @FXML
     public void selecionarArquivos(MouseEvent event){
@@ -218,36 +208,7 @@ public class GameController{
         }
     }
     
-    @FXML
-    public void enviarArquivo(MouseEvent event){
-        //Se um dispositivo tiver sido selecionado
-        if(TF_NOME_DISPOSITIVO.getText()!=null && !TF_NOME_DISPOSITIVO.getText().equals("")){
-            //Se um arquivo tiver sido selecionado
-            if(TF_SELECIONAR_ARQUIVO.getText()!=null && !TF_SELECIONAR_ARQUIVO.getText().equals("") ){
-                File fileDir = new File(TF_SELECIONAR_ARQUIVO.getText());
-                if(fileDir.isFile()){
-                    try{
-                        main.getClient().enviarArquivo(TF_SELECIONAR_ARQUIVO.getText(), fileDir.getName(), TF_NOME_DISPOSITIVO.getText());
-                    }catch(Exception e){e.printStackTrace();}
-                    TF_SELECIONAR_ARQUIVO.clear();
-                    TF_SELECIONAR_ARQUIVO.setPromptText("Diretório do Arquivo");
-                    //TF_NOME_DISPOSITIVO.clear();
-                    //TF_NOME_DISPOSITIVO.setPromptText("Selecione um Dispositivo");
-                }
-
-            }
-            else{
-                TF_SELECIONAR_ARQUIVO.clear();
-                TF_SELECIONAR_ARQUIVO.setPromptText("SELECIONE UM ARQUIVO!");
-            }
-        }
-        //Se um dispositivo não tiver sido selecionado
-        else{
-            TF_NOME_DISPOSITIVO.clear();
-            TF_NOME_DISPOSITIVO.setPromptText("SELECIONE UM DISPOSITIVO");
-        }
-        
-    }
+    
     
     @FXML
     public void mudarLocalizacao(MouseEvent event){
