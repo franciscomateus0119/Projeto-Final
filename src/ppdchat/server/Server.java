@@ -98,16 +98,16 @@ public class Server implements ServerInterface, Serializable{
     
     
     @Override
-    public void receberArquivos(ArrayList<byte []> mydata, ArrayList<String> filenames, String dispositivoAlvo) throws RemoteException{
+    public void receberArquivos(ArrayList<byte []> mydata, ArrayList<String> filenames, String dispositivoAlvo, String dispositivoOrigem) throws RemoteException{
         ClientInterface dispositivo = clientsByName.get(dispositivoAlvo);
-        enviarArquivos(mydata, filenames,  dispositivo);
+        enviarArquivos(mydata, filenames,  dispositivo, dispositivoOrigem);
     }
     
 
     
     @Override
-    public void enviarArquivos(ArrayList<byte []> mydata, ArrayList<String> filenames, ClientInterface client) throws RemoteException{
-        client.receberArquivos(mydata, filenames);
+    public void enviarArquivos(ArrayList<byte []> mydata, ArrayList<String> filenames, ClientInterface client, String nomeOrigem) throws RemoteException{
+        client.receberArquivos(mydata, filenames, nomeOrigem);
     }
     
     //Funções do Espaço de Tuplas

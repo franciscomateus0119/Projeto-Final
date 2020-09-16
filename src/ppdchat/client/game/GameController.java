@@ -241,10 +241,18 @@ public class GameController{
                 
             }
             else{
+                Alert alert = new Alert(Alert.AlertType.WARNING, "Preencha o campo com um valor válido!", ButtonType.OK);
+                alert.setGraphic(null);
+                alert.setHeaderText("Valor Y inválido");
+                alert.show();
                 TF_Y.setPromptText("DIGITE UM Y");
             }
         }
         else{
+            Alert alert = new Alert(Alert.AlertType.WARNING, "Preencha o campo com um valor válido!", ButtonType.OK);
+            alert.setGraphic(null);
+            alert.setHeaderText("Valor X inválido");
+            alert.show();
             TF_X.setPromptText("DIGITE UM X");
         }
     }
@@ -259,7 +267,25 @@ public class GameController{
             LABEL_X.setText("X: " + (meuX));
             LABEL_Y.setText("Y: " + (meuY));
         });
+        
+        
     }
+    
+    public void alertNovaLocalizacao(){
+        Alert alert = new Alert(Alert.AlertType.WARNING, "A mudança para uma nova localização foi um sucesso!", ButtonType.OK);
+        alert.setGraphic(null);
+        alert.setHeaderText("Mudança de Localização");
+        alert.show();
+    }
+    
+    public void alertAmbienteSetado(){
+        Alert alert = new Alert(Alert.AlertType.WARNING, "Dispositivo presente em: " + ambienteAtual, ButtonType.OK);
+        alert.setGraphic(null);
+        alert.setHeaderText("Ambiente Encontrado");
+        alert.show();
+    }
+    
+
 
     /*
     public void aceitarEnter() {

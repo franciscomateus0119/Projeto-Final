@@ -91,6 +91,7 @@ public class Client extends UnicastRemoteObject implements ClientInterface, Seri
             mainController.getGameController().setAmbienteAtual(ambienteAtual);
             mainController.getGameController().getLABEL_STORAGE().setText(clientstoragepath);
             mainController.getGameController().updateInfo();
+            mainController.getGameController().alertAmbienteSetado();
         });
         try{
             enviarClientName();
@@ -125,6 +126,7 @@ public class Client extends UnicastRemoteObject implements ClientInterface, Seri
             mainController.getGameController().setMeuX(x);
             mainController.getGameController().setMeuY(y);
             mainController.getGameController().updateInfo();
+            mainController.getGameController().alertNovaLocalizacao();
         });
     }
     
@@ -179,13 +181,13 @@ public class Client extends UnicastRemoteObject implements ClientInterface, Seri
         for(int i=0;i<in.size();i++){
             in.get(i).read(mydata.get(i),0,mydata.get(i).length);
         }
-        server.receberArquivos(mydata, filenames, dispositivoAlvo);
+        server.receberArquivos(mydata, filenames, dispositivoAlvo, nome);
         
         
     }
     
     @Override
-    public void receberArquivos(ArrayList<byte []> mydata, ArrayList<String> filenames) throws RemoteException{
+    public void receberArquivos(ArrayList<byte []> mydata, ArrayList<String> filenames, String nomeOrigem) throws RemoteException{
         try{
             for(int i = 0;i<filenames.size();i++){
                 File pathfile = new File(clientstoragepath+filenames.get(i));
@@ -196,7 +198,10 @@ public class Client extends UnicastRemoteObject implements ClientInterface, Seri
                 out.flush();
                 out.close();
             }
-        }catch(Exception e){e.printStackTrace();}
+            
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     

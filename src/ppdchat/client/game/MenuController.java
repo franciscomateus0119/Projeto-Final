@@ -99,6 +99,7 @@ public class MenuController {
                 if(TF_NOME.getText()!=null && !TF_NOME.getText().equals("")){
                     if(server.getNames().contains(TF_NOME.getText())){
                         Alert alert = new Alert(Alert.AlertType.ERROR, "Nome Indisponível! Por favor, escolha outro nome.", ButtonType.OK);
+                        alert.setHeaderText("Nome Indisponível");
                         alert.setGraphic(null);
                         alert.showAndWait();
                         TF_NOME.clear();
@@ -112,6 +113,7 @@ public class MenuController {
                 }
                 else{
                     Alert alert = new Alert(Alert.AlertType.ERROR, "Por favor, digite um nome!", ButtonType.OK);
+                    alert.setHeaderText("Nome Vazio");
                     alert.setGraphic(null);
                     alert.showAndWait();
                 }
@@ -123,6 +125,7 @@ public class MenuController {
                     } else {
                         System.out.println("Valor de X inválido! Por favor, digite um número!");
                         Alert alert = new Alert(Alert.AlertType.ERROR, "Valor de X inválido! Por favor, digite um número.", ButtonType.OK);
+                        alert.setHeaderText("X inválido");
                         alert.setGraphic(null);
                         alert.showAndWait();
                         TF_X.clear();
@@ -132,6 +135,7 @@ public class MenuController {
                 else{
                     Alert alert = new Alert(Alert.AlertType.ERROR, "Por favor, digite um valor para a localização X.", ButtonType.OK);
                     alert.setGraphic(null);
+                    alert.setHeaderText("X vazio");
                     alert.showAndWait();
                     TF_X.clear();
                     TF_X.setPromptText("Digite sua localização X");
@@ -146,6 +150,7 @@ public class MenuController {
                     else{
                         System.out.println("Valor de Y inválido! Por favor, digite um número!");
                         Alert alert = new Alert(Alert.AlertType.ERROR, "Valor de Y inválido! Por favor, digite um número.", ButtonType.OK);
+                        alert.setHeaderText("Y inválido");
                         alert.setGraphic(null);
                         alert.showAndWait();
                         TF_Y.clear();
@@ -155,13 +160,15 @@ public class MenuController {
                 }
                 else{
                     Alert alert = new Alert(Alert.AlertType.ERROR, "Por favor, digite um valor para a localização Y.", ButtonType.OK);
+                    alert.setHeaderText("Y vazio");
                     alert.setGraphic(null);
                     alert.showAndWait();
                     TF_Y.clear();
                     TF_Y.setPromptText("Digite sua localização Y");
                 }
                 if(nomeOK && xOK && yOK){
-                    Alert alert = new Alert(Alert.AlertType.INFORMATION, "Informações verificadas! Pode iniciar a aplicação", ButtonType.OK);
+                    Alert alert = new Alert(Alert.AlertType.INFORMATION, "Pode iniciar a aplicação!", ButtonType.OK);
+                    alert.setHeaderText("Informações Verificadas");
                     alert.setGraphic(null);
                     alert.showAndWait();
                     buttonConnect.setDisable(false);
@@ -176,6 +183,7 @@ public class MenuController {
                 if(TF_NOME.getText()!=null && !TF_NOME.getText().equals("")){
                     if(server.getNames().contains(TF_NOME.getText())){
                         Alert alert = new Alert(Alert.AlertType.ERROR, "Nome Indisponível! Por favor, escolha outro nome.", ButtonType.OK);
+                        alert.setHeaderText("Nome Indisponível");
                         alert.setGraphic(null);
                         alert.showAndWait();
                         TF_NOME.clear();
@@ -189,6 +197,7 @@ public class MenuController {
                 }
                 else{
                     Alert alert = new Alert(Alert.AlertType.ERROR, "Por favor, digite um nome!", ButtonType.OK);
+                    alert.setHeaderText("Nome Vazio");
                     alert.setGraphic(null);
                     alert.showAndWait();
                 }
@@ -200,6 +209,7 @@ public class MenuController {
                     } else {
                         System.out.println("Valor de X inválido! Por favor, digite um número!");
                         Alert alert = new Alert(Alert.AlertType.ERROR, "Valor de X inválido! Por favor, digite um número.", ButtonType.OK);
+                        alert.setHeaderText("X Inválido");
                         alert.setGraphic(null);
                         alert.showAndWait();
                         TF_X.clear();
@@ -208,6 +218,7 @@ public class MenuController {
                 }
                 else{
                     Alert alert = new Alert(Alert.AlertType.ERROR, "Por favor, digite um valor para a localização X.", ButtonType.OK);
+                    alert.setHeaderText("X Vazio");
                     alert.setGraphic(null);
                     alert.showAndWait();
                     TF_X.clear();
@@ -223,6 +234,7 @@ public class MenuController {
                     else{
                         System.out.println("Valor de Y inválido! Por favor, digite um número!");
                         Alert alert = new Alert(Alert.AlertType.ERROR, "Valor de Y inválido! Por favor, digite um número.", ButtonType.OK);
+                        alert.setHeaderText("Y inválido");
                         alert.setGraphic(null);
                         alert.showAndWait();
                         TF_Y.clear();
@@ -232,13 +244,15 @@ public class MenuController {
                 }
                 else{
                     Alert alert = new Alert(Alert.AlertType.ERROR, "Por favor, digite um valor para a localização Y.", ButtonType.OK);
+                    alert.setHeaderText("Y vazio");
                     alert.setGraphic(null);
                     alert.showAndWait();
                     TF_Y.clear();
                     TF_Y.setPromptText("Digite sua localização Y");
                 }
                 if(nomeOK && xOK && yOK){
-                    Alert alert = new Alert(Alert.AlertType.INFORMATION, "Informações verificadas! Pode iniciar a aplicação", ButtonType.OK);
+                    Alert alert = new Alert(Alert.AlertType.INFORMATION, "Pode iniciar a aplicação", ButtonType.OK);
+                    alert.setHeaderText("Informações Verificadas");
                     alert.setGraphic(null);
                     alert.showAndWait();
                     buttonConnect.setDisable(false);
@@ -290,6 +304,7 @@ public class MenuController {
 
             }
             Alert alert = new Alert(Alert.AlertType.INFORMATION, "Os arquivos serão salvos na pasta " + TF_FOLDER.getText(), ButtonType.OK);
+            alert.setHeaderText("Pasta de Arquivos");
             alert.setGraphic(null);
             alert.showAndWait();
             client = new Client(server,TF_IP_SERVER.getText(),TF_NAME_SERVER.getText(),Integer.parseInt(TF_PORT_SERVER.getText()),
