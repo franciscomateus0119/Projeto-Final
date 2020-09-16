@@ -291,42 +291,26 @@ public class Server implements ServerInterface, Serializable{
                     enviarAmbiente(client, nomedoAmbiente);
                     
                     
-                } 
-                 
-                //-> Caso Normal <-
-                //Se o nome do dispositivo for único, compara a distância do ambiente com o dispositivo
-                //Se a distância for permitida, coloca o dispositivo na lista de dispositivos do ambiente
-                //Com o ambiente atualizado, envie o ambiente para o Servidor de Ambientes
-                
-                //-> Caso nome não único <-
-                //Se o nome do dispositivo não for único e não existir ambiente possível par inseri-lo, crie um novo ambiente, verifique a distancia e o envie para o servidor
-
-                //-> Caso nome único<-
-                //Se o nome do dispositivo for único, verifique a distância, adicione ao ambiente e envie o ambiente para o servidor
-                
-                //-> Distância não bate<-
-                //Crie um novo ambiente para o dispositivo e envie o ambiente para o servidor
-                    
-                
-                
+                }       
             }
         }catch(Exception e){e.printStackTrace();}
         
     }
     
     @Override
-    public void receberPedidoNovaLocalizacao(ClientInterface client, String x, String y,String nome, String ambienteDoDispositivo) throws RemoteException{
+    public void receberPedidoNovaLocalizacao(ClientInterface client, String x, String y, String nome, String ambienteDoDispositivo) throws RemoteException {
         //Recebe pedido do cliente para mudar localização
         //Procura pela lista de ambientes
         ListaDeAmbientes template = new ListaDeAmbientes();
         boolean dispositivoAdicionado = false;
+        boolean distanciaIncompativel = false;
         if (template == null) {
             System.out.println("Template nulo!");
         }
-        try{
+        try {
             ListaDeAmbientes listadeambientes = (ListaDeAmbientes) space.take(template, null, 10 * 1000);
             //Se a lista de ambientes for encontrada
-            if(listadeambientes!=null){
+            if (listadeambientes != null) {
                 System.out.println("Lista de Ambientes FOI encontrada!");
                 int tamanho = listadeambientes.listaDeAmbientes.size();
                 //Procura o ambiente Verifica se a nova distância condiz com o Ambiente Atual
@@ -334,21 +318,39 @@ public class Server implements ServerInterface, Serializable{
                 templateAmbienteAtual.nomeAmbiente = ambienteDoDispositivo;
                 Ambiente ambienteAtual = (Ambiente) space.take(templateAmbienteAtual, null, 5 * 1000);
                 //Se o ambiente atual do dispositivo for encontrado!
-                if(ambienteAtual!=null){
-                    //Verifica se a nova distância condiz com o Ambiente Atual
+                if (ambienteAtual != null) {
                     float xDispositivo = Float.parseFloat(x);
                     float yDispositivo = Float.parseFloat(y);
-                    float xAmbiente = Float.parseFloat(ambienteAtual.xAmbiente);
-                    float yAmbiente = Float.parseFloat(ambienteAtual.yAmbiente);
-                    //Se a distância com a nova localização ainda for MENOR que 10 metros
-                    if (verificarLocalizacao(xDispositivo, yDispositivo, xAmbiente, yAmbiente) < 10) {
+                    ArrayList<String> listaDeDispositivos = new ArrayList<>();
+                    listaDeDispositivos = ambienteAtual.dispositivosNoAmbiente;
+                    int tamanhoListaDispositivos = listaDeDispositivos.size();
+                    //Para cada dispositivo do ambiente
+                    distanciaIncompativel = false;
+                    for (int j = 0; j < tamanhoListaDispositivos; j++) {
+                        //Verifica se a distância é compativel
+                        String dispositivoX = clientsByName.get(listaDeDispositivos.get(j)).getClientX();
+                        String dispositivoY = clientsByName.get(listaDeDispositivos.get(j)).getClientY();
+                        Float ambienteDispositivoX = Float.parseFloat(dispositivoX);
+                        Float ambienteDispositivoY = Float.parseFloat(dispositivoY);
+                        //Se a distância entre os dispositivo for maior que 10 (Distância Incompatível)
+                        if (verificarLocalizacao(xDispositivo, yDispositivo, ambienteDispositivoX, ambienteDispositivoY) > 10) {
+                            System.out.println("Distância entre " + nome + " e " + listaDeDispositivos.get(j) + " é incompatível: "
+                                    + verificarLocalizacao(Float.parseFloat(x), Float.parseFloat(y), ambienteDispositivoX, ambienteDispositivoY));
+                            j = tamanhoListaDispositivos;
+                            distanciaIncompativel = true;
+                        } else {
+                            System.out.println("Distância entre " + nome + " e " + listaDeDispositivos.get(j) + " é de: "
+                                    + verificarLocalizacao(Float.parseFloat(x), Float.parseFloat(y), ambienteDispositivoX, ambienteDispositivoY));
+                        }
+                    }
+                    //Se a distância for compatível
+                    if (!distanciaIncompativel) {
                         //Atualiza a localização do Dispositivo
                         client.atualizarLocalizacao(x, y);
                         //Devolve o Ambiente e a Lista de Ambientes para o Servidor de Ambientes
                         space.write(ambienteAtual, null, Lease.FOREVER);
                         space.write(listadeambientes, null, Lease.FOREVER);
-                        
-                    } //Se a distância com a nova localização for MAIOR que 10 metros
+                    } //Se a distância for maior que 10 metros, não adicione o dispositivo e devolva o ambiente
                     else {
                         
                         //para cada ambiente na lista de ambientes
@@ -421,7 +423,7 @@ public class Server implements ServerInterface, Serializable{
                         //Se O dispositivo não encontrou um ambiente condizente com sua nova localização ou com seu nome
                         if (!dispositivoAdicionado) {
                             System.out.println("(Localização) Nenhum ambiente favorável foi encontrado! Criando novo ambiente...");
-                            ArrayList<String> listaDeDispositivos = new ArrayList<>();
+                            listaDeDispositivos = new ArrayList<>();
                             ArrayList<String> arrayListaDeAmbientes = new ArrayList<>();
                             ArrayList<String> novaListaDispositivosAmbienteAtual = new ArrayList<>();
                             arrayListaDeAmbientes = listadeambientes.listaDeAmbientes;
