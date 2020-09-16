@@ -259,8 +259,8 @@ public class GameController{
         Platform.runLater(() -> {
             LABEL_NOME.setText("Nome: " + meuNome);
             LABEL_AMBIENTE.setText("Ambiente: " + ambienteAtual);
-            LABEL_X.setText("X: " + (meuX));
-            LABEL_Y.setText("Y: " + (meuY));
+            LABEL_X.setText("Localização X: " + (meuX));
+            LABEL_Y.setText("Localização Y: " + (meuY));
         });
         
         

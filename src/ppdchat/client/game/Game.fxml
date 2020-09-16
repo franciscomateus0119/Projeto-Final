@@ -11,17 +11,12 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane id="AnchorPane" prefHeight="318.0" prefWidth="601.0" styleClass="mainFxmlClass" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ppdchat.client.game.GameController">
+<AnchorPane id="AnchorPane" prefHeight="358.0" prefWidth="634.0" styleClass="mainFxmlClass" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ppdchat.client.game.GameController">
     <stylesheets>
         <URL value="@gamecontroller.css" />
     </stylesheets>
    <children>
-      <ImageView fitHeight="318.0" fitWidth="601.0" layoutY="2.0" pickOnBounds="true" preserveRatio="true">
-         <image>
-            <Image url="@conteudo/Background-2.png" />
-         </image>
-      </ImageView>
-      <ImageView fitHeight="155.0" fitWidth="175.0" layoutX="11.0" layoutY="3.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fitHeight="155.0" fitWidth="175.0" layoutX="14.0" layoutY="46.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@conteudo/Rectangle%201.png" />
          </image>
@@ -33,12 +28,12 @@
             </DropShadow>
          </effect>
       </ImageView>
-      <TextField fx:id="TF_NOME_DISPOSITIVO" layoutX="225.0" layoutY="150.0" prefHeight="25.0" prefWidth="98.0" promptText="Selecione um Dispositivo" visible="false" />
-      <Label fx:id="LABEL_NOME" layoutX="23.0" layoutY="14.0" prefHeight="17.0" prefWidth="153.0" />
-      <Label fx:id="LABEL_AMBIENTE" layoutX="23.0" layoutY="42.0" prefHeight="17.0" prefWidth="153.0" />
-      <Label fx:id="LABEL_X" layoutX="23.0" layoutY="68.0" prefHeight="17.0" prefWidth="153.0" />
-      <Label fx:id="LABEL_Y" layoutX="23.0" layoutY="96.0" prefHeight="17.0" prefWidth="153.0" />
-      <HBox fx:id="HBOX_DISPOSITIVOS" layoutX="191.0" layoutY="13.0" prefHeight="223.0" prefWidth="200.0">
+      <TextField fx:id="TF_NOME_DISPOSITIVO" layoutX="228.0" layoutY="182.0" prefHeight="25.0" prefWidth="98.0" promptText="Selecione um Dispositivo" visible="false" />
+      <Label fx:id="LABEL_NOME" layoutX="23.0" layoutY="60.0" prefHeight="17.0" prefWidth="153.0" />
+      <Label fx:id="LABEL_AMBIENTE" layoutX="23.0" layoutY="88.0" prefHeight="17.0" prefWidth="153.0" />
+      <Label fx:id="LABEL_X" layoutX="23.0" layoutY="116.0" prefHeight="17.0" prefWidth="153.0" />
+      <Label fx:id="LABEL_Y" layoutX="23.0" layoutY="142.0" prefHeight="17.0" prefWidth="153.0" />
+      <HBox fx:id="HBOX_DISPOSITIVOS" layoutX="194.0" layoutY="45.0" prefHeight="223.0" prefWidth="200.0">
          <effect>
             <InnerShadow height="8.0" radius="3.5" width="8.0">
                <input>
@@ -46,7 +41,7 @@
                </input>
             </InnerShadow>
          </effect></HBox>
-      <Button fx:id="BUTTON_MOSTRAR_DISPOSITIVOS" layoutX="226.0" layoutY="242.0" mnemonicParsing="false" onMouseClicked="#pedirAtualizarLista" text="Atualizar Dispositivos">
+      <Button fx:id="BUTTON_MOSTRAR_DISPOSITIVOS" layoutX="229.0" layoutY="285.0" mnemonicParsing="false" onMouseClicked="#pedirAtualizarLista" text="Atualizar Dispositivos">
          <effect>
             <DropShadow height="10.0" radius="4.5" width="10.0">
                <input>
@@ -54,7 +49,7 @@
                </input>
             </DropShadow>
          </effect></Button>
-      <TextField fx:id="TF_X" alignment="CENTER" layoutX="23.0" layoutY="171.0" promptText="Nova Localização X">
+      <TextField fx:id="TF_X" alignment="CENTER" layoutX="26.0" layoutY="214.0" promptText="Nova Localização X">
          <effect>
             <DropShadow height="10.0" radius="4.5" width="10.0">
                <input>
@@ -62,7 +57,7 @@
                </input>
             </DropShadow>
          </effect></TextField>
-      <TextField fx:id="TF_Y" alignment="CENTER" layoutX="23.0" layoutY="205.0" promptText="Nova Localização Y">
+      <TextField fx:id="TF_Y" alignment="CENTER" layoutX="26.0" layoutY="248.0" promptText="Nova Localização Y">
          <effect>
             <DropShadow height="10.0" radius="4.5" width="10.0">
                <input>
@@ -70,7 +65,7 @@
                </input>
             </DropShadow>
          </effect></TextField>
-      <Button fx:id="BUTTON_LOCALIZACAO" layoutX="34.0" layoutY="242.0" mnemonicParsing="false" onMouseClicked="#mudarLocalizacao" prefHeight="25.0" prefWidth="128.0" text="Mudar Localização">
+      <Button fx:id="BUTTON_LOCALIZACAO" layoutX="37.0" layoutY="285.0" mnemonicParsing="false" onMouseClicked="#mudarLocalizacao" prefHeight="25.0" prefWidth="128.0" text="Mudar Localização">
          <effect>
             <DropShadow height="10.0" radius="4.5" width="10.0">
                <input>
@@ -78,8 +73,8 @@
                </input>
             </DropShadow>
          </effect></Button>
-      <Label fx:id="LABEL_STORAGE" layoutX="23.0" layoutY="124.0" prefHeight="17.0" prefWidth="153.0" />
-      <HBox fx:id="HBOX_ARQUIVOS_SELECIONADOS" layoutX="397.0" layoutY="13.0" prefHeight="223.0" prefWidth="200.0">
+      <Label fx:id="LABEL_STORAGE" layoutX="23.0" layoutY="166.0" prefHeight="17.0" prefWidth="153.0" />
+      <HBox fx:id="HBOX_ARQUIVOS_SELECIONADOS" layoutX="400.0" layoutY="45.0" prefHeight="223.0" prefWidth="200.0">
          <effect>
             <InnerShadow height="8.0" radius="3.5" width="8.0">
                <input>
@@ -87,7 +82,7 @@
                </input>
             </InnerShadow>
          </effect></HBox>
-      <Button fx:id="BUTTON_ENVIAR_MULTIPLOS" layoutX="456.0" layoutY="279.0" mnemonicParsing="false" onMouseClicked="#enviarArquivos" text="Enviar Arquivos">
+      <Button fx:id="BUTTON_ENVIAR_MULTIPLOS" layoutX="459.0" layoutY="322.0" mnemonicParsing="false" onMouseClicked="#enviarArquivos" text="Enviar Arquivos">
          <effect>
             <DropShadow height="10.0" radius="4.5" width="10.0">
                <input>
@@ -95,7 +90,7 @@
                </input>
             </DropShadow>
          </effect></Button>
-      <Button fx:id="BUTTON_SELECIONAR_MULTIPLOS" layoutX="444.0" layoutY="242.0" mnemonicParsing="false" onMouseClicked="#selecionarArquivos" text="Selecionar Arquivos">
+      <Button fx:id="BUTTON_SELECIONAR_MULTIPLOS" layoutX="447.0" layoutY="285.0" mnemonicParsing="false" onMouseClicked="#selecionarArquivos" text="Selecionar Arquivos">
          <effect>
             <DropShadow height="10.0" radius="4.5" width="10.0">
                <input>
@@ -103,5 +98,15 @@
                </input>
             </DropShadow>
          </effect></Button>
+      <ImageView fitHeight="100.0" fitWidth="150.0" layoutX="219.0" layoutY="11.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@conteudo/Dispositivos.png" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="150.0" fitWidth="120.0" layoutX="440.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@conteudo/Arquivos.png" />
+         </image>
+      </ImageView>
    </children>
 </AnchorPane>

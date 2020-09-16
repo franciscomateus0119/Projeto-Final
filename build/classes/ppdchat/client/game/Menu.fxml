@@ -15,25 +15,25 @@
     </stylesheets>
    <children>
       <Button fx:id="buttonConnect" disable="true" layoutX="145.0" layoutY="302.0" mnemonicParsing="false" onAction="#connect" prefHeight="26.0" prefWidth="103.0" visible="false" />
-      <ImageView fitHeight="100.0" fitWidth="150.0" layoutX="122.0" layoutY="24.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fitHeight="150.0" fitWidth="250.0" layoutX="72.0" layoutY="32.0" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@conteudo/4chat.png" />
+            <Image url="@conteudo/File-Sender.png" />
          </image>
       </ImageView>
-      <TextField fx:id="TF_NOME" alignment="CENTER" layoutX="28.0" layoutY="115.0" promptText="Digite seu Nome" />
-      <TextField fx:id="TF_X" alignment="CENTER" layoutX="28.0" layoutY="146.0" promptText="Digite sua localização X" />
-      <TextField fx:id="TF_Y" alignment="CENTER" layoutX="28.0" layoutY="178.0" promptText="Digite sua localização Y" />
-      <TextField fx:id="TF_IP_SERVER" alignment="CENTER" layoutX="215.0" layoutY="115.0" promptText="Digite o IP do Servidor" text="localhost" />
-      <TextField fx:id="TF_PORT_SERVER" alignment="CENTER" layoutX="215.0" layoutY="146.0" promptText="Digite a porta do IP Destino" text="1099" />
-      <TextField fx:id="TF_NAME_SERVER" alignment="CENTER" layoutX="215.0" layoutY="178.0" promptText="Digite o Nome do Servidor" text="RMIServer" />
-      <TextField fx:id="TF_FOLDER" alignment="CENTER" layoutX="175.0" layoutY="233.0" prefHeight="25.0" prefWidth="209.0" promptText="Diretorio onde os arquivos serão salvos">
+      <TextField fx:id="TF_NOME" alignment="CENTER" layoutX="29.0" layoutY="99.0" promptText="Digite seu Nome" />
+      <TextField fx:id="TF_X" alignment="CENTER" layoutX="29.0" layoutY="130.0" promptText="Digite sua localização X" />
+      <TextField fx:id="TF_Y" alignment="CENTER" layoutX="29.0" layoutY="162.0" promptText="Digite sua localização Y" />
+      <TextField fx:id="TF_IP_SERVER" alignment="CENTER" layoutX="216.0" layoutY="99.0" promptText="Digite o IP do Servidor" text="localhost" />
+      <TextField fx:id="TF_PORT_SERVER" alignment="CENTER" layoutX="216.0" layoutY="130.0" promptText="Digite a porta do IP Destino" text="1099" />
+      <TextField fx:id="TF_NAME_SERVER" alignment="CENTER" layoutX="216.0" layoutY="162.0" promptText="Digite o Nome do Servidor" text="RMIServer" />
+      <TextField fx:id="TF_FOLDER" alignment="CENTER" layoutX="29.0" layoutY="231.0" prefHeight="25.0" prefWidth="337.0" promptText="Diretorio destino dos arquivos">
          <font>
             <Font size="11.0" />
          </font>
       </TextField>
-      <Button fx:id="BUTTON_FOLDER" layoutX="28.0" layoutY="233.0" mnemonicParsing="false" onMouseClicked="#escolherPasta" prefHeight="25.0" prefWidth="136.0" text="Pasta para Salvar Arquivos">
+      <Button fx:id="BUTTON_FOLDER" layoutX="123.0" layoutY="200.0" mnemonicParsing="false" onMouseClicked="#escolherPasta" prefHeight="25.0" prefWidth="149.0" text="Pasta para Salvar Arquivos">
          <font>
-            <Font size="10.0" />
+            <Font size="11.0" />
          </font>
       </Button>
       <Button fx:id="BUTTON_VERIFICAR" layoutX="133.0" layoutY="268.0" mnemonicParsing="false" onMouseClicked="#verifyInfo" text="Verificar Informações" />
