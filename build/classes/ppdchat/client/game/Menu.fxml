@@ -14,7 +14,7 @@
         <URL value="@menucontroller.css" />
     </stylesheets>
    <children>
-      <Button fx:id="buttonConnect" layoutX="145.0" layoutY="302.0" mnemonicParsing="false" onAction="#connect" prefHeight="26.0" prefWidth="103.0" />
+      <Button fx:id="buttonConnect" disable="true" layoutX="145.0" layoutY="302.0" mnemonicParsing="false" onAction="#connect" prefHeight="26.0" prefWidth="103.0" visible="false" />
       <ImageView fitHeight="100.0" fitWidth="150.0" layoutX="122.0" layoutY="24.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@conteudo/4chat.png" />
@@ -36,5 +36,6 @@
             <Font size="10.0" />
          </font>
       </Button>
+      <Button fx:id="BUTTON_VERIFICAR" layoutX="133.0" layoutY="268.0" mnemonicParsing="false" onMouseClicked="#verifyInfo" text="Verificar Informações" />
    </children>
 </AnchorPane>

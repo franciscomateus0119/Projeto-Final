@@ -443,6 +443,11 @@ public class Server implements ServerInterface, Serializable{
         return (float) Math.hypot(x, y);
     }
     
+    @Override
+    public ArrayList<String> getNames() throws RemoteException{
+        return names;
+    }
+    
     //<editor-fold defaultstate="collapsed" desc="OldProject">
     /*
     @Override
@@ -671,4 +676,6 @@ public class Server implements ServerInterface, Serializable{
     
     */
 //</editor-fold>
+
+    
 }

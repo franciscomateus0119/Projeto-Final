@@ -26,6 +26,7 @@ public interface ServerInterface extends Remote{
     void procurarAmbiente(ClientInterface client, String nome, String x, String y) throws RemoteException;
     void enviarAmbiente(ClientInterface client, String nomeAmbiente) throws RemoteException;
     void receberPedidoNovaLocalizacao(ClientInterface client, String x, String y, String nome, String ambiente) throws RemoteException;
+    ArrayList<String> getNames() throws RemoteException;
     /*
     void broadcastTexto(ClientInterface client, String texto) throws RemoteException;
     void broadcastStatus(ClientInterface client, String id, String status) throws RemoteException;
