@@ -87,7 +87,9 @@ public class GameController{
     private Label LABEL_X;
     @FXML
     private Label LABEL_NOME;
-    @FXML Label LABEL_ENDERECO;
+    @FXML
+    private Label LABEL_STORAGE;
+    
     @FXML Label LABEL_DISPOSITIVO_SELECIONADO;
     //@FXML Label LABEL_DISPOSITIVOS_ENCONTRADOS;
     @FXML Button BUTTON_SELECIONAR_ARQUIVO;
@@ -95,7 +97,6 @@ public class GameController{
     @FXML Button BUTTON_LOCALIZACAO;
     @FXML Button BUTTON_SELECIONAR_MULTIPLOS;
     @FXML Button BUTTON_ENVIAR_MULTIPLOS;
-    @FXML Button BUTTON_MUDAR_ENDERECO;
 
     
     @FXML TextField TF_NOME_DISPOSITIVO;
@@ -335,5 +336,13 @@ public class GameController{
         this.LABEL_DISPOSITIVOS_ENCONTRADOS = LABEL_DISPOSITIVOS_ENCONTRADOS;
     }
     */
+
+    public Label getLABEL_STORAGE() {
+        return LABEL_STORAGE;
+    }
+
+    public void setLABEL_STORAGE(Label LABEL_STORAGE) {
+        this.LABEL_STORAGE = LABEL_STORAGE;
+    }
     
 }

@@ -89,6 +89,7 @@ public class Client extends UnicastRemoteObject implements ClientInterface, Seri
             mainController.getGameController().setMeuX(clientX);
             mainController.getGameController().setMeuY(clientY);
             mainController.getGameController().setAmbienteAtual(ambienteAtual);
+            mainController.getGameController().getLABEL_STORAGE().setText(clientstoragepath);
             mainController.getGameController().updateInfo();
         });
         try{
