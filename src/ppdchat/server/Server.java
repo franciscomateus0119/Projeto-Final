@@ -131,6 +131,7 @@ public class Server implements ServerInterface, Serializable{
     @Override
     public void procurarAmbiente(ClientInterface client, String nome,String x, String y) throws RemoteException{
         ListaDeAmbientes template = new ListaDeAmbientes();
+        String nomeAmbienteVazio = null;
         boolean distanciaIncompativel = false;
         boolean dispositivoAdicionado = false;
         if (template == null) {
@@ -189,6 +190,9 @@ public class Server implements ServerInterface, Serializable{
                              ArrayList<String> listaDeDispositivos = new ArrayList<>();
                              listaDeDispositivos = ambiente.dispositivosNoAmbiente;
                              int tamanhoListaDispositivos = listaDeDispositivos.size();
+                             if(tamanhoListaDispositivos==0){
+                                 nomeAmbienteVazio = ambiente.nomeAmbiente;
+                             }
                              //Para cada dispositivo do ambiente
                              distanciaIncompativel = false;
                              for(int j = 0; j<tamanhoListaDispositivos;j++){
@@ -264,33 +268,54 @@ public class Server implements ServerInterface, Serializable{
                 }
                 //Se o dispositivo não foi adicionado a nenhum ambiente, devido a Distância/Nome incompatíveis
                 if(!dispositivoAdicionado){
-                    System.out.println("Nenhum ambiente favorável foi encontrado! Criando novo ambiente...");
-                    ArrayList<String> listaDeDispositivos = new ArrayList<>();
-                    ArrayList<String> arrayListaDeAmbientes = new ArrayList<>();
-                    arrayListaDeAmbientes = listadeambientes.listaDeAmbientes;
-                    
-                    //Crie um ambiente para este dispositivo
-                    Ambiente newAmbiente = new Ambiente();
-                    newAmbiente.nomeAmbiente = "Ambiente_" + (tamanho+1);
-                    newAmbiente.xAmbiente = x;
-                    newAmbiente.yAmbiente = y;
-                    listaDeDispositivos.add(nome);
-                    newAmbiente.dispositivosNoAmbiente = listaDeDispositivos;
-                    String nomedoAmbiente = newAmbiente.nomeAmbiente;
-                    System.out.println("Dispositivo " + nome + " foi alocado no ambiente " + newAmbiente.nomeAmbiente +" !");
-                    //Adicione o ambiente na lista de ambientes
-                    
-                    arrayListaDeAmbientes.add(newAmbiente.nomeAmbiente);
-                    listadeambientes.listaDeAmbientes = arrayListaDeAmbientes;
-                    
-                    //Insira o novo Ambiente e devolva a Lista de Ambientes para o Servidor de Ambientes
-                    space.write(newAmbiente, null, Lease.FOREVER);
-                    space.write(listadeambientes, null, Lease.FOREVER);
-                    
-                    //Informa o dispositivo em qual ambiente ele está inserido
-                    enviarAmbiente(client, nomedoAmbiente);
-                    
-                    
+                    //Se já existir um ambiente sem Dispositivos, adicione o Dispositivo a este ambiente
+                    if(nomeAmbienteVazio!=null){
+                        Ambiente oldAmbienteTemplate = new Ambiente();
+                        oldAmbienteTemplate.nomeAmbiente = nomeAmbienteVazio;
+                        Ambiente oldAmbiente = (Ambiente) space.take(oldAmbienteTemplate, null, 5 * 1000);
+                        ArrayList<String> listaDeDispositivos = new ArrayList<>();
+                        listaDeDispositivos.add(nome);
+                        String nomedoAmbiente = oldAmbiente.nomeAmbiente;
+                        String novoX = x;
+                        String novoY = y;
+                        oldAmbiente.dispositivosNoAmbiente = listaDeDispositivos;
+                        oldAmbiente.xAmbiente = x;
+                        oldAmbiente.yAmbiente = y;
+                        //Insira o novo Ambiente e devolva a Lista de Ambientes para o Servidor de Ambientes
+                        space.write(oldAmbiente, null, Lease.FOREVER);
+
+                        //Informa o dispositivo em qual ambiente ele está inserido
+                        enviarAmbiente(client, nomedoAmbiente);
+                    //Se não exisitr um ambiente sem dispositivos    
+                    } else {
+
+                        System.out.println("Nenhum ambiente favorável foi encontrado! Criando novo ambiente...");
+                        ArrayList<String> listaDeDispositivos = new ArrayList<>();
+                        ArrayList<String> arrayListaDeAmbientes = new ArrayList<>();
+                        arrayListaDeAmbientes = listadeambientes.listaDeAmbientes;
+
+                        //Crie um ambiente para este dispositivo
+                        Ambiente newAmbiente = new Ambiente();
+                        newAmbiente.nomeAmbiente = "Ambiente_" + (tamanho + 1);
+                        newAmbiente.xAmbiente = x;
+                        newAmbiente.yAmbiente = y;
+                        listaDeDispositivos.add(nome);
+                        newAmbiente.dispositivosNoAmbiente = listaDeDispositivos;
+                        String nomedoAmbiente = newAmbiente.nomeAmbiente;
+                        System.out.println("Dispositivo " + nome + " foi alocado no ambiente " + newAmbiente.nomeAmbiente + " !");
+                        //Adicione o ambiente na lista de ambientes
+
+                        arrayListaDeAmbientes.add(newAmbiente.nomeAmbiente);
+                        listadeambientes.listaDeAmbientes = arrayListaDeAmbientes;
+
+                        //Insira o novo Ambiente e devolva a Lista de Ambientes para o Servidor de Ambientes
+                        space.write(newAmbiente, null, Lease.FOREVER);
+                        space.write(listadeambientes, null, Lease.FOREVER);
+
+                        //Informa o dispositivo em qual ambiente ele está inserido
+                        enviarAmbiente(client, nomedoAmbiente);
+
+                    }
                 }       
             }
         }catch(Exception e){e.printStackTrace();}
