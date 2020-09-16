@@ -136,8 +136,13 @@ public class Client extends UnicastRemoteObject implements ClientInterface, Seri
             Platform.runLater(() -> {
                 mainController.getGameController().atualizarListaDispositivos(listaDispositivos);
                 //mainController.getGameController().getLABEL_DISPOSITIVOS_ENCONTRADOS().setText("Dispositivo(s) Encontrado(s)!");
-            });
-            
+            });   
+        }
+        else{
+            Platform.runLater(() -> {
+                mainController.getGameController().resetListaDispositivos();
+                //mainController.getGameController().getLABEL_DISPOSITIVOS_ENCONTRADOS().setText("Dispositivo(s) Encontrado(s)!");
+            }); 
         }
         /*
         else{
