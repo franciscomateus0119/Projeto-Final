@@ -26,7 +26,9 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Group;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
@@ -202,10 +204,18 @@ public class GameController{
                     listviewArquivos.getItems().clear();
                     main.getClient().enviarArquivos(paths, filenames, TF_NOME_DISPOSITIVO.getText());
                 }
+                Alert alert = new Alert(Alert.AlertType.INFORMATION, "Selecione um dispositivo antes de enviar seus arquivos!", ButtonType.OK);
+                alert.setGraphic(null);
+                alert.setHeaderText("Arquivos Enviados com Sucesso!");
+                alert.show();
             }
         }
         //Se um dispositivo não tiver sido selecionado
         else{
+            Alert alert = new Alert(Alert.AlertType.WARNING, "Selecione um dispositivo antes de enviar seus arquivos!", ButtonType.OK);
+            alert.setGraphic(null);
+            alert.setHeaderText("Dispositivo Não Selecionado");
+            alert.show();
             TF_NOME_DISPOSITIVO.clear();
             TF_NOME_DISPOSITIVO.setPromptText("SELECIONE UM DISPOSITIVO");
         }
