@@ -326,6 +326,7 @@ public class Server implements ServerInterface, Serializable{
     public void receberPedidoNovaLocalizacao(ClientInterface client, String x, String y, String nome, String ambienteDoDispositivo) throws RemoteException {
         //Recebe pedido do cliente para mudar localização
         //Procura pela lista de ambientes
+        String nomeAmbienteVazio = null;
         ListaDeAmbientes template = new ListaDeAmbientes();
         boolean dispositivoAdicionado = false;
         boolean distanciaIncompativel = false;
