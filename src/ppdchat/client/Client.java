@@ -339,4 +339,11 @@ public class Client extends UnicastRemoteObject implements ClientInterface, Seri
     public String getClientY() throws RemoteException{
         return clientY;
     }
+
+    @Override
+    public String getAmbienteAtual() throws RemoteException {
+        return ambienteAtual;
+    }
+    
+    
 }

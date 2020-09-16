@@ -24,6 +24,7 @@ public interface ClientInterface extends Remote{
     String enviarAmbienteAtual() throws RemoteException;
     String getClientX() throws RemoteException;
     String getClientY() throws RemoteException;
+    String getAmbienteAtual() throws RemoteException;
     
     /*
     void enviarStart() throws RemoteException;
