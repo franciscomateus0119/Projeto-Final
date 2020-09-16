@@ -22,6 +22,9 @@ import java.io.ObjectInputStream;
 import java.io.Serializable;
 import java.net.MalformedURLException;
 import java.rmi.NotBoundException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import net.jini.core.entry.UnusableEntryException;
 
 import net.jini.core.lease.Lease;
 import net.jini.core.transaction.TransactionException;
@@ -116,7 +119,20 @@ public class Server implements ServerInterface, Serializable{
         if (template == null) {
             System.out.println("Template nulo!");
         }
-        try{//procura a lista de ambientes
+        Dispositivo dispositivoT = new Dispositivo();
+        dispositivoT.nomeDispositivo = nome;
+        dispositivoT.xDispositivo = x;
+        dispositivoT.yDispositivo = y;
+        
+        try{//procura o dispositivo e a lista de ambientes
+            Dispositivo dispositivo = (Dispositivo) space.take(dispositivoT, null, 3*1000);
+            if(dispositivo == null){
+                System.out.println("Dispositivo não encontrado no servidor!");
+                dispositivo = new Dispositivo();
+                dispositivo.nomeDispositivo = nome;
+                dispositivo.xDispositivo = x;
+                dispositivo.yDispositivo = y;
+            }
             ListaDeAmbientes listadeambientes = (ListaDeAmbientes) space.take(template, null, 10 * 1000);
             //Se não existir lista de ambientes, crie um novo ambiente e uma nova lista de ambientes
             if (listadeambientes == null) {
@@ -131,6 +147,15 @@ public class Server implements ServerInterface, Serializable{
                 novoAmbiente.yAmbiente = y;
                 listaDeDispositivos.add(nome);
                 novoAmbiente.dispositivosNoAmbiente = listaDeDispositivos;
+                
+                //Atualiza Dispositivo
+                Dispositivo dispositivoNovo = new Dispositivo();
+                dispositivoNovo.nomeDispositivo = nome;
+                dispositivoNovo.xDispositivo = x;
+                dispositivoNovo.yDispositivo = y;
+                String nameAmbiente = novoAmbiente.nomeAmbiente;
+                dispositivoNovo.ambienteAtual = nameAmbiente;
+                space.write(dispositivoNovo, null, Lease.FOREVER);
                 
                 //Coloca o novo Ambiente em uma nova lista de Ambientes
                 System.out.println("Adicionando " + novoAmbiente.nomeAmbiente + " na lista de ambientes...");
@@ -173,21 +198,33 @@ public class Server implements ServerInterface, Serializable{
                              distanciaIncompativel = false;
                              for(int j = 0; j<tamanhoListaDispositivos;j++){
                                  //Verifica se a distância é compativel
-                                 String dispositivoX = clientsByName.get(listaDeDispositivos.get(j)).getClientX();
-                                 String dispositivoY = clientsByName.get(listaDeDispositivos.get(j)).getClientY();
-                                 Float ambienteDispositivoX = Float.parseFloat(dispositivoX);
-                                 Float ambienteDispositivoY = Float.parseFloat(dispositivoY);
-                                 //Se a distância entre os dispositivo for maior que 10 (Distância Incompatível)
-                                 if (verificarLocalizacao(Float.parseFloat(x), Float.parseFloat(y), ambienteDispositivoX, ambienteDispositivoY) > 10) {
-                                     System.out.println("Distância entre " +nome+ " e " + listaDeDispositivos.get(j) +" é incompatível: "
-                                             + verificarLocalizacao(Float.parseFloat(x), Float.parseFloat(y), ambienteDispositivoX, ambienteDispositivoY));
-                                     j = tamanhoListaDispositivos;
-                                     distanciaIncompativel = true;
+                                 Dispositivo dispositivoTemp = new Dispositivo();
+                                 dispositivoTemp.nomeDispositivo = listaDeDispositivos.get(j);
+                                 String nomeDoAmbiente = ambiente.nomeAmbiente;
+                                 dispositivoTemp.ambienteAtual = nomeDoAmbiente;
+                                 Dispositivo dispositivoF = (Dispositivo) space.take(dispositivoTemp, null, 3 *1000);
+                                 if(dispositivoF==null){
+                                     System.out.println("Dispositivo" + listaDeDispositivos.get(j) +" nulo!");
                                  }
                                  else{
-                                     System.out.println("Distância entre " +nome+ " e " +  listaDeDispositivos.get(j)+" é de: "
-                                             + verificarLocalizacao(Float.parseFloat(x), Float.parseFloat(y), ambienteDispositivoX, ambienteDispositivoY));
+                                    String dispositivoX = dispositivoF.xDispositivo;
+                                    String dispositivoY = dispositivoF.yDispositivo;
+                                    Float ambienteDispositivoX = Float.parseFloat(dispositivoX);
+                                    Float ambienteDispositivoY = Float.parseFloat(dispositivoY);
+                                    //Se a distância entre os dispositivo for maior que 10 (Distância Incompatível)
+                                    if (verificarLocalizacao(Float.parseFloat(x), Float.parseFloat(y), ambienteDispositivoX, ambienteDispositivoY) > 10) {
+                                        System.out.println("Distância entre " +nome+ " e " + listaDeDispositivos.get(j) +" é incompatível: "
+                                                + verificarLocalizacao(Float.parseFloat(x), Float.parseFloat(y), ambienteDispositivoX, ambienteDispositivoY));
+                                        j = tamanhoListaDispositivos;
+                                        distanciaIncompativel = true;
+                                    }
+                                    else{
+                                        System.out.println("Distância entre " +nome+ " e " +  listaDeDispositivos.get(j)+" é de: "
+                                                + verificarLocalizacao(Float.parseFloat(x), Float.parseFloat(y), ambienteDispositivoX, ambienteDispositivoY));
+                                    }
+                                    space.write(dispositivo, null, Lease.FOREVER);
                                  }
+                                 
                              }
                              //Se a distância for compatível
                              if(!distanciaIncompativel){
@@ -196,8 +233,12 @@ public class Server implements ServerInterface, Serializable{
                                  //Adiciona o Dispositivo ao ambiente
                                  listaDeDispositivos.add(nome);
                                  ambiente.dispositivosNoAmbiente = listaDeDispositivos;
+                                 String nomeAmbiente = ambiente.nomeAmbiente;
+                                 dispositivo.ambienteAtual = nomeAmbiente;
                                  dispositivoAdicionado = true;
+                                 
                                  //Devolve o Ambiente e a Lista de Ambientes ao Servidor de Ambientes (Espaço de Tuplas)
+                                 space.write(dispositivo, null, Lease.FOREVER);
                                  space.write(ambiente, null, Lease.FOREVER);
                                  space.write(listadeambientes, null, Lease.FOREVER);
                                  i = tamanho;
@@ -241,8 +282,11 @@ public class Server implements ServerInterface, Serializable{
                     
                     arrayListaDeAmbientes.add(newAmbiente.nomeAmbiente);
                     listadeambientes.listaDeAmbientes = arrayListaDeAmbientes;
+                    String nomeDoAmbiente = newAmbiente.nomeAmbiente;
+                    dispositivo.ambienteAtual = nomeDoAmbiente;
                     
                     //Insira o novo Ambiente e devolva a Lista de Ambientes para o Servidor de Ambientes
+                    space.write(dispositivo, null, Lease.FOREVER);
                     space.write(newAmbiente, null, Lease.FOREVER);
                     space.write(listadeambientes, null, Lease.FOREVER);
                     
@@ -266,7 +310,13 @@ public class Server implements ServerInterface, Serializable{
         if (template == null) {
             System.out.println("Template nulo!");
         }
+        Dispositivo dispositivoT = new Dispositivo();
+        dispositivoT.nomeDispositivo = nome;
+        dispositivoT.xDispositivo = x;
+        dispositivoT.yDispositivo = y;
+        dispositivoT.ambienteAtual = ambienteDoDispositivo;
         try {
+            Dispositivo dispositivo = (Dispositivo) space.take(dispositivoT, null, 3*1000);
             ListaDeAmbientes listadeambientes = (ListaDeAmbientes) space.take(template, null, 10 * 1000);
             //Se a lista de ambientes for encontrada
             if (listadeambientes != null) {
@@ -286,27 +336,39 @@ public class Server implements ServerInterface, Serializable{
                     //Para cada dispositivo do ambiente
                     distanciaIncompativel = false;
                     for (int j = 0; j < tamanhoListaDispositivos; j++) {
-                        //Verifica se a distância é compativel
-                        String dispositivoX = clientsByName.get(listaDeDispositivos.get(j)).getClientX();
-                        String dispositivoY = clientsByName.get(listaDeDispositivos.get(j)).getClientY();
-                        Float ambienteDispositivoX = Float.parseFloat(dispositivoX);
-                        Float ambienteDispositivoY = Float.parseFloat(dispositivoY);
-                        //Se a distância entre os dispositivo for maior que 10 (Distância Incompatível)
-                        if (verificarLocalizacao(xDispositivo, yDispositivo, ambienteDispositivoX, ambienteDispositivoY) > 10) {
-                            System.out.println("Distância entre " + nome + " e " + listaDeDispositivos.get(j) + " é incompatível: "
-                                    + verificarLocalizacao(Float.parseFloat(x), Float.parseFloat(y), ambienteDispositivoX, ambienteDispositivoY));
-                            j = tamanhoListaDispositivos;
-                            distanciaIncompativel = true;
-                        } else {
-                            System.out.println("Distância entre " + nome + " e " + listaDeDispositivos.get(j) + " é de: "
-                                    + verificarLocalizacao(Float.parseFloat(x), Float.parseFloat(y), ambienteDispositivoX, ambienteDispositivoY));
+                        Dispositivo dispositivoTemp = new Dispositivo();
+                        dispositivoTemp.nomeDispositivo = listaDeDispositivos.get(j);
+                        String nomeDoAmbiente =ambienteAtual.nomeAmbiente;
+                        dispositivoTemp.ambienteAtual = nomeDoAmbiente;
+                        Dispositivo dispositivoF = (Dispositivo) space.take(dispositivoTemp, null, 3 * 1000);
+                        if(dispositivoF == null){}
+                        else{
+                            String dispositivoX = dispositivoF.xDispositivo;
+                            String dispositivoY = dispositivoF.yDispositivo;
+                            Float ambienteDispositivoX = Float.parseFloat(dispositivoX);
+                            Float ambienteDispositivoY = Float.parseFloat(dispositivoY);
+                            //Se a distância entre os dispositivo for maior que 10 (Distância Incompatível)
+                            if (verificarLocalizacao(xDispositivo, yDispositivo, ambienteDispositivoX, ambienteDispositivoY) > 10) {
+                                System.out.println("Distância entre " + nome + " e " + listaDeDispositivos.get(j) + " é incompatível: "
+                                        + verificarLocalizacao(Float.parseFloat(x), Float.parseFloat(y), ambienteDispositivoX, ambienteDispositivoY));
+                                j = tamanhoListaDispositivos;
+                                distanciaIncompativel = true;
+                            } else {
+                                System.out.println("Distância entre " + nome + " e " + listaDeDispositivos.get(j) + " é de: "
+                                        + verificarLocalizacao(Float.parseFloat(x), Float.parseFloat(y), ambienteDispositivoX, ambienteDispositivoY));
+                            }
                         }
+                        //Verifica se a distância é compativel
+                        
                     }
                     //Se a distância for compatível
                     if (!distanciaIncompativel) {
                         //Atualiza a localização do Dispositivo
                         client.atualizarLocalizacao(x, y);
+                        dispositivo.xDispositivo = x;
+                        dispositivo.yDispositivo = y;
                         //Devolve o Ambiente e a Lista de Ambientes para o Servidor de Ambientes
+                        space.write(dispositivo, null, Lease.FOREVER);
                         space.write(ambienteAtual, null, Lease.FOREVER);
                         space.write(listadeambientes, null, Lease.FOREVER);
                     } //Se a distância for maior que 10 metros, não adicione o dispositivo e devolva o ambiente
@@ -323,14 +385,43 @@ public class Server implements ServerInterface, Serializable{
                                 if (ambiente != null) {
                                     //Verifica se o nome é único no ambiente
                                     //Se o nome for único
-                                    if(!ambiente.dispositivosNoAmbiente.contains(nome)){
+                                    if (!ambiente.dispositivosNoAmbiente.contains(nome)) {
                                         System.out.println("(Localizacao) O nome do dispositivo é único no ambiente " + ambiente.nomeAmbiente);
-                                        
-                                        //Verifica se a distância é condizente com o Ambiente
-                                        Float ambienteX = Float.parseFloat(ambiente.xAmbiente);
-                                        Float ambienteY = Float.parseFloat(ambiente.yAmbiente);
-                                        //Se a distância com a nova localização ainda for MENOR que 10 metros
-                                        if (verificarLocalizacao(xDispositivo, yDispositivo, ambienteX, ambienteY) < 10) {
+                                        ArrayList<String> listaDispositivos = new ArrayList<>();
+                                        listaDispositivos = ambiente.dispositivosNoAmbiente;
+                                        int tamanhoDispositivos = listaDispositivos.size();
+                                        //Para cada dispositivo do ambiente
+                                        distanciaIncompativel = false;
+                                        for (int j = 0; j < tamanhoDispositivos; j++) {
+                                            //Verifica se a distância é compativel
+                                            Dispositivo dispositivoTemp = new Dispositivo();
+                                            dispositivoTemp.nomeDispositivo = listaDispositivos.get(j);
+                                            dispositivoTemp.ambienteAtual = ambiente.nomeAmbiente;
+                                            Dispositivo dispositivoF = (Dispositivo) space.take(dispositivoTemp, null, 3 * 1000);
+                                            if (dispositivoF == null) {
+                                                System.out.println("Dispositivo nulo!");
+                                            }
+                                            else{
+                                                String dispositivoX = dispositivoF.xDispositivo;
+                                                String dispositivoY = dispositivoF.yDispositivo;
+                                                Float ambienteDispositivoX = Float.parseFloat(dispositivoX);
+                                                Float ambienteDispositivoY = Float.parseFloat(dispositivoY);
+                                                //Se a distância entre os dispositivo for maior que 10 (Distância Incompatível)
+                                                if (verificarLocalizacao(Float.parseFloat(x), Float.parseFloat(y), ambienteDispositivoX, ambienteDispositivoY) > 10) {
+                                                    System.out.println("Distância entre " + nome + " e " + listaDispositivos.get(j) + " é incompatível: "
+                                                            + verificarLocalizacao(Float.parseFloat(x), Float.parseFloat(y), ambienteDispositivoX, ambienteDispositivoY));
+                                                    j = tamanhoDispositivos;
+                                                    distanciaIncompativel = true;
+                                                } else {
+                                                    System.out.println("Distância entre " + nome + " e " + listaDispositivos.get(j) + " é de: "
+                                                            + verificarLocalizacao(Float.parseFloat(x), Float.parseFloat(y), ambienteDispositivoX, ambienteDispositivoY));
+                                                }
+                                                space.write(dispositivo, null, Lease.FOREVER);
+                                            }
+                                            
+                                        }
+                                        //Se existir ambiente compativel
+                                        if (!distanciaIncompativel) {
                                             
                                             ArrayList<String> novaListaDispositivosAmbienteAtual = new ArrayList<>();
                                             ArrayList<String> novaListaDispositivosNovoAmbiente = new ArrayList<>();
@@ -345,8 +436,12 @@ public class Server implements ServerInterface, Serializable{
                                             novaListaDispositivosNovoAmbiente = ambiente.dispositivosNoAmbiente;
                                             novaListaDispositivosNovoAmbiente.add(nome);
                                             ambiente.dispositivosNoAmbiente = novaListaDispositivosNovoAmbiente;
-                                            
+                                            dispositivo.ambienteAtual = ambiente.nomeAmbiente;
+                                            dispositivo.xDispositivo = x;
+                                            dispositivo.yDispositivo = y;
                                             //Devolve o AmbienteAtual, NovoAmbiente e Lista de Ambientes para o Servidor de Ambientes
+                                            
+                                            space.write(dispositivo, null, Lease.FOREVER);
                                             space.write(ambienteAtual, null, Lease.FOREVER);
                                             space.write(ambiente, null, Lease.FOREVER);
                                             space.write(listadeambientes, null, Lease.FOREVER);
@@ -405,7 +500,11 @@ public class Server implements ServerInterface, Serializable{
                             arrayListaDeAmbientes.add(newAmbiente.nomeAmbiente);
                             listadeambientes.listaDeAmbientes = arrayListaDeAmbientes;
 
+                            dispositivo.ambienteAtual = nomedoAmbiente;
+                            dispositivo.xDispositivo = x;
+                            dispositivo.yDispositivo = y;
                             //Insira o Novo Ambiente e devolva a Lista de Ambientes e o Ambiente Atual para o Servidor de Ambientes
+                            space.write(dispositivo, null, Lease.FOREVER);
                             space.write(ambienteAtual, null, Lease.FOREVER);
                             space.write(newAmbiente, null, Lease.FOREVER);
                             space.write(listadeambientes, null, Lease.FOREVER);
