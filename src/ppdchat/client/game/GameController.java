@@ -92,7 +92,6 @@ public class GameController{
     @FXML
     private Label LABEL_STORAGE;
     
-    @FXML Label LABEL_DISPOSITIVO_SELECIONADO;
     @FXML Button BUTTON_SELECIONAR_ARQUIVO;
     @FXML Button BUTTON_MOSTRAR_DISPOSITIVOS;
     @FXML Button BUTTON_LOCALIZACAO;
@@ -305,7 +304,6 @@ public class GameController{
         listviewDispositivos.getSelectionModel().selectedItemProperty().addListener((ObservableValue<? extends String> ov, String old_val, String new_val) -> {
             String selectedItem = listviewDispositivos.getSelectionModel().getSelectedItem();
             int index = listviewDispositivos.getSelectionModel().getSelectedIndex();    
-            LABEL_DISPOSITIVO_SELECIONADO.setText("Dispositivo Selecionado: " + selectedItem + " - Index : " + index);
             TF_NOME_DISPOSITIVO.setText(selectedItem);
             System.out.println("Dispositivo selecionado: " + selectedItem);
         });
