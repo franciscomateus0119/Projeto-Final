@@ -205,6 +205,8 @@ public class Client extends UnicastRemoteObject implements ClientInterface, Seri
         });
     }
     
+    
+    
     //<editor-fold defaultstate="collapsed" desc="OldProject">
     /*
     @Override
@@ -321,4 +323,14 @@ public class Client extends UnicastRemoteObject implements ClientInterface, Seri
     }
     */
 //</editor-fold>
+
+    @Override
+    public String getClientX() throws RemoteException{
+        return clientX;
+    }
+
+    @Override
+    public String getClientY() throws RemoteException{
+        return clientY;
+    }
 }

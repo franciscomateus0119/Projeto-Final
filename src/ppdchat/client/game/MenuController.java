@@ -161,6 +161,9 @@ public class MenuController {
                     TF_Y.setPromptText("Digite sua localização Y");
                 }
                 if(nomeOK && xOK && yOK){
+                    Alert alert = new Alert(Alert.AlertType.INFORMATION, "Informações verificadas! Pode iniciar a aplicação", ButtonType.OK);
+                    alert.setGraphic(null);
+                    alert.showAndWait();
                     buttonConnect.setDisable(false);
                     buttonConnect.setVisible(true);
                 }
@@ -261,10 +264,13 @@ public class MenuController {
                 if (!storageDir.isDirectory()) {
                     storageDir.mkdir();
                     System.out.println("Storage Folder: " + "C:/" + TF_NOME.getText() + "Storage/");
+                    /*
                     Alert alert = new Alert(Alert.AlertType.INFORMATION, "Os arquivos serão salvos na pasta C:/" + TF_NOME.getText() + "Storage/", ButtonType.OK);
                     alert.setGraphic(null);
                     alert.showAndWait();
+                    */
                     TF_FOLDER.setText("C:/" + TF_NOME.getText() + "Storage/");
+                    
                 } else {
                     int i = 0;
                     while (storageDir.isDirectory()) {
@@ -273,10 +279,13 @@ public class MenuController {
                     }
                     storageDir.mkdir();
                     System.out.println("Storage Folder: " + "C:/" + TF_NOME.getText() + "Storage_" + i + "/");
-                    Alert alert = new Alert(Alert.AlertType.INFORMATION, "Os arquivos serão salvos na pasta C:/" + TF_NOME.getText() + "Storage_"+ i + "/", ButtonType.OK);
+                    /*
+                    lert alert = new Alert(Alert.AlertType.INFORMATION, "Os arquivos serão salvos na pasta C:/" + TF_NOME.getText() + "Storage_"+ i + "/", ButtonType.OK);
                     alert.setGraphic(null);
                     alert.showAndWait();
+                    */
                     TF_FOLDER.setText("C:/" + TF_NOME.getText() + "Storage_" + i + "/");
+                    
                 }
 
             }
