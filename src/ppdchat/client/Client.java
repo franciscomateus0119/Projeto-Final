@@ -174,7 +174,7 @@ public class Client extends UnicastRemoteObject implements ClientInterface, Seri
         for(int i=0;i<in.size();i++){
             in.get(i).read(mydata.get(i),0,mydata.get(i).length);
         }
-        server.receberArquivos(mydata, filenames, dispositivoAlvo, ambienteAtual);
+        server.receberArquivos(mydata, filenames, dispositivoAlvo);
         
         
     }
@@ -202,6 +202,7 @@ public class Client extends UnicastRemoteObject implements ClientInterface, Seri
         Platform.runLater(() -> {
             mainController.getGameController().setAmbienteAtual(nomeAmbiente);
             mainController.getGameController().updateInfo();
+            mainController.getGameController().resetListaDispositivos();
         });
     }
     

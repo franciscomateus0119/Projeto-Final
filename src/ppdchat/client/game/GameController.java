@@ -151,10 +151,12 @@ public class GameController{
         listviewDispositivos.getItems().clear();
         //Limpa a Lista dos Nomes dos Dispositivos no Ambiente (ArralistList)
         nomesDosDispositivos.clear();
+        dispositivos.clear();
+        listviewDispositivos.setItems(dispositivos);
         int tamanho = listaDeDispositivos.size();
-        for(int f = 0;f<tamanho;f++){
+        for (int f = 0; f < tamanho; f++) {
             //Se a Lista de Nomes não contém o nome do index atual da listaDeDispositivos recebida do servidor
-            if(!nomesDosDispositivos.contains(listaDeDispositivos.get(f))){
+            if (!nomesDosDispositivos.contains(listaDeDispositivos.get(f))) {
                 //Adicione o nome do dispositivo à lista de dispositivos no ambiente
                 nomesDosDispositivos.add(listaDeDispositivos.get(f));
                 //Adicione o nome do dispositivo na lista observável de dispositivos
@@ -163,8 +165,13 @@ public class GameController{
                 listviewDispositivos.setItems(dispositivos);
                 System.out.println("Novo usuario disponível: " + listaDeDispositivos.get(f));
             }
-  
-        } 
+        }
+
+    }
+    
+    public void resetListaDispositivos(){
+        dispositivos.clear();
+        listviewDispositivos.setItems(dispositivos);
     }
     
 
@@ -172,10 +179,6 @@ public class GameController{
     @FXML
     public void selecionarArquivos(MouseEvent event){
         FileChooser fc = new FileChooser();
-        if(arquivosSelecionados!=null){
-            arquivosSelecionados.clear();
-        }
-        
         arquivosSelecionados = fc.showOpenMultipleDialog(null);
         if(arquivosSelecionados!=null){
             listviewArquivos.getItems().clear();
