@@ -116,7 +116,19 @@ public class Server implements ServerInterface, Serializable{
         if (template == null) {
             System.out.println("Template nulo!");
         }
+        Dispositivo dispositivoT = new Dispositivo();
+        dispositivoT.nomeDispositivo = nome;
+        dispositivoT.xDispositivo = x;
+        dispositivoT.yDispositivo = y;
         try{//procura a lista de ambientes
+            Dispositivo dispositivo = (Dispositivo) space.take(dispositivoT, null, 3*1000);
+            if(dispositivo == null){
+                System.out.println("Dispositivo não encontrado no servidor!");
+                dispositivo = new Dispositivo();
+                dispositivo.nomeDispositivo = nome;
+                dispositivo.xDispositivo = x;
+                dispositivo.yDispositivo = y;
+            }
             ListaDeAmbientes listadeambientes = (ListaDeAmbientes) space.take(template, null, 10 * 1000);
             //Se não existir lista de ambientes, crie um novo ambiente e uma nova lista de ambientes
             if (listadeambientes == null) {
@@ -138,7 +150,11 @@ public class Server implements ServerInterface, Serializable{
                 ListaDeAmbientes novaListaDeAmbientes = new ListaDeAmbientes();
                 novaListaDeAmbientes.listaDeAmbientes = arrayListaDeAmbientes;
                 
+                String nomeAmbiente = novoAmbiente.nomeAmbiente;
+                dispositivo.ambienteAtual = nomeAmbiente;
+                
                 //Envia o Ambiente e a Lista de Ambientes para o Servidor de Ambientes (Espaço de Tuplas)
+                space.write(dispositivo, null, Lease.FOREVER);
                 space.write(novoAmbiente, null, Lease.FOREVER);
                 space.write(novaListaDeAmbientes, null, Lease.FOREVER);
                 
@@ -242,7 +258,11 @@ public class Server implements ServerInterface, Serializable{
                     arrayListaDeAmbientes.add(newAmbiente.nomeAmbiente);
                     listadeambientes.listaDeAmbientes = arrayListaDeAmbientes;
                     
+                    String nomeAmbiente = newAmbiente.nomeAmbiente;
+                    dispositivo.ambienteAtual = nomeAmbiente;
+                    
                     //Insira o novo Ambiente e devolva a Lista de Ambientes para o Servidor de Ambientes
+                    space.write(dispositivo, null, Lease.FOREVER);
                     space.write(newAmbiente, null, Lease.FOREVER);
                     space.write(listadeambientes, null, Lease.FOREVER);
                     
@@ -266,7 +286,19 @@ public class Server implements ServerInterface, Serializable{
         if (template == null) {
             System.out.println("Template nulo!");
         }
+        Dispositivo dispositivoT = new Dispositivo();
+        dispositivoT.nomeDispositivo = nome;
+        dispositivoT.xDispositivo = x;
+        dispositivoT.yDispositivo = y;
         try {
+            Dispositivo dispositivo = (Dispositivo) space.take(dispositivoT, null, 3*1000);
+            if(dispositivo == null){
+                System.out.println("Dispositivo não encontrado no servidor!");
+                dispositivo = new Dispositivo();
+                dispositivo.nomeDispositivo = nome;
+                dispositivo.xDispositivo = x;
+                dispositivo.yDispositivo = y;
+            }
             ListaDeAmbientes listadeambientes = (ListaDeAmbientes) space.take(template, null, 10 * 1000);
             //Se a lista de ambientes for encontrada
             if (listadeambientes != null) {
@@ -306,7 +338,14 @@ public class Server implements ServerInterface, Serializable{
                     if (!distanciaIncompativel) {
                         //Atualiza a localização do Dispositivo
                         client.atualizarLocalizacao(x, y);
+                        String newX = x;
+                        String newY = y;
+                        dispositivo.xDispositivo = newX;
+                        dispositivo.yDispositivo = newY;
                         //Devolve o Ambiente e a Lista de Ambientes para o Servidor de Ambientes
+                        String nomeAmbiente = ambienteAtual.nomeAmbiente;
+                        dispositivo.ambienteAtual = nomeAmbiente;
+                        space.write(dispositivo, null, Lease.FOREVER);
                         space.write(ambienteAtual, null, Lease.FOREVER);
                         space.write(listadeambientes, null, Lease.FOREVER);
                     } //Se a distância for maior que 10 metros, não adicione o dispositivo e devolva o ambiente
@@ -346,7 +385,15 @@ public class Server implements ServerInterface, Serializable{
                                             novaListaDispositivosNovoAmbiente.add(nome);
                                             ambiente.dispositivosNoAmbiente = novaListaDispositivosNovoAmbiente;
                                             
+                                            String newX = x;
+                                            String newY = y;
+                                            String nomeAmbiente = ambienteAtual.nomeAmbiente;
+                                            dispositivo.ambienteAtual = nomeAmbiente;
+                                            dispositivo.xDispositivo = newX;
+                                            dispositivo.yDispositivo = newY;
+                                            
                                             //Devolve o AmbienteAtual, NovoAmbiente e Lista de Ambientes para o Servidor de Ambientes
+                                            space.write(dispositivo, null, Lease.FOREVER);
                                             space.write(ambienteAtual, null, Lease.FOREVER);
                                             space.write(ambiente, null, Lease.FOREVER);
                                             space.write(listadeambientes, null, Lease.FOREVER);
@@ -404,8 +451,15 @@ public class Server implements ServerInterface, Serializable{
 
                             arrayListaDeAmbientes.add(newAmbiente.nomeAmbiente);
                             listadeambientes.listaDeAmbientes = arrayListaDeAmbientes;
+                            
+                            String newX = x;
+                            String newY = y;
+                            dispositivo.ambienteAtual = nomedoAmbiente;
+                            dispositivo.xDispositivo = newX;
+                            dispositivo.yDispositivo = newY;
 
                             //Insira o Novo Ambiente e devolva a Lista de Ambientes e o Ambiente Atual para o Servidor de Ambientes
+                            space.write(dispositivo, null, Lease.FOREVER);
                             space.write(ambienteAtual, null, Lease.FOREVER);
                             space.write(newAmbiente, null, Lease.FOREVER);
                             space.write(listadeambientes, null, Lease.FOREVER);
