@@ -25,10 +25,12 @@ public class InitServer extends Application{
     public void start(Stage primaryStage) throws Exception {}
     public static void main(String args[]){
         System.out.println("Starting...");
+        /*
         File storageDir = new File("C:/ServerStorage");
         if(!storageDir.isDirectory()){
             storageDir.mkdir();
         }
+        */
         try{
             ServerInterface server = new Server();
             ServerInterface serverinterface = (ServerInterface) UnicastRemoteObject.exportObject((ServerInterface) server, 0);

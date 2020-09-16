@@ -43,14 +43,6 @@ import org.apache.activemq.ActiveMQConnectionFactory;
  */
 public class ChatToolbarController{
     private MainGameController main;
-
-    /*
-    int nContato = 0;
-    Random random = new Random();
-    int randomNum = random.nextInt((100 - 1) + 1);
-    String nick = "Anônimo" + randomNum +": ";
-    */
-
     public void init(MainGameController mainGameController){
         main = mainGameController; 
         

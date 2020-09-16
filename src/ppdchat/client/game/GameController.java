@@ -93,7 +93,6 @@ public class GameController{
     private Label LABEL_STORAGE;
     
     @FXML Label LABEL_DISPOSITIVO_SELECIONADO;
-    //@FXML Label LABEL_DISPOSITIVOS_ENCONTRADOS;
     @FXML Button BUTTON_SELECIONAR_ARQUIVO;
     @FXML Button BUTTON_MOSTRAR_DISPOSITIVOS;
     @FXML Button BUTTON_LOCALIZACAO;
@@ -301,44 +300,7 @@ public class GameController{
                 alert.setHeaderText("Falha no envio de Arquivos!");
                 alert.show();
     }
-    
 
-
-    /*
-    public void aceitarEnter() {
-        TF_GAME.addEventHandler(KeyEvent.KEY_PRESSED, new EventHandler<KeyEvent>() {
-            @Override
-            public void handle(KeyEvent event) {
-                if (event.isShiftDown()) {
-                    if (event.getCode() == KeyCode.ENTER) {
-                        String texto = TF_GAME.getText();
-                        TF_GAME.setText(texto + "\n");
-                        TF_GAME.positionCaret(TF_GAME.getText().length());
-                    }
-                } else {
-                    if (event.getCode() == KeyCode.ENTER) {
-                        String texto = TF_GAME.getText();
-                        event.consume(); 
-                        /*
-                        try {
-                            enviarMensagem(texto);
-                        } catch (JMSException ex) {
-                            Logger.getLogger(GameController.class.getName()).log(Level.SEVERE, null, ex);
-                        } catch (NamingException ex) {
-                            Logger.getLogger(GameController.class.getName()).log(Level.SEVERE, null, ex);
-                        } catch (RemoteException ex) {
-                            Logger.getLogger(GameController.class.getName()).log(Level.SEVERE, null, ex);
-                        }
-                        
-                        System.out.println("Mensagem Enviada");
-                        TF_GAME.clear();
-                    }
-                }
-            }
-        });     
-    }
-*/
-    
     public void listViewDispositivosListener() {
         listviewDispositivos.getSelectionModel().selectedItemProperty().addListener((ObservableValue<? extends String> ov, String old_val, String new_val) -> {
             String selectedItem = listviewDispositivos.getSelectionModel().getSelectedItem();
@@ -380,19 +342,6 @@ public class GameController{
     public void setMeuY(String meuY) {
         this.meuY = meuY;
     }
-
-
-
-    
-    /*
-    public Label getLABEL_DISPOSITIVOS_ENCONTRADOS() {
-        return LABEL_DISPOSITIVOS_ENCONTRADOS;
-    }
-
-    public void setLABEL_DISPOSITIVOS_ENCONTRADOS(Label LABEL_DISPOSITIVOS_ENCONTRADOS) {
-        this.LABEL_DISPOSITIVOS_ENCONTRADOS = LABEL_DISPOSITIVOS_ENCONTRADOS;
-    }
-    */
 
     public Label getLABEL_STORAGE() {
         return LABEL_STORAGE;

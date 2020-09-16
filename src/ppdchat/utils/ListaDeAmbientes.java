@@ -4,6 +4,5 @@ import net.jini.core.entry.Entry;
 
 public class ListaDeAmbientes implements Entry{
     public ArrayList<String> listaDeAmbientes;
-    
     public ListaDeAmbientes(){}
 }

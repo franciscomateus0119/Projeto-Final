@@ -11,7 +11,6 @@ import java.rmi.registry.Registry;
 import ppdchat.client.game.MainGameController;
 import ppdchat.client.game.MenuController;
 import ppdchat.server.ServerInterface;
-import ppdchat.client.ClientFile;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.ArrayList;
@@ -47,11 +46,8 @@ public class Client extends UnicastRemoteObject implements ClientInterface, Seri
     private String clientY;
     private String ambienteAtual = "";
     Map<Integer, String> names = new HashMap<>();
-    private int nameCounter = 0;
     
     Registry serverRegistry;
-    //String filename = "1.png";
-    //String filepath = "C:/Users/Matheus/Desktop/Joguinhos/4chat/teste/" +filename;
     String clientstoragepath;
     
     public Client(ServerInterface server, String ip, String servername, int port, Registry registro, String nome, String x, String y,  String storagepath) throws RemoteException{
@@ -137,25 +133,13 @@ public class Client extends UnicastRemoteObject implements ClientInterface, Seri
         if(listaDispositivos.size() > 0){
             Platform.runLater(() -> {
                 mainController.getGameController().atualizarListaDispositivos(listaDispositivos);
-                //mainController.getGameController().getLABEL_DISPOSITIVOS_ENCONTRADOS().setText("Dispositivo(s) Encontrado(s)!");
             });   
         }
         else{
             Platform.runLater(() -> {
                 mainController.getGameController().resetListaDispositivos();
-                //mainController.getGameController().getLABEL_DISPOSITIVOS_ENCONTRADOS().setText("Dispositivo(s) Encontrado(s)!");
             }); 
-        }
-        /*
-        else{
-            Platform.runLater(() -> {
-                mainController.getGameController().getLABEL_DISPOSITIVOS_ENCONTRADOS().setText("Nenhum Dispositivo Encontrado!");
-            });
-            
-        }
-        */
-            
-        
+        }   
     }
     
 
@@ -170,7 +154,6 @@ public class Client extends UnicastRemoteObject implements ClientInterface, Seri
             
         }
         for(int i=0;i<clientpathfiles.size();i++){
-            //byte [] data=new byte[(int) clientpathfiles.get(i).length()];
             mydata.add(new byte[(int) clientpathfiles.get(i).length()]);
             
         }
@@ -191,7 +174,6 @@ public class Client extends UnicastRemoteObject implements ClientInterface, Seri
         try{
             for(int i = 0;i<filenames.size();i++){
                 File pathfile = new File(clientstoragepath+filenames.get(i));
-                //System.out.println("Enviando arquivo para: "+pathfile);
                 FileOutputStream out = new FileOutputStream(pathfile);
                 byte[] data = mydata.get(i);
                 out.write(data);
@@ -230,123 +212,6 @@ public class Client extends UnicastRemoteObject implements ClientInterface, Seri
             mainController.getGameController().alertEnvioSucesso();
         });
     }
-    
-    //<editor-fold defaultstate="collapsed" desc="OldProject">
-    /*
-    @Override
-    public void enviarStart() throws RemoteException{
-        server.receberStart();
-    }
-    
-    @Override
-    public void receberStart(){
-        System.out.println("Iniciando Partida!");
-        Platform.runLater(() -> this.menuController.gameStartReady());
-    }
-    
-    @Override
-    public void enviarTexto(String texto) throws RemoteException{
-        System.out.println("Você Digitou: "+ texto);
-        server.broadcastTexto(this, texto);
-        //Platform.runLater(() ->(mainController.getChatToolbarController().mostrarTexto(texto)));
-    }
-    
-    @Override
-    public void receberTexto(String texto){
-        System.out.println("Mensagem recebida do servidor: " + texto);
-        //Platform.runLater(() -> (mainController.getChatToolbarController().mostrarTexto(texto)));
-    }
-    
-    
-    
-    @Override
-    public void enviarStatus(String id, String status) throws RemoteException{
-        server.broadcastStatus(this, id, status);
-    }
-    
-    @Override
-    public void receberStatus(String id, String status){
-        //Platform.runLater(() -> mainController.getGameController().statusPessoa(id, status));
-    }
-    
-    
-    @Override
-    public void receberChat(String chatmsg){
-        //Platform.runLater(() -> mainController.getChatToolbarController().selectChatBox(chatmsg));
-    }
-    
-    @Override
-    public void enviarNick(String nick) throws RemoteException{
-        server.broadcastNick(this, nick);
-    }
-    
-    @Override
-    public void receberNick(String nick) {
-        //Setando o nick do cliente. Sempre será o primeiro nick recebido
-        System.out.println(names.size());
-        if (names.size() == 0) {
-            this.names.put(names.size(), nick);
-            //mainController.getGameController().setMeuNome(nick);
-            Platform.runLater(() -> {
-                try {
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            });
-            
-        }
-        //Setando os próximos 3 contatos
-        else if(names.size()!= 4){
-            this.names.put(names.size(), nick);
-            Platform.runLater(() -> {
-                try {
-                    
-                    //mainController.getChatToolbarController().setContato(nick);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            });
-            
-        }
-        
-    }
-    
-    @Override
-    public void receberConfig(String tipo) throws RemoteException{
-        if (tipo.matches("A")) {
-            System.out.println("(A)Meu nome é: " + this.nome);
-            Platform.runLater(() -> {
-                //mainController.getGameController().setPessoa("A");
-            });
-            System.out.println("(A)Meu nome é: " + this.nome);
-            enviarNick(this.nome);
-        } else if (tipo.matches("B")) {
-            System.out.println("(B)Meu nome é: " + this.nome);
-            Platform.runLater(() -> {
-                //mainController.getGameController().setPessoa("B");
-            });
-            
-            System.out.println("(B)Meu nome é: " + this.nome);
-            enviarNick(this.nome);
-        } else if (tipo.matches("C")) {
-            System.out.println("(C)Meu nome é: " + this.nome);
-            Platform.runLater(() -> {
-                //mainController.getGameController().setPessoa("C");
-            });
-            
-            enviarNick(this.nome);
-        } else if (tipo.matches("D")) {
-            System.out.println("(D)Meu nome é: " + this.nome);
-            Platform.runLater(() -> {
-                //mainController.getGameController().setPessoa("D");
-            });
-            
-            enviarNick(this.nome);
-        }
-        
-    }
-    */
-//</editor-fold>
 
     @Override
     public String getClientX() throws RemoteException{

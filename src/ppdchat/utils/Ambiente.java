@@ -7,9 +7,6 @@ public class Ambiente implements Entry{
     public String xAmbiente;
     public String yAmbiente;
     public ArrayList <String> dispositivosNoAmbiente;
-    //ArrayList <Float> xDispositivos;
-    //ArrayList <Float> yDispositivos;
-    
     public Ambiente(){}
 
 }

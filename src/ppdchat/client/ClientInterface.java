@@ -27,17 +27,4 @@ public interface ClientInterface extends Remote{
     String getClientX() throws RemoteException;
     String getClientY() throws RemoteException;
     String getAmbienteAtual() throws RemoteException;
-    
-    /*
-    void enviarStart() throws RemoteException;
-    void receberStart() throws RemoteException;
-    void enviarTexto(String texto) throws RemoteException;
-    void receberTexto (String texto) throws RemoteException;
-    void enviarStatus (String id,String status) throws RemoteException;
-    void receberStatus (String id, String status) throws RemoteException;
-    void receberChat (String chatMsg) throws RemoteException;
-    void enviarNick(String nick) throws RemoteException;
-    void receberNick(String nick) throws RemoteException;
-    void receberConfig(String tipo) throws RemoteException;
-    */
 }
