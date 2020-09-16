@@ -216,7 +216,20 @@ public class Client extends UnicastRemoteObject implements ClientInterface, Seri
         });
     }
     
+    @Override
+    public void mostrarAlertaAmbienteIncompativel() throws RemoteException{
+        Platform.runLater(()->{
+            mainController.getGameController().alertAmbienteIncompatível();
+            mainController.getGameController().alertEnvioFalha();
+        });
+    }
     
+    @Override
+    public void mostrarAlertaEnvioSucesso() throws RemoteException{
+        Platform.runLater(()->{
+            mainController.getGameController().alertEnvioSucesso();
+        });
+    }
     
     //<editor-fold defaultstate="collapsed" desc="OldProject">
     /*

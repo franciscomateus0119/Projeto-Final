@@ -99,8 +99,15 @@ public class Server implements ServerInterface, Serializable{
     
     @Override
     public void receberArquivos(ArrayList<byte []> mydata, ArrayList<String> filenames, String dispositivoAlvo, String dispositivoOrigem) throws RemoteException{
+        String ambienteDispOrigem = clientsByName.get(dispositivoOrigem).enviarAmbienteAtual();
         ClientInterface dispositivo = clientsByName.get(dispositivoAlvo);
-        enviarArquivos(mydata, filenames,  dispositivo, dispositivoOrigem);
+        String ambienteDispAlvo = dispositivo.enviarAmbienteAtual();
+        if(ambienteDispOrigem.equals(ambienteDispAlvo)){
+            enviarArquivos(mydata, filenames,  dispositivo, dispositivoOrigem);
+        }
+        else{
+            clientsByName.get(dispositivoOrigem).mostrarAlertaAmbienteIncompativel();
+        }
     }
     
 
@@ -108,6 +115,7 @@ public class Server implements ServerInterface, Serializable{
     @Override
     public void enviarArquivos(ArrayList<byte []> mydata, ArrayList<String> filenames, ClientInterface client, String nomeOrigem) throws RemoteException{
         client.receberArquivos(mydata, filenames, nomeOrigem);
+        clientsByName.get(nomeOrigem).mostrarAlertaEnvioSucesso();
     }
     
     //Funções do Espaço de Tuplas

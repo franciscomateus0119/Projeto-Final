@@ -204,10 +204,7 @@ public class GameController{
                     listviewArquivos.getItems().clear();
                     main.getClient().enviarArquivos(paths, filenames, TF_NOME_DISPOSITIVO.getText());
                 }
-                Alert alert = new Alert(Alert.AlertType.INFORMATION, "Selecione um dispositivo antes de enviar seus arquivos!", ButtonType.OK);
-                alert.setGraphic(null);
-                alert.setHeaderText("Arquivos Enviados com Sucesso!");
-                alert.show();
+                
             }
         }
         //Se um dispositivo não tiver sido selecionado
@@ -283,6 +280,26 @@ public class GameController{
         alert.setGraphic(null);
         alert.setHeaderText("Ambiente Encontrado");
         alert.show();
+    }
+    
+    public void alertAmbienteIncompatível(){
+        Alert alert = new Alert(Alert.AlertType.WARNING, "O dispositivo selecionado está em um ambiente diferente do seu.\nPor favor, atualize a lista de dispositivos", ButtonType.OK);
+        alert.setGraphic(null);
+        alert.setHeaderText("Ambientes Diferentes");
+        alert.show();
+    }
+    
+    public void alertEnvioSucesso(){
+        Alert alert = new Alert(Alert.AlertType.INFORMATION, "Seus arquivos foram enviados com sucesso!", ButtonType.OK);
+                alert.setGraphic(null);
+                alert.setHeaderText("Arquivos Enviados com Sucesso!");
+                alert.show();
+    }
+    public void alertEnvioFalha(){
+        Alert alert = new Alert(Alert.AlertType.INFORMATION, "Não foi possível enviar seus arquivos!", ButtonType.OK);
+                alert.setGraphic(null);
+                alert.setHeaderText("Falha no envio de Arquivos!");
+                alert.show();
     }
     
 

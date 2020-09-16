@@ -21,6 +21,8 @@ public interface ClientInterface extends Remote{
     void receberAmbiente(String nomeAmbiente) throws RemoteException;
     void enviarNovaLocalizacao(String x, String y,String nome, String ambiente) throws RemoteException;
     void atualizarLocalizacao(String x, String y) throws RemoteException;
+    void mostrarAlertaAmbienteIncompativel() throws RemoteException;
+    void mostrarAlertaEnvioSucesso() throws RemoteException;
     String enviarAmbienteAtual() throws RemoteException;
     String getClientX() throws RemoteException;
     String getClientY() throws RemoteException;
