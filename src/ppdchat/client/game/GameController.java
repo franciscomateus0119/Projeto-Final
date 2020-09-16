@@ -65,7 +65,6 @@ public class GameController{
     
     String meuNome;
     String ambienteAtual;
-    String endereco;
     String meuX;
     String meuY;
     
@@ -100,7 +99,6 @@ public class GameController{
 
     
     @FXML TextField TF_NOME_DISPOSITIVO;
-    @FXML TextField TF_ENDERECO;
     @FXML TextField TF_X;
     @FXML TextField TF_Y;
     
@@ -237,21 +235,12 @@ public class GameController{
         }
     }
     
-    @FXML
-    public void mudarEndereco(MouseEvent event){
-        if(TF_ENDERECO.getText()!= null && !TF_ENDERECO.getText().equals("")){
-            LABEL_ENDERECO.setText(TF_ENDERECO.getText());
-            TF_ENDERECO.clear();
-            TF_ENDERECO.setPromptText("Digite seu Endereço");
-        }
-    }
+
     
     public void updateInfo(){
         System.out.println("Meu Nome: " + meuNome + " - Ambiente Atual: " + ambienteAtual +" - X: " + meuX + " - Y: " + meuY);
         Platform.runLater(() -> {
             LABEL_NOME.setText("Nome: " + meuNome);
-            LABEL_AMBIENTE.setText("Ambiente: " + ambienteAtual);
-            LABEL_ENDERECO.setText("Endereço: "+endereco);
             LABEL_X.setText("X: " + (meuX));
             LABEL_Y.setText("Y: " + (meuY));
         });
@@ -334,13 +323,7 @@ public class GameController{
         this.meuY = meuY;
     }
 
-    public String getEndereço() {
-        return endereco;
-    }
 
-    public void setEndereço(String endereço) {
-        this.endereco = endereço;
-    }
 
     
     /*

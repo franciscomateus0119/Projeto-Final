@@ -43,7 +43,6 @@ public class Client extends UnicastRemoteObject implements ClientInterface, Seri
     private String serverName;
     private int serverPort;
     private String nome;
-    private String clientEndereco;
     private String clientX;
     private String clientY;
     private String ambienteAtual = "";
@@ -55,7 +54,7 @@ public class Client extends UnicastRemoteObject implements ClientInterface, Seri
     //String filepath = "C:/Users/Matheus/Desktop/Joguinhos/4chat/teste/" +filename;
     String clientstoragepath;
     
-    public Client(ServerInterface server, String ip, String servername, int port, Registry registro, String nome, String x, String y, String endereco, String storagepath) throws RemoteException{
+    public Client(ServerInterface server, String ip, String servername, int port, Registry registro, String nome, String x, String y,  String storagepath) throws RemoteException{
         super();
         this.server = server;
         this.nome = nome;
@@ -65,7 +64,6 @@ public class Client extends UnicastRemoteObject implements ClientInterface, Seri
         this.serverRegistry = registro;
         this.clientX = x;
         this.clientY = y;
-        this.clientEndereco = endereco;
         this.clientstoragepath = storagepath;
     }
 
@@ -91,7 +89,6 @@ public class Client extends UnicastRemoteObject implements ClientInterface, Seri
             mainController.getGameController().setMeuX(clientX);
             mainController.getGameController().setMeuY(clientY);
             mainController.getGameController().setAmbienteAtual(ambienteAtual);
-            mainController.getGameController().setEndereço(clientEndereco);
             mainController.getGameController().updateInfo();
         });
         try{

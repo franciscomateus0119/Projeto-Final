@@ -54,13 +54,13 @@ public class Server implements ServerInterface, Serializable{
     }
     
     @Override
-    public void registerClient(ClientInterface client, String nome, String endereco, String x, String y) throws RemoteException{
+    public void registerClient(ClientInterface client, String nome, String x, String y) throws RemoteException{
         //System.out.println(clients.size());
         System.out.println("Novo Dispositivo!");
         clients.add(client);
         System.out.println("Nº de dispositivos: " + clients.size());
         System.out.println("Encontrando um ambiente para o dispositivo... ");
-        procurarAmbiente(client, nome, endereco, x, y);
+        procurarAmbiente(client, nome, x, y);
         //iniciarJogo();
         
     }
@@ -128,7 +128,7 @@ public class Server implements ServerInterface, Serializable{
     //Funções do Espaço de Tuplas
     
     @Override
-    public void procurarAmbiente(ClientInterface client, String nome, String endereco, String x, String y) throws RemoteException{
+    public void procurarAmbiente(ClientInterface client, String nome,String x, String y) throws RemoteException{
         ListaDeAmbientes template = new ListaDeAmbientes();
         boolean dispositivoAdicionado = false;
         if (template == null) {

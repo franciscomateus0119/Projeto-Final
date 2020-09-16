@@ -20,10 +20,9 @@
             <Image url="@conteudo/4chat.png" />
          </image>
       </ImageView>
-      <TextField fx:id="TF_NOME" alignment="CENTER" layoutX="26.0" layoutY="96.0" promptText="Digite seu Nome" />
-      <TextField fx:id="TF_X" alignment="CENTER" layoutX="26.0" layoutY="127.0" promptText="Digite sua localização X" />
-      <TextField fx:id="TF_Y" alignment="CENTER" layoutX="26.0" layoutY="159.0" promptText="Digite sua localização Y" />
-      <TextField fx:id="TF_ENDERECO" alignment="CENTER" layoutX="26.0" layoutY="193.0" promptText="Digite seu endereço" />
+      <TextField fx:id="TF_NOME" alignment="CENTER" layoutX="28.0" layoutY="115.0" promptText="Digite seu Nome" />
+      <TextField fx:id="TF_X" alignment="CENTER" layoutX="28.0" layoutY="146.0" promptText="Digite sua localização X" />
+      <TextField fx:id="TF_Y" alignment="CENTER" layoutX="28.0" layoutY="178.0" promptText="Digite sua localização Y" />
       <TextField fx:id="TF_IP_SERVER" alignment="CENTER" layoutX="215.0" layoutY="115.0" promptText="Digite o IP do Servidor" text="localhost" />
       <TextField fx:id="TF_PORT_SERVER" alignment="CENTER" layoutX="215.0" layoutY="146.0" promptText="Digite a porta do IP Destino" text="1099" />
       <TextField fx:id="TF_NAME_SERVER" alignment="CENTER" layoutX="215.0" layoutY="178.0" promptText="Digite o Nome do Servidor" text="RMIServer" />

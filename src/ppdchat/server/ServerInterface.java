@@ -17,13 +17,13 @@ import java.util.ArrayList;
  * @author Matheus
  */
 public interface ServerInterface extends Remote{
-    void registerClient(ClientInterface client, String nome, String endereco, String x, String y) throws RemoteException;
+    void registerClient(ClientInterface client, String nome,  String x, String y) throws RemoteException;
     void registerClientName(ClientInterface client, String nomeClient) throws RemoteException;
     void receberAtualizarListaDispositivos(ClientInterface client, String nomeClient, String nomeAmbiente) throws RemoteException;
     void receberArquivos(ArrayList<byte []> mydata, ArrayList<String> filenames, String dispositivoAlvo, String ambiente) throws RemoteException;
     void enviarArquivos(ArrayList<byte []> mydata, ArrayList<String> filenames, ClientInterface client) throws RemoteException;
     void encontrarEspaco() throws RemoteException;
-    void procurarAmbiente(ClientInterface client, String nome, String endereco, String x, String y) throws RemoteException;
+    void procurarAmbiente(ClientInterface client, String nome, String x, String y) throws RemoteException;
     void enviarAmbiente(ClientInterface client, String nomeAmbiente) throws RemoteException;
     void receberPedidoNovaLocalizacao(ClientInterface client, String x, String y, String nome, String ambiente) throws RemoteException;
     /*
